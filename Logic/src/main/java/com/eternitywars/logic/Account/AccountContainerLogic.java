@@ -1,4 +1,4 @@
-package com.eternitywars.logic;
+package com.eternitywars.logic.Account;
 
 import com.eternitywars.Models.Account;
 
