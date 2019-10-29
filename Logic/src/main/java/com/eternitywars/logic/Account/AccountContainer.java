@@ -4,7 +4,7 @@ import com.eternitywars.Models.Account;
 
 import java.util.List;
 
-public class AccountContainerLogic
+public class AccountContainer
 {
     List<Account> accounts;
 

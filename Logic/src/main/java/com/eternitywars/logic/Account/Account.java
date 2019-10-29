@@ -2,7 +2,7 @@ package com.eternitywars.logic.Account;
 
 import com.eternitywars.Models.AccountStatus;
 
-public class AccountLogic
+public class Account
 {
     public void Logout(){
         //todo logout stuff here
