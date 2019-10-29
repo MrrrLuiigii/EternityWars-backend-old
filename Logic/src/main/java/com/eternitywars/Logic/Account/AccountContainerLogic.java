@@ -1,10 +1,10 @@
-package com.eternitywars.logic.Account;
+package com.eternitywars.Logic.Account;
 
 import com.eternitywars.Models.Account;
 
 import java.util.List;
 
-public class AccountContainer
+public class AccountContainerLogic
 {
     List<Account> accounts;
 

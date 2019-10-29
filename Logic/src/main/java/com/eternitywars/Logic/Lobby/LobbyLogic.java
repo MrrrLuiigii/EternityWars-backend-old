@@ -1,6 +1,6 @@
-package com.eternitywars.logic.Lobby;
+package com.eternitywars.Logic.Lobby;
 
-public class Lobby
+public class LobbyLogic
 {
     public void JoinLobby(int lobbyId, int AccountId){
         //todo join lobby stuff
