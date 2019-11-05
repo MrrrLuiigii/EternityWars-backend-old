@@ -2,11 +2,11 @@ package com.eternitywars.Models;
 
 import java.util.List;
 
-public class CardPackage
+public class Pack
 {
     List<Card> Card;
 
-    public CardPackage(List<com.eternitywars.Models.Card> card)
+    public Pack(List<com.eternitywars.Models.Card> card)
     {
         Card = card;
     }

@@ -1,6 +1,6 @@
 package com.eternitywars.Logic.Shop;
 
-import com.eternitywars.Models.CardPackage;
+import com.eternitywars.Models.Pack;
 
 public class ShopLogic
 {
@@ -8,7 +8,7 @@ public class ShopLogic
         //todo buy card package stuff
     }
 
-    public CardPackage OpenCardPackage(){
+    public Pack OpenCardPackage(){
         //todo open card package stuff
         return null;
     }

@@ -1,10 +1,10 @@
 package com.eternitywars.Logic.Shop;
 
-import com.eternitywars.Models.CardPackage;
+import com.eternitywars.Models.Pack;
 
 public class CardPickerLogic
 {
-    public CardPackage PickCards(){
+    public Pack PickCards(){
         //todo pick cards stuff
         return null;
     }
