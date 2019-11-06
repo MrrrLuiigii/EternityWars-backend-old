@@ -1,4 +1,4 @@
-package com.eternitywars.Models.Enums;
+package com.eternitywars.api.Models.Enums;
 
 public enum LobbyStatus
 {

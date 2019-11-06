@@ -1,7 +1,7 @@
-package com.eternitywars.Models;
+package com.eternitywars.api.Models;
 
-import com.eternitywars.Models.Enums.AccountStatus;
-import com.eternitywars.Models.Enums.FriendStatus;
+import com.eternitywars.api.Models.Enums.AccountStatus;
+import com.eternitywars.api.Models.Enums.FriendStatus;
 
 import java.net.Socket;
 

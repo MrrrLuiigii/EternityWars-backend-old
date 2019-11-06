@@ -1,6 +1,6 @@
-package com.eternitywars.Models;
+package com.eternitywars.api.Models;
 
-import com.eternitywars.Models.Enums.AccountStatus;
+import com.eternitywars.api.Models.Enums.AccountStatus;
 
 import java.net.Socket;
 

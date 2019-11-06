@@ -1,4 +1,4 @@
-package com.eternitywars.Models;
+package com.eternitywars.api.Models;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ public class Pack
 {
     List<Card> Card;
 
-    public Pack(List<com.eternitywars.Models.Card> card)
+    public Pack(List<Card> card)
     {
         Card = card;
     }

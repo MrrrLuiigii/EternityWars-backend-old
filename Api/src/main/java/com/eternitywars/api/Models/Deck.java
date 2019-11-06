@@ -1,4 +1,4 @@
-package com.eternitywars.Models;
+package com.eternitywars.api.Models;
 
 import java.util.List;
 
