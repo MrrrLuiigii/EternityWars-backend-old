@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Pack
 {
-    List<Card> Cards;
+    List<Card> Card;
 
-    public Pack(List<Card> cards)
+    public Pack(List<com.eternitywars.Models.Card> card)
     {
-        Cards = cards;
+        Card = card;
     }
 }
