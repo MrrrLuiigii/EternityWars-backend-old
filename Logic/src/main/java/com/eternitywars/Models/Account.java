@@ -1,31 +1,24 @@
 package com.eternitywars.Models;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.eternitywars.Models.Enums.AccountStatus;
 
-public class Account
+import java.net.Socket;
+
+public abstract class Account
 {
     private int id;
-    private String name;
-    private String email;
-    private String password;
-    private int gold;
-    private int packsAmount;
-    private List<Deck> decks;
-    private List<Account> friends;
+    private String username;
+    private AccountStatus accountStatus;
+    private Socket socket;
 
     public Account(){}
 
-    public Account(int id, String name, String email, String password, int gold, int packsAmount)
+    public Account(int id, String username, AccountStatus accountStatus, Socket socket)
     {
         this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.gold = gold;
-        this.packsAmount = packsAmount;
-        decks = new ArrayList<>();
-        friends = new ArrayList<>();
+        this.username = username;
+        this.accountStatus = accountStatus;
+        this.socket = socket;
     }
 
     public int getId()
@@ -38,73 +31,33 @@ public class Account
         this.id = id;
     }
 
-    public String getName()
+    public String getUsername()
     {
-        return name;
+        return username;
     }
 
-    public void setName(String name)
+    public void setUsername(String username)
     {
-        this.name = name;
+        this.username = username;
     }
 
-    public String getEmail()
+    public AccountStatus getAccountStatus()
     {
-        return email;
+        return accountStatus;
     }
 
-    public void setEmail(String email)
+    public void setAccountStatus(AccountStatus accountStatus)
     {
-        this.email = email;
+        this.accountStatus = accountStatus;
     }
 
-    public String getPassword()
+    public Socket getSocket()
     {
-        return password;
+        return socket;
     }
 
-    public void setPassword(String password)
+    public void setSocket(Socket socket)
     {
-        this.password = password;
-    }
-
-    public int getGold()
-    {
-        return gold;
-    }
-
-    public void setGold(int gold)
-    {
-        this.gold = gold;
-    }
-
-    public List<Deck> getDecks()
-    {
-        return decks;
-    }
-
-    public void setDecks(List<Deck> decks)
-    {
-        this.decks = decks;
-    }
-
-    public List<Account> getFriends()
-    {
-        return friends;
-    }
-
-    public void setFriends(List<Account> friends)
-    {
-        this.friends = friends;
-    }
-
-    public int getPacksAmount()
-    {
-        return packsAmount;
-    }
-
-    public void setPacksAmount(int packsAmount)
-    {
-        this.packsAmount = packsAmount;
+        this.socket = socket;
     }
 }
