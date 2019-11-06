@@ -10,5 +10,4 @@ public class Card
         this.cardId = cardId;
         this.cardName = cardName;
     }
-
 }

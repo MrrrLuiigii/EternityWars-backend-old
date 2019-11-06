@@ -1,4 +1,4 @@
-package com.eternitywars.Models;
+package com.eternitywars.Models.Enums;
 
 public enum FriendStatus
 {

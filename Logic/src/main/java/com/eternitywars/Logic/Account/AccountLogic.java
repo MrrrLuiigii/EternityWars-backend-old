@@ -1,6 +1,6 @@
 package com.eternitywars.Logic.Account;
 
-import com.eternitywars.Models.AccountStatus;
+import com.eternitywars.Models.Enums.AccountStatus;
 
 public class AccountLogic
 {
