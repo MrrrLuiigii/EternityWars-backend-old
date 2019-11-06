@@ -1,4 +1,4 @@
-package com.eternitywars.api;
+package com.eternitywars.api.Controllers;
 
 import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.RequestMapping;
