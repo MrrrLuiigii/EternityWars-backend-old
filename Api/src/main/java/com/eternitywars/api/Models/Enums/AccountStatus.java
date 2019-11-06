@@ -1,4 +1,4 @@
-package com.eternitywars.api.Models.Enums;
+package com.eternitywars.Models.Enums;
 
 public enum AccountStatus
 {
