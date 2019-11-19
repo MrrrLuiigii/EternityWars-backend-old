@@ -7,6 +7,7 @@ import java.net.Socket;
 public abstract class Account
 {
     private int id;
+    private String googleId;
     private String username;
     private AccountStatus accountStatus;
     private Socket socket;
@@ -29,6 +30,16 @@ public abstract class Account
     public void setId(int id)
     {
         this.id = id;
+    }
+
+    public String getGoogleId()
+    {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId)
+    {
+        this.googleId = googleId;
     }
 
     public String getUsername()

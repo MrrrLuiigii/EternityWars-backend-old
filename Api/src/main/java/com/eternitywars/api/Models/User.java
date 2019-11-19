@@ -8,17 +8,19 @@ public class User extends Account
 {
     private String email;
     private int gold;
-    private int packsAmount;
+    private int packAmount;
     private FriendCollection friendCollection;
     private DeckCollection deckCollection;
     private CardCollection cardCollection;
 
-    public User(int id, String username, AccountStatus accountStatus, Socket socket, String email, int gold, int packsAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection)
+    public User(){}
+
+    public User(int id, String username, AccountStatus accountStatus, Socket socket, String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection)
     {
         super(id, username, accountStatus, socket);
         this.email = email;
         this.gold = gold;
-        this.packsAmount = packsAmount;
+        this.packAmount = packAmount;
         this.friendCollection = friendCollection;
         this.deckCollection = deckCollection;
         this.cardCollection = cardCollection;
@@ -44,14 +46,14 @@ public class User extends Account
         this.gold = gold;
     }
 
-    public int getPacksAmount()
+    public int getPackAmount()
     {
-        return packsAmount;
+        return packAmount;
     }
 
-    public void setPacksAmount(int packsAmount)
+    public void setPackAmount(int packAmount)
     {
-        this.packsAmount = packsAmount;
+        this.packAmount = packAmount;
     }
 
     public FriendCollection getFriendCollection()

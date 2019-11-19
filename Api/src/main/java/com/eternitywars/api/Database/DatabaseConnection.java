@@ -2,7 +2,6 @@ package com.eternitywars.api.Database;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-
 import java.sql.SQLException;
 
 public class DatabaseConnection
