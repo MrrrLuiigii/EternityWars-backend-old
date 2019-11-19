@@ -44,7 +44,8 @@ public class UserMySQLContext implements IUserContext
         }
         catch (Exception e)
         {
-            System.err.println("Error getting user from database.");
+            //System.err.println("Error getting user from database.");
+            System.out.println(e);
         }
 
         return user;
