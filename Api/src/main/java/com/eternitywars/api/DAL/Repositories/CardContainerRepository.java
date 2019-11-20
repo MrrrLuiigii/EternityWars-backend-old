@@ -7,21 +7,23 @@ import com.eternitywars.api.Models.CardCollection;
 
 public class CardContainerRepository implements ICardContainerContext
 {
+    private ICardContainerContext cardContainerContext;
+
     public CardCollection GetCards()
     {
-        CardContainerContext cardContainerContext = new CardContainerContext();
+        cardContainerContext = new CardContainerContext();
         return cardContainerContext.GetCards();
     }
 
     public CardCollection GetCardsByUserId(int userId)
     {
-        CardContainerContext cardContainerContext = new CardContainerContext();
+        cardContainerContext = new CardContainerContext();
         return cardContainerContext.GetCardsByUserId(userId);
     }
 
     public Card GetCardById(int cardId)
     {
-        CardContainerContext cardContainerContext = new CardContainerContext();
+        cardContainerContext = new CardContainerContext();
         return cardContainerContext.GetCardById(cardId);
     }
 }
