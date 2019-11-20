@@ -1,10 +1,10 @@
 package com.eternitywars.api.Interfaces;
 
-import com.eternitywars.api.Models.Lobby;
-import com.eternitywars.api.Models.LobbyCollection;
+import com.eternitywars.api.Models.LobbyData;
+import com.eternitywars.api.Models.LobbyDataCollection;
 
 public interface ILobbyContainerContext
 {
-    Lobby GetLobbyById(int lobbyId);
-    LobbyCollection GetLobbies();
+    LobbyData GetLobbyById(int lobbyId);
+    LobbyDataCollection GetLobbies();
 }
