@@ -1,17 +1,17 @@
 package com.eternitywars.api.Resources;
 
-import com.eternitywars.api.DAL.Repositories.RelationshipRepository;
+import com.eternitywars.api.DAL.Repositories.RelationshipContainerRepository;
 import com.eternitywars.api.Models.RelationshipCollection;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/relationships", method = RequestMethod.GET)
-public class RelationshipResource
+public class RelationshipContainerResource
 {
     @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
     public RelationshipCollection GetUserById(@PathVariable("userId")int userId)
     {
-        RelationshipRepository relationshipRepository = new RelationshipRepository();
+        RelationshipContainerRepository relationshipRepository = new RelationshipContainerRepository();
         return relationshipRepository.GetRelationships(userId);
     }
 }
