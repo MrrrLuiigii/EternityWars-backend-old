@@ -1,6 +1,6 @@
 package com.eternitywars.api.Resources;
 
-import com.eternitywars.api.DAL.Repositories.UserRepository;
+import com.eternitywars.api.DAL.Repositories.UserContainerRepository;
 import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,7 @@ public class UserResource
     @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
     public User GetUserById(@PathVariable("userId")int userId)
     {
-        UserRepository userRepository = new UserRepository();
-        return userRepository.GetUserById(userId);
+        UserContainerRepository userContainerRepository = new UserContainerRepository();
+        return userContainerRepository.GetUserById(userId);
     }
 }

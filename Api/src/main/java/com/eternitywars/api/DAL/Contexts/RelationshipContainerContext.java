@@ -1,7 +1,7 @@
 package com.eternitywars.api.DAL.Contexts;
 
 import com.eternitywars.api.Database.DatabaseConnection;
-import com.eternitywars.api.Interfaces.IRelationshipContext;
+import com.eternitywars.api.Interfaces.IRelationshipContainerContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Relationship;
 import com.eternitywars.api.Models.RelationshipCollection;
@@ -10,11 +10,11 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
-public class RelationshipContext implements IRelationshipContext
+public class RelationshipContainerContext implements IRelationshipContainerContext
 {
     private DatabaseConnection dbc;
 
-    public RelationshipContext(){
+    public RelationshipContainerContext(){
         dbc = new DatabaseConnection();
     }
 

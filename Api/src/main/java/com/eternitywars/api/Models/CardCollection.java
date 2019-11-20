@@ -1,14 +1,15 @@
 package com.eternitywars.api.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardCollection
 {
     private List<Card> cards;
 
-    public CardCollection(List<Card> cards)
+    public CardCollection()
     {
-        this.cards = cards;
+        cards = new ArrayList<>();
     }
 
     public List<Card> getCards()
