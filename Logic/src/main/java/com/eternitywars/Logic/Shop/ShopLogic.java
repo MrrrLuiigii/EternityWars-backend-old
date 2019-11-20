@@ -1,6 +1,5 @@
 package com.eternitywars.Logic.Shop;
 
-import com.eternitywars.Models.Account;
 import com.eternitywars.Models.Pack;
 import com.eternitywars.Models.User;
 
