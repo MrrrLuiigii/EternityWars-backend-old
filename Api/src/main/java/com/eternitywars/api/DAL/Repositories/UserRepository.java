@@ -12,8 +12,4 @@ public class UserRepository implements IUserContext
     {
         userContext = new UserContext();
     }
-
-    public User GetUserById(int userId){
-        return userContext.GetUserById(userId);
-    }
 }
