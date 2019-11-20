@@ -1,6 +1,5 @@
 package com.eternitywars.api.DAL.Contexts;
 
-import com.eternitywars.api.DAL.Repositories.CardContainerRepository;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
@@ -97,7 +96,7 @@ public class CardContainerContext implements ICardContainerContext
                 cst.setInt(1, cardId);
                 try (ResultSet rs = cst.executeQuery())
                 {
-                    while (rs.next())
+                    while(rs.next())
                     {
                         card.setCardId(rs.getInt("id"));
                         card.setName(rs.getString("name"));
