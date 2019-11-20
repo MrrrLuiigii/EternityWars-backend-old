@@ -14,9 +14,4 @@ public class UserResource
         UserRepository userRepository = new UserRepository();
         return userRepository.GetUserById(userId);
     }
-
-    @RequestMapping(value = "/yeet", method = RequestMethod.GET)
-    public String yeet(){
-        return "shit";
-    }
 }
