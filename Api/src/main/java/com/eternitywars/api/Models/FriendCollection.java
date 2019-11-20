@@ -6,6 +6,8 @@ public class FriendCollection
 {
     private List<Friend> friends;
 
+    public FriendCollection(){}
+
     public FriendCollection(List<Friend> friends)
     {
         this.friends = friends;
