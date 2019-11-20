@@ -8,11 +8,11 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
-public class UserMySQLContext implements IUserContext
+public class UserContext implements IUserContext
 {
     private DatabaseConnection dbc;
 
-    public UserMySQLContext(){
+    public UserContext(){
         dbc = new DatabaseConnection();
     }
 
