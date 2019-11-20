@@ -1,7 +1,6 @@
 package com.eternitywars.Resource;
 
-import com.eternitywars.Logic.Account.UserContainerLogic;
-import com.eternitywars.Models.Account;
+import com.eternitywars.Logic.User.UserContainerLogic;
 import com.eternitywars.Models.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

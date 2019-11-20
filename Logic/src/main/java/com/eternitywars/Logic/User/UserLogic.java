@@ -1,4 +1,4 @@
-package com.eternitywars.Logic.Account;
+package com.eternitywars.Logic.User;
 
 import com.eternitywars.Models.Enums.AccountStatus;
 import org.springframework.beans.factory.annotation.Autowired;
