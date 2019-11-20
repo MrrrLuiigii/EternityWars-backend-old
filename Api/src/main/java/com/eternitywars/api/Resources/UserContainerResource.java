@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users", method = RequestMethod.GET)
+@RequestMapping(value = "/user", method = RequestMethod.GET)
 public class UserContainerResource
 {
     @RequestMapping(value = "/get", method = RequestMethod.GET)
