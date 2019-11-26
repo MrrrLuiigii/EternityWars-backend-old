@@ -1,38 +1,32 @@
 package com.eternitywars.Logic.User;
 
 import com.eternitywars.Models.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import java.util.List;
+import com.eternitywars.Models.UserCollection;
 
-@RestController
 public class UserContainerLogic {
-    @Autowired
-    private RestTemplate restTemplate;
-
     public boolean AddUser(User user) {
-        // todo fill in url(add parameter)
-        return restTemplate.getForObject("example", boolean.class);
+
+        //todo
+        return true;
     }
 
     public User Login(int userId) {
-        // todo fill in url(add parameter)
-        return restTemplate.getForObject("example", User.class);
+        // todo
+        return null;
     }
 
-    public List<User> GetUsers() {
-        // todo fill in url(add parameter)
-        return restTemplate.getForObject("example", List.class);
+    public UserCollection GetUsers() {
+        // todo
+        return null;
     }
 
     public boolean DeleteUserById(int userId) {
-        // todo fill in url(add parameter)
-        return restTemplate.getForObject("example", boolean.class);
+        // todo
+        return true;
     }
 
     public User GetUserById(int userId) {
-        // todo fill in url(add parameter)
-        return restTemplate.getForObject("example", User.class);
+        // todo
+        return null;
     }
 }
