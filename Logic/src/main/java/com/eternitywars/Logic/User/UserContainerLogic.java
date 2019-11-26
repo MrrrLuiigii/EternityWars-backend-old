@@ -14,31 +14,32 @@ public class UserContainerLogic
 
     List<Account> accounts;
 
-    public boolean AddUser(User user){
+    public boolean AddUser(User user)
+    {
+        //todo fill in url(add parameter)
         return restTemplate.getForObject("example", boolean.class);
     }
 
     public User Login(int userId){
-        //todo login stuff here(add variable in url)
-        User user = restTemplate.getForObject("example",User.class);
-        return user;
+        //todo fill in url(add parameter)
+        return  restTemplate.getForObject("example",User.class);
     }
 
     public List<User> GetUsers(){
-        //todo get accounts stuff here
-        List<User> users = restTemplate.getForObject("example", List.class);
-        return users;
+        //todo fill in url(add parameter)
+        return  restTemplate.getForObject("example", List.class);
     }
 
-    public boolean DeleteUserById(int userId){
+    public boolean DeleteUserById(int userId)
+    {
+        //todo fill in url(add parameter)
         return restTemplate.getForObject("example", boolean.class);
     }
 
     public User GetUserById(int userId)
     {
-        //todo (add variable in url)
-        User user = restTemplate.getForObject("example", User.class);
-        return user;
+        //todo fill in url(add parameter)
+        return  restTemplate.getForObject("example", User.class);
     }
 
 }

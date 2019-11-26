@@ -8,19 +8,21 @@ public class UserLogic
 {
     @Autowired
     private RestTemplate restTemplate;
+
     public void Logout()
     {
-        //todo logout stuff here
+        //todo logout stuff here(Intergrate with Front-end)
     }
 
     public boolean ChangeUsername(String username)
     {
-        //todo change user name stuff here
-        return true;
+        //todo fill in url(add parameter)
+        return  restTemplate.getForObject("example", boolean.class);
     }
 
-    public void ChangeStatus(AccountStatus status)
+    public boolean ChangeStatus(AccountStatus status)
     {
-        //todo change status stuff here
+        //todo fill in url(add parameter)
+        return  restTemplate.getForObject("example", boolean.class);
     }
 }
