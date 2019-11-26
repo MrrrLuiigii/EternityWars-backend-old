@@ -48,9 +48,8 @@ public class UserContainerResource {
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject userJson = new JSONObject(user);
         HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
-        User addedUser = restTemplate.postForObject("http://eternity-wars-api/user/add", request, User.class);
-        System.out.println(addedUser);
-        return addedUser;
+        user = restTemplate.postForObject("http://eternity-wars-api/user/add", request, User.class);
+        return user;
     }
 
     public User LoginById(int userId) {
