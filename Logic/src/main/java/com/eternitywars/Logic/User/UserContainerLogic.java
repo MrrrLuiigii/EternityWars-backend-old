@@ -7,35 +7,32 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @RestController
-public class UserContainerLogic
-{
+public class UserContainerLogic {
     @Autowired
     private RestTemplate restTemplate;
 
-    public boolean AddUser(User user){
+    public boolean AddUser(User user) {
+        // todo fill in url(add parameter)
         return restTemplate.getForObject("example", boolean.class);
     }
 
-    public User Login(int userId){
-        //todo login stuff here(add variable in url)
-        User user = restTemplate.getForObject("example",User.class);
-        return user;
+    public User Login(int userId) {
+        // todo fill in url(add parameter)
+        return restTemplate.getForObject("example", User.class);
     }
 
-    public List<User> GetUsers(){
-        //todo get accounts stuff here
-        List<User> users = restTemplate.getForObject("example", List.class);
-        return users;
+    public List<User> GetUsers() {
+        // todo fill in url(add parameter)
+        return restTemplate.getForObject("example", List.class);
     }
 
-    public boolean DeleteUserById(int userId){
+    public boolean DeleteUserById(int userId) {
+        // todo fill in url(add parameter)
         return restTemplate.getForObject("example", boolean.class);
     }
 
-    public User GetUserById(int userId)
-    {
-        //todo (add variable in url)
-        User user = restTemplate.getForObject("http://eternity-wars-api/user/get/" + userId, User.class);
-        return user;
+    public User GetUserById(int userId) {
+        // todo fill in url(add parameter)
+        return restTemplate.getForObject("example", User.class);
     }
 }

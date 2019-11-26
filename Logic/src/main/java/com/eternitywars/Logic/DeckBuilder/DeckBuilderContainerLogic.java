@@ -1,11 +1,16 @@
 package com.eternitywars.Logic.DeckBuilder;
 
 import com.eternitywars.Models.Deck;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-public class DeckBuilderContainer
+public class DeckBuilderContainerLogic
 {
+    @Autowired
+    private RestTemplate restTemplate;
+
     public boolean AddDeck(Deck deck){
         //todo add deck stuff
         return true;
