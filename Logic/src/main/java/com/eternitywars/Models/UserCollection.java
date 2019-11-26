@@ -1,4 +1,4 @@
-package com.eternitywars.api.Models;
+package com.eternitywars.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,8 @@ public class UserCollection
         return users;
     }
 
-    public void addUser(User user)
+    public void setUsers(List<User> users)
     {
-        users.add(user);
+        this.users = users;
     }
 }

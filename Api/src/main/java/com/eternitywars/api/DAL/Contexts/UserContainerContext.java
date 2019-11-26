@@ -5,7 +5,6 @@ import com.eternitywars.api.Interfaces.IUserContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -74,7 +73,7 @@ public class UserContainerContext implements IUserContainerContext
                         user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
                         user.setGold(rs.getInt("gold"));
                         user.setPackAmount(rs.getInt("pack_amount"));
-                        uc.getUsers().add(user);
+                        uc.addUser(user);
                     }
                 }
             }
@@ -85,5 +84,12 @@ public class UserContainerContext implements IUserContainerContext
         }
 
         return uc;
+    }
+
+    public boolean AddUser(User user)
+    {
+        //todo add user to db
+
+        return true;
     }
 }
