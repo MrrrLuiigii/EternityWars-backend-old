@@ -4,7 +4,7 @@ import com.eternitywars.Models.Deck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class DeckBuilderContainerLogic
 {
@@ -12,27 +12,27 @@ public class DeckBuilderContainerLogic
     private RestTemplate restTemplate;
 
     public boolean AddDeck(Deck deck){
-        //todo add deck stuff
-        return true;
+        //todo add deck stuff POST
+        return restTemplate.getForObject("example", boolean.class);
     }
 
-    public List<String> GetAllDeckNames(){
+    public ArrayList GetAllDeckNames(){
         //todo get all deck names
-        return null;
+        return restTemplate.getForObject("example", ArrayList.class);
     }
 
-    public Deck GetDeckByName(int DeckId){
+    public Deck GetDeckById(int DeckId){
         //todo get deck by name stuff
-        return null;
+        return restTemplate.getForObject("example", Deck.class);
     }
 
     public boolean DeleteDeck(Deck deck){
         //todo delete deck stuff
-        return true;
+        return restTemplate.getForObject("example", boolean.class);
     }
 
     public boolean SaveDeck(Deck deck){
-        //todo save deck
-        return true;
+        //todo save deck POST
+        return restTemplate.getForObject("example", boolean.class);
     }
 }

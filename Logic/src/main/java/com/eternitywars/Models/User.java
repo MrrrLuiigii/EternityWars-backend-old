@@ -37,6 +37,11 @@ public class User extends Account
         this.cardCollection = cardCollection;
     }
 
+    public User(String username)
+    {
+        this.setUsername(username);
+    }
+
     public String getEmail()
     {
         return email;
