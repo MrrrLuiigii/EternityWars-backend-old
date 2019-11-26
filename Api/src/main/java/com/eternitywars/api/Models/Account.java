@@ -1,7 +1,6 @@
 package com.eternitywars.api.Models;
 
 import com.eternitywars.api.Models.Enums.AccountStatus;
-
 import java.net.Socket;
 
 public abstract class Account
@@ -14,7 +13,15 @@ public abstract class Account
 
     public Account(){}
 
-    public Account(int id, String username, AccountStatus accountStatus, Socket socket)
+    public Account(int id, String googleId, String username, AccountStatus accountStatus)
+    {
+        this.id = id;
+        this.googleId = googleId;
+        this.username = username;
+        this.accountStatus = accountStatus;
+    }
+
+    public Account(int id, String googleId, String username, AccountStatus accountStatus, Socket socket)
     {
         this.id = id;
         this.username = username;

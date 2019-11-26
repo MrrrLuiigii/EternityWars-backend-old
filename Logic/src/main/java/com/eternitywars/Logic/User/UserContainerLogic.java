@@ -1,18 +1,16 @@
 package com.eternitywars.Logic.User;
 
-import com.eternitywars.Models.Account;
 import com.eternitywars.Models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 
+@RestController
 public class UserContainerLogic
 {
     @Autowired
     private RestTemplate restTemplate;
-
-    List<Account> accounts;
 
     public boolean AddUser(User user){
         return restTemplate.getForObject("example", boolean.class);
@@ -37,8 +35,7 @@ public class UserContainerLogic
     public User GetUserById(int userId)
     {
         //todo (add variable in url)
-        User user = restTemplate.getForObject("example", User.class);
+        User user = restTemplate.getForObject("http://eternity-wars-api/user/get/" + userId, User.class);
         return user;
     }
-
 }

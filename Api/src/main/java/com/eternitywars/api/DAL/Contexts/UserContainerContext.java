@@ -9,8 +9,6 @@ import com.eternitywars.api.Models.UserCollection;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserContainerContext implements IUserContainerContext
 {

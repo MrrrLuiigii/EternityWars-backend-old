@@ -12,7 +12,7 @@ public class ShopLogic {
 
     public boolean BuyPack(User user) {
         if (user.getGold() >= 100) {
-            user.setPacksAmount(user.getPacksAmount() + 1);
+            user.setPackAmount(user.getPackAmount() + 1);
             user.setGold(user.getGold() - 100);
             return true;
         }
@@ -21,7 +21,7 @@ public class ShopLogic {
     }
 
     public Pack OpenPack(User user) {
-        if (user.getPacksAmount() > 0) {
+        if (user.getPackAmount() > 0) {
             Pack pack = cpl.PickCards();
             return pack;
         }

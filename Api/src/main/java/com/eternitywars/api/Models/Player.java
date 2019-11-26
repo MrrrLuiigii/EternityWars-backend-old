@@ -2,7 +2,6 @@ package com.eternitywars.api.Models;
 
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.Enums.LobbyPlayerStatus;
-
 import java.net.Socket;
 import java.util.List;
 
@@ -13,9 +12,9 @@ public class Player extends Account
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
 
-    public Player(int id, String username, AccountStatus accountStatus, Socket socket, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
+    public Player(int id, String googleId, String username, AccountStatus accountStatus, Socket socket, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
     {
-        super(id, username, accountStatus, socket);
+        super(id, googleId, username, accountStatus, socket);
         this.deck = deck;
         this.cardsInHand = cardsInHand;
         this.cardsInDeck = cardsInDeck;
