@@ -11,7 +11,7 @@ public class UserContainerResource
 {
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public boolean addUser(@RequestBody User user)
+    public User addUser(@RequestBody User user)
     {
         UserContainerRepository userContainerRepository = new UserContainerRepository();
         return userContainerRepository.AddUser(user);

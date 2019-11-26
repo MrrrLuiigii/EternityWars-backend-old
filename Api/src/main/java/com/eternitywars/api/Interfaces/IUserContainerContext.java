@@ -7,5 +7,5 @@ public interface IUserContainerContext
 {
     User GetUserById(int userId);
     UserCollection GetUsers();
-    boolean AddUser(User user);
+    User AddUser(User user);
 }

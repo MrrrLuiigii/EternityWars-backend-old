@@ -24,7 +24,7 @@ public class UserContainerResource {
     private RestTemplate restTemplate;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public boolean AddUser(/*User user*/)
+    public User AddUser(/*User user*/)
     {
         //create dummie user
         //we get real user from front end via socket
@@ -47,10 +47,10 @@ public class UserContainerResource {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject userJson = new JSONObject(user);
-        System.out.println(userJson);
         HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
-        boolean succeeded = restTemplate.postForObject("http://eternity-wars-api/user/add", request, boolean.class);
-        return succeeded;
+        User addedUser = restTemplate.postForObject("http://eternity-wars-api/user/add", request, User.class);
+        System.out.println(addedUser);
+        return addedUser;
     }
 
     public User LoginById(int userId) {

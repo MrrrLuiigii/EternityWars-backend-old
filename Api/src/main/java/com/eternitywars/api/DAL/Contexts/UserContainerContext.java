@@ -86,10 +86,44 @@ public class UserContainerContext implements IUserContainerContext
         return uc;
     }
 
-    public boolean AddUser(User user)
+    public User AddUser(User user)
     {
-        //todo add user to db
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "{call AddUser(?, ?, ?, ?, ?, ?)}";
 
-        return true;
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                cst.setString(1, user.getGoogleId());
+                cst.setString(2, user.getEmail());
+                cst.setString(3, user.getUsername());
+                cst.setString(4, user.getAccountStatus().toString());
+                cst.setInt(5, user.getGold());
+                cst.setInt(6, user.getPackAmount());
+
+                //todo make this return some actual shit
+
+                try (ResultSet rs = cst.executeQuery())
+                {
+                    while (rs.next())
+                    {
+                        user.setId(rs.getInt("id"));
+//                        u.setGoogleId(rs.getString("google_id"));
+//                        u.setEmail(rs.getString("email"));
+//                        u.setUsername(rs.getString("username"));
+//                        u.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
+//                        u.setGold(rs.getInt("gold"));
+//                        u.setPackAmount(rs.getInt("pack_amount"));
+                    }
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return user;
     }
 }

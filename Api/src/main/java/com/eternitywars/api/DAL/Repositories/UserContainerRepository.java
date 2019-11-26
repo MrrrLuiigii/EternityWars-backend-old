@@ -23,10 +23,9 @@ public class UserContainerRepository implements IUserContainerContext
           return userContainerContext.GetUsers();
     }
 
-    public boolean AddUser(User user)
+    public User AddUser(User user)
     {
-        userContainerContext.AddUser(user);
-        return true;
+        return userContainerContext.AddUser(user);
     }
 
 }
