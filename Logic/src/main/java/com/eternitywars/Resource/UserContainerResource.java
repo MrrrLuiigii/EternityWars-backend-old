@@ -26,7 +26,7 @@ public class UserContainerResource {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public User AddUser(/*User user*/)
     {
-        //create dummie user
+        //create Mock user
         //we get real user from front end via socket
         User user = new User();
         user.setId(1);
@@ -62,7 +62,8 @@ public class UserContainerResource {
         return restTemplate.getForObject("http://eternity-wars-api/user/get", UserCollection.class);
     }
 
-    public boolean DeleteUserById(int userId) {
+    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
+    public boolean DeleteUserById(@PathVariable("userId")int userId) {
         UserContainerLogic userContainerLogic = new UserContainerLogic();
         return userContainerLogic.DeleteUserById(userId);
     }
