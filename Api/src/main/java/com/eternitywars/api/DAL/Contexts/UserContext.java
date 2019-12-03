@@ -83,4 +83,22 @@ public class UserContext implements IUserContext
         }
         return 0;
     }
+
+    @Override
+    public void UpdatePackAmount(User user)
+    {
+        try(Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "Update user SET pack_amount = " +  user.getPackAmount() + "WHERE id = " + user.getId();
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
 }

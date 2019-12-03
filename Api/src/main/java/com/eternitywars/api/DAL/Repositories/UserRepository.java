@@ -18,4 +18,6 @@ public class UserRepository
     }
 
     public int GetPackAmount(int userId){ return userContext.GetPackAmount(userId);}
+
+    public void UpdatePackAmount(User user){ userContext.UpdatePackAmount(user);}
 }
