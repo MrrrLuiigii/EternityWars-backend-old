@@ -5,10 +5,13 @@ const envVariables = require('../../env-variables');
 
 const {apiIdentifier, auth0Domain, clientId} = envVariables;
 
-const redirectUri = `http://localhost:3030/callback`;
 
 let accessToken = null;
 let profile = null;
+let refreshToken = null;
+
+const redirectUri = `http://localhost:3030/callback`;
+
 
 function getAccessToken() {
   return accessToken;
