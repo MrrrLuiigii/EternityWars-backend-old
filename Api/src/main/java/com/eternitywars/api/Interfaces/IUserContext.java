@@ -7,4 +7,5 @@ public interface IUserContext
 {
     void ChangeUserName( int userId, String username);
     void ChangeUserStatus(User user);
+    int GetPackAmount(int userId);
 }

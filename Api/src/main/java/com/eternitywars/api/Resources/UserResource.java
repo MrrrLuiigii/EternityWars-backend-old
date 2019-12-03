@@ -16,4 +16,9 @@ public class UserResource
         username = "Nick";
         userRepository.ChangeUsername(userId, username);
     }
+
+    @RequestMapping(value = "/packamount/{userId}" , method = RequestMethod.GET)
+    public int GetPackAmount(@PathVariable("userId") int userId){
+        return userRepository.GetPackAmount(userId);
+    }
 }

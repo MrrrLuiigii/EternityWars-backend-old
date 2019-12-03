@@ -8,6 +8,7 @@ import com.eternitywars.api.Models.User;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class UserContext implements IUserContext
 {
@@ -56,5 +57,30 @@ public class UserContext implements IUserContext
     public void ChangeUserStatus(User user)
     {
 
+    }
+
+    @Override
+    public int GetPackAmount(int userId)
+    {
+        try(Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "SELECT pack_amount FROM user WHERE id = " + userId;
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while(rs.next())
+                {
+                    int packamount = rs.getInt("pack_amount");
+                    return packamount;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return 0;
     }
 }

@@ -16,4 +16,6 @@ public class UserRepository
     public void ChangeUsername(int userId, String username){
         userContext.ChangeUserName( userId, username);
     }
+
+    public int GetPackAmount(int userId){ return userContext.GetPackAmount(userId);}
 }
