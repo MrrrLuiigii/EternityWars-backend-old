@@ -1,7 +1,6 @@
 package com.eternitywars.Logic.Friend;
 
 import com.eternitywars.Models.Account;
-
 import java.util.List;
 
 public class FriendContainerLogic
