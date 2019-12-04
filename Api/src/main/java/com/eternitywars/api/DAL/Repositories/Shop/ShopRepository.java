@@ -1,6 +1,6 @@
 package com.eternitywars.api.DAL.Repositories.Shop;
 
-import com.eternitywars.api.Interfaces.IShopContext;
+import com.eternitywars.api.Interfaces.Shop.IShopContext;
 
 public class ShopRepository
 {

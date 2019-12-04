@@ -1,8 +1,7 @@
 package com.eternitywars.api.DAL.Contexts.User;
 
 import com.eternitywars.api.Database.DatabaseConnection;
-import com.eternitywars.api.Interfaces.IUserContext;
-import com.eternitywars.api.Models.Enums.AccountStatus;
+import com.eternitywars.api.Interfaces.User.IUserContext;
 import com.eternitywars.api.Models.User;
 
 import java.sql.CallableStatement;

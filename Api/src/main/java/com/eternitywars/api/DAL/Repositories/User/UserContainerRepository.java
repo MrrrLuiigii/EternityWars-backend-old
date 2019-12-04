@@ -1,7 +1,7 @@
 package com.eternitywars.api.DAL.Repositories.User;
 
 import com.eternitywars.api.DAL.Contexts.User.UserContainerContext;
-import com.eternitywars.api.Interfaces.IUserContainerContext;
+import com.eternitywars.api.Interfaces.User.IUserContainerContext;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
 
