@@ -4,7 +4,7 @@ import java.util.List;
 
 public class DeckCollection
 {
-    private List<Deck> decks;
+    public List<Deck> decks;
 
     public DeckCollection(List<Deck> decks)
     {
@@ -20,4 +20,6 @@ public class DeckCollection
     {
         this.decks = decks;
     }
+
+    public void AddDeck(Deck deck){ decks.add(deck);}
 }
