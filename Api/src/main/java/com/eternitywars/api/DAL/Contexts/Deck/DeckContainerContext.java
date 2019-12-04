@@ -4,7 +4,7 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Deck.IDeckContainerContext;
 import com.eternitywars.api.Models.Deck;
 import com.eternitywars.api.Models.DeckCollection;
-
+import com.eternitywars.api.Models.User;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,7 +20,19 @@ public class DeckContainerContext implements IDeckContainerContext
     }
 
     @Override
-    public DeckCollection GetAllDeckById(int userId)
+    public boolean AddDeck(Deck deck)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean DeleteDeck(Deck deck)
+    {
+        return false;
+    }
+
+    @Override
+    public DeckCollection GetAllDecksByUserId(int userId)
     {
         DeckCollection deckCollection = new DeckCollection(new ArrayList<>());
         try(Connection conn = dbc.getDatabaseConnection())
@@ -43,24 +55,13 @@ public class DeckContainerContext implements IDeckContainerContext
         catch(Exception e){
 
         }
+
         return deckCollection;
     }
 
     @Override
-    public boolean AddDeck(Deck deck)
+    public Deck GetDeckById(int deckId)
     {
-        return false;
-    }
-
-    @Override
-    public boolean SaveDeck(Deck deck)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean DeleteDeck(Deck deck)
-    {
-        return false;
+        return null;
     }
 }
