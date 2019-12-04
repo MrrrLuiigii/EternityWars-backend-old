@@ -1,4 +1,4 @@
-# electron-vue-frontend
+# eternitywars_frontend
 
 ## Project setup
 ```
