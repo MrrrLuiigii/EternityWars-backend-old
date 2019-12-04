@@ -1,6 +1,6 @@
 package com.eternitywars.api.Resources;
 
-import com.eternitywars.api.DAL.Repositories.UserContainerRepository;
+import com.eternitywars.api.DAL.Repositories.User.UserContainerRepository;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
 import org.springframework.web.bind.annotation.*;

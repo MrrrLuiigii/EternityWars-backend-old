@@ -1,6 +1,6 @@
-package com.eternitywars.api.DAL.Repositories;
+package com.eternitywars.api.DAL.Repositories.Lobby;
 
-import com.eternitywars.api.DAL.Contexts.LobbyContainerContext;
+import com.eternitywars.api.DAL.Contexts.Lobby.LobbyContainerContext;
 import com.eternitywars.api.Interfaces.ILobbyContainerContext;
 import com.eternitywars.api.Models.LobbyDataCollection;
 import com.eternitywars.api.Models.LobbyData;

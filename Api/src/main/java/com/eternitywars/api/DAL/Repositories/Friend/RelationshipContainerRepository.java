@@ -1,6 +1,6 @@
-package com.eternitywars.api.DAL.Repositories;
+package com.eternitywars.api.DAL.Repositories.Friend;
 
-import com.eternitywars.api.DAL.Contexts.RelationshipContainerContext;
+import com.eternitywars.api.DAL.Contexts.Friend.RelationshipContainerContext;
 import com.eternitywars.api.Interfaces.IRelationshipContainerContext;
 import com.eternitywars.api.Models.RelationshipCollection;
 

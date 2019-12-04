@@ -1,4 +1,4 @@
-package com.eternitywars.api.DAL.Contexts;
+package com.eternitywars.api.DAL.Contexts.Card;
 
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.ICardContainerContext;

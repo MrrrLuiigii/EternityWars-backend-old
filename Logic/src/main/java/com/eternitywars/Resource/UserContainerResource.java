@@ -4,7 +4,6 @@ import com.eternitywars.Logic.User.UserContainerLogic;
 import com.eternitywars.Models.Enums.AccountStatus;
 import com.eternitywars.Models.User;
 import com.eternitywars.Models.UserCollection;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;

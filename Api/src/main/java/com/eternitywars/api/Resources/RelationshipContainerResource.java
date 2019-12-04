@@ -1,6 +1,6 @@
 package com.eternitywars.api.Resources;
 
-import com.eternitywars.api.DAL.Repositories.RelationshipContainerRepository;
+import com.eternitywars.api.DAL.Repositories.Friend.RelationshipContainerRepository;
 import com.eternitywars.api.Models.RelationshipCollection;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
-package com.eternitywars.api.DAL.Repositories;
+package com.eternitywars.api.DAL.Repositories.User;
 
-import com.eternitywars.api.DAL.Contexts.UserContext;
+import com.eternitywars.api.DAL.Contexts.User.UserContext;
 import com.eternitywars.api.Interfaces.IUserContext;
 import com.eternitywars.api.Models.User;
 

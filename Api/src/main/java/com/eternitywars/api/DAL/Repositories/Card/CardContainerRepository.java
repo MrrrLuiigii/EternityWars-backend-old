@@ -1,6 +1,6 @@
-package com.eternitywars.api.DAL.Repositories;
+package com.eternitywars.api.DAL.Repositories.Card;
 
-import com.eternitywars.api.DAL.Contexts.CardContainerContext;
+import com.eternitywars.api.DAL.Contexts.Card.CardContainerContext;
 import com.eternitywars.api.Interfaces.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;

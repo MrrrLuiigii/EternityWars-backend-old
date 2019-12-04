@@ -1,4 +1,4 @@
-package com.eternitywars.api.DAL.Repositories;
+package com.eternitywars.api.DAL.Repositories.Shop;
 
 import com.eternitywars.api.Interfaces.IShopContext;
 

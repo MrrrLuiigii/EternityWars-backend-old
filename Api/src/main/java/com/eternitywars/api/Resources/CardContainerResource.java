@@ -1,6 +1,6 @@
 package com.eternitywars.api.Resources;
 
-import com.eternitywars.api.DAL.Repositories.CardContainerRepository;
+import com.eternitywars.api.DAL.Repositories.Card.CardContainerRepository;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
 import org.springframework.web.bind.annotation.*;
