@@ -3,8 +3,7 @@ package com.eternitywars.api.Interfaces;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.Deck;
 
-public interface IDeckContext
-{
+public interface IDeckContext {
     boolean AddCard(Deck deck, Card card);
 
     boolean DeleteCard(Deck deck, Card card);
