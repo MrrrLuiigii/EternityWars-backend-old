@@ -9,24 +9,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/user", method = RequestMethod.GET)
 public class UserContainerResource
 {
+    private UserContainerRepository userContainerRepository = new UserContainerRepository();
+
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public User addUser(@RequestBody User user)
     {
-        UserContainerRepository userContainerRepository = new UserContainerRepository();
         return userContainerRepository.AddUser(user);
     }
 
     @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
     public User GetUserById(@PathVariable("userId")int userId)
     {
-        UserContainerRepository userContainerRepository = new UserContainerRepository();
         return userContainerRepository.GetUserById(userId);
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public UserCollection GetUsers()
     {
-        UserContainerRepository userContainerRepository = new UserContainerRepository();
         return userContainerRepository.GetUsers();
     }
 }
