@@ -1,4 +1,4 @@
-package com.eternitywars.api.Interfaces;
+package com.eternitywars.api.Interfaces.User;
 
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;

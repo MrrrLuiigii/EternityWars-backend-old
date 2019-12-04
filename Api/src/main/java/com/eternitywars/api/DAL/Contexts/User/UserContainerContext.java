@@ -1,7 +1,7 @@
 package com.eternitywars.api.DAL.Contexts.User;
 
 import com.eternitywars.api.Database.DatabaseConnection;
-import com.eternitywars.api.Interfaces.IUserContainerContext;
+import com.eternitywars.api.Interfaces.User.IUserContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;

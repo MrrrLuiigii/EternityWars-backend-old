@@ -1,4 +1,4 @@
-package com.eternitywars.api.Interfaces;
+package com.eternitywars.api.Interfaces.Card;
 
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;

@@ -1,4 +1,4 @@
-package com.eternitywars.api.Interfaces;
+package com.eternitywars.api.Interfaces.Friend;
 
 import com.eternitywars.api.Models.RelationshipCollection;
 

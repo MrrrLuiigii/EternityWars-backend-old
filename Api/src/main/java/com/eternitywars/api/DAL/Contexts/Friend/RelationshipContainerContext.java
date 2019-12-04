@@ -1,7 +1,7 @@
 package com.eternitywars.api.DAL.Contexts.Friend;
 
 import com.eternitywars.api.Database.DatabaseConnection;
-import com.eternitywars.api.Interfaces.IRelationshipContainerContext;
+import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Relationship;
 import com.eternitywars.api.Models.RelationshipCollection;

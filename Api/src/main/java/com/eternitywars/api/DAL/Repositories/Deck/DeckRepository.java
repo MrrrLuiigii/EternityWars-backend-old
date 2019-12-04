@@ -1,6 +1,6 @@
 package com.eternitywars.api.DAL.Repositories.Deck;
 
-import com.eternitywars.api.Interfaces.IDeckContext;
+import com.eternitywars.api.Interfaces.Deck.IDeckContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.Deck;
 

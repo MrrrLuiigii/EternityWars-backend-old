@@ -1,14 +1,13 @@
 package com.eternitywars.api.DAL.Contexts.Lobby;
 
 import com.eternitywars.api.Database.DatabaseConnection;
-import com.eternitywars.api.Interfaces.ILobbyContainerContext;
+import com.eternitywars.api.Interfaces.Lobby.ILobbyContainerContext;
 import com.eternitywars.api.Models.LobbyData;
 import com.eternitywars.api.Models.LobbyDataCollection;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class LobbyContainerContext implements ILobbyContainerContext
 {
