@@ -1,6 +1,7 @@
 package com.eternitywars.Logic.User;
 
 import com.eternitywars.Models.Enums.AccountStatus;
+import com.eternitywars.Models.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,12 @@ public class UserLogic
 
     public void Logout()
     {
-        //todo logout stuff here(Intergrate with Front-end)
+        //todo logout stuff here(Integrate with Front-end)
+    }
+
+    public void UpdateUser(User user)
+    {
+        //todo update user pack amount and gold
     }
 
     public boolean ChangeUsername(String username) throws JSONException

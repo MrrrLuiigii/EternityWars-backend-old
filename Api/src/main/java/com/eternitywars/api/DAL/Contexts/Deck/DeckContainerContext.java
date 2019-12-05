@@ -32,14 +32,15 @@ public class DeckContainerContext implements IDeckContainerContext
     }
 
     @Override
-    public DeckCollection GetAllDecksByUserId(int userId)
+    public DeckCollection GetAllDecksByUserId(Deck deck)
     {
         DeckCollection deckCollection = new DeckCollection(new ArrayList<>());
         try(Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "SELECT * FROM deck WHERE user_id =" + userId;
-            try(CallableStatement cst = conn.prepareCall((query)))
+            String query = "SELECT * FROM deck WHERE user_id = ? ";
+            try(CallableStatement cst = conn.prepareCall(query))
             {
+                cst.setInt(1, deck.getDeckId());
                 try(ResultSet rs = cst.executeQuery())
                 {
                     while(rs.next())
@@ -60,7 +61,7 @@ public class DeckContainerContext implements IDeckContainerContext
     }
 
     @Override
-    public Deck GetDeckById(int deckId)
+    public Deck GetDeckById(Deck deck)
     {
         return null;
     }
