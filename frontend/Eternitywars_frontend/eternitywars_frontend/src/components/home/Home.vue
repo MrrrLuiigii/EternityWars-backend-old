@@ -4,7 +4,7 @@
       <HomeButton title="Deck Builder"/>
       <HomeButton title="Shop"/>
       <HomeButton title="Logout" functie="logout"/>
-      {{this.$store.state.player}}
+             {{this.$store.state.player}}
   </div>
 </template>
 
@@ -15,38 +15,37 @@ export default {
     name: 'Home',
     data(){
         return{
-
         }
     },
+      mounted(){
+            this.getPlayerInfo()
+    },
+
     components: {
         HomeButton
     },
-    mounted(){
-            this.getPlayerInfo();
-            if(this.$store.player === null){
-                this.$router.push('register')
-            }
-
-    },
     methods:{
-        getPlayerInfo(){
+       async getPlayerInfo(){
             axios.request({
-                url: '/private/user/getemail',
+                url: '/private/user/getbyemail',
                 method: 'post',
-                baseURL: 'localhost:8082/api',
+                baseURL: 'http://localhost:8082/api',
                 data:{
                     email: this.$auth.user.email
                 },
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': this.$auth.getTokenSilently()
+                    'Content-Type': 'text/plain',
+                    'Authorization': 'Bearer ' + await this.$auth.getTokenSilently()
                 }
              })
           .then(response => {
-            this.$store.dispatch('SavePlayerInfo', response)
+            this.$store.dispatch('SavePlayerInfo', response.data)
           }).catch(e => {
             console.log(e);
-          });
+          })
+          if(this.$store.state.player.username == null){
+                this.$router.push('register')
+          }
         }
     }
 }

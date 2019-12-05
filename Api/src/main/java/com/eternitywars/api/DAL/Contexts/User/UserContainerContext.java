@@ -7,6 +7,7 @@ import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserContainerContext implements IUserContainerContext
@@ -48,6 +49,47 @@ public class UserContainerContext implements IUserContainerContext
             //System.err.println("Error getting user from database.");
             System.out.println(e);
         }
+
+        return user;
+    }
+
+    public User GetUserByEmail(String userEmail)
+    {
+        System.out.println(userEmail);
+
+        User user = new User();
+
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "select id, google_id, email, username, account_status, gold, pack_amount " +
+                    "from user " +
+                    "where email = ?";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setString(1, userEmail);
+                try (ResultSet rs = pst.executeQuery())
+                {
+                    while (rs.next())
+                    {
+                        user.setId(rs.getInt("id"));
+                        user.setGoogleId(rs.getString("google_id"));
+                        user.setEmail(rs.getString("email"));
+                        user.setUsername(rs.getString("username"));
+                        user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
+                        user.setGold(rs.getInt("gold"));
+                        user.setPackAmount(rs.getInt("pack_amount"));
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        System.out.println(user.getId());
+        System.out.println(user.getUsername());
 
         return user;
     }

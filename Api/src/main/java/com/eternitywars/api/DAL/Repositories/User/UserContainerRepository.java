@@ -18,6 +18,11 @@ public class UserContainerRepository implements IUserContainerContext
         return userContainerContext.GetUserById(userId);
     }
 
+    public User GetUserByEmail(String userEmail)
+    {
+        return userContainerContext.GetUserByEmail(userEmail);
+    }
+
     public UserCollection GetUsers()
     {
           return userContainerContext.GetUsers();

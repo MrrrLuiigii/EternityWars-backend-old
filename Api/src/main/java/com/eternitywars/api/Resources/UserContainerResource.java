@@ -12,12 +12,12 @@ public class UserContainerResource
 {
     private UserContainerRepository userContainerRepository = new UserContainerRepository();
 
-    @PostMapping(value = "/getbyemail", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/getbyemail", consumes = "text/plain", produces = "application/json")
     public User GetUserByEmail(@RequestBody String userEmailJsonString)
     {
-        JSONObject userEmailJson = new JSONObject(userEmailJsonString);
-        String userEmail = userEmailJson.getString("userEmail");
-        return userContainerRepository.GetUserByEmail(userEmail);
+//        JSONObject userEmailJson = new JSONObject(userEmailJsonString);
+//        String userEmail = userEmailJson.getString("userEmail");
+        return userContainerRepository.GetUserByEmail(userEmailJsonString);
     }
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
