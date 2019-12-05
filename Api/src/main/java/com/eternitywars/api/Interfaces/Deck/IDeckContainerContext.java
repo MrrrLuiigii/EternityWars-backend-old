@@ -8,7 +8,7 @@ public interface IDeckContainerContext {
 
     boolean DeleteDeck(Deck deck);
 
-    DeckCollection GetAllDecksByUserId(int userId);
+    DeckCollection GetAllDecksByUserId(Deck deck);
 
-    Deck GetDeckById(int deckId);
+    Deck GetDeckById(Deck deck);
 }

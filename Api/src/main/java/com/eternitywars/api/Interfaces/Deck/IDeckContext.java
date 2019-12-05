@@ -1,6 +1,7 @@
 package com.eternitywars.api.Interfaces.Deck;
 
 import com.eternitywars.api.Models.Card;
+import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.Deck;
 
 public interface IDeckContext {
@@ -9,4 +10,6 @@ public interface IDeckContext {
     boolean DeleteCard(Deck deck, Card card);
 
     boolean UpdateDeck(Deck deck);
+
+    CardCollection GetCardsInDeck(Deck deck);
 }
