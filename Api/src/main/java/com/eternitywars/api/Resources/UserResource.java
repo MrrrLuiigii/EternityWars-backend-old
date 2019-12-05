@@ -16,11 +16,6 @@ public class UserResource
         userRepository.ChangeUsername(userId, username);
     }
 
-    @RequestMapping(value = "/packamount/{userId}" , method = RequestMethod.GET)
-    public int GetPackAmount(@PathVariable("userId") int userId){
-        return userRepository.GetPackAmount(userId);
-    }
-
     @PostMapping(value = "/updatepackamount", consumes = "application/json", produces = "application/json")
     public void UpdatePackAmount(@RequestBody User user){ userRepository.UpdatePackAmount(user);}
 

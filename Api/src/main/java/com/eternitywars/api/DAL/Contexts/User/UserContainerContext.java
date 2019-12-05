@@ -52,6 +52,43 @@ public class UserContainerContext implements IUserContainerContext
         return user;
     }
 
+    public User GetUserByEmail(String userEmail)
+    {
+        User user = new User();
+
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "select id, google_id, username, account_status, gold, pack_amount " +
+                    "from user " +
+                    "where email = ?";
+
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                cst.setString(1, userEmail);
+                try (ResultSet rs = cst.executeQuery())
+                {
+                    while (rs.next())
+                    {
+                        user.setId(rs.getInt("id"));
+                        user.setGoogleId(rs.getString("google_id"));
+                        user.setEmail(rs.getString("email"));
+                        user.setUsername(rs.getString("username"));
+                        user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
+                        user.setGold(rs.getInt("gold"));
+                        user.setPackAmount(rs.getInt("pack_amount"));
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            //System.err.println("Error getting user from database.");
+            System.out.println(e);
+        }
+
+        return user;
+    }
+
     public UserCollection GetUsers(){
         UserCollection uc = new UserCollection();
 
