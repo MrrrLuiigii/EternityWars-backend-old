@@ -23,4 +23,7 @@ public class UserResource
 
     @PostMapping(value = "/updatepackamount", consumes = "application/json", produces = "application/json")
     public void UpdatePackAmount(@RequestBody User user){ userRepository.UpdatePackAmount(user);}
+
+    @PostMapping(value = "/updategold", consumes = "application/json", produces = "application/json")
+    public void UpdateGold(@RequestBody User user){ userRepository.UpdateGold(user);}
 }

@@ -3,7 +3,6 @@ package com.eternitywars.api.DAL.Contexts.User;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.User.IUserContext;
 import com.eternitywars.api.Models.User;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,8 +20,6 @@ public class UserContext implements IUserContext
     @Override
     public void ChangeUserName( int userId, String username)
     {
-        String yeet = null;
-
         try (Connection conn = dbc.getDatabaseConnection())
         {
             String query = "{call ChangeUserName(?,?)}";
@@ -31,19 +28,7 @@ public class UserContext implements IUserContext
             {
                 cst.setInt(1, userId);
                 cst.setString(2, username);
-                ResultSet rs = cst.executeQuery();
-                try
-                {
-                    while (rs.next())
-                    {
-                        yeet = rs.getString("username");
-                    }
-                }
-                catch (Exception e)
-                {
-
-                }
-
+                cst.executeQuery();
             }
         }
         catch (Exception e)
@@ -51,14 +36,12 @@ public class UserContext implements IUserContext
             System.out.println(e);
         }
     }
-
-    @Override
+    
     public void ChangeUserStatus(User user)
     {
 
     }
-
-    @Override
+    
     public int GetPackAmount(int userId)
     {
         try(Connection conn = dbc.getDatabaseConnection())
@@ -82,17 +65,35 @@ public class UserContext implements IUserContext
         }
         return 0;
     }
-
-    @Override
+    
     public void UpdatePackAmount(User user)
     {
         try(Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "Update user SET pack_amount = " +  user.getPackAmount() + "WHERE id = " + user.getId();
+            String query = "update user set pack_amount = ? where id = ?;";
             try (CallableStatement cst = conn.prepareCall(query))
             {
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(query);
+                cst.setInt(1, user.getPackAmount());
+                cst.setInt(2, user.getId());
+                cst.executeQuery(query);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+
+    public void UpdateGold(User user)
+    {
+        try(Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "update user set gold = ? where id = ?;";
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                cst.setInt(1, user.getGold());
+                cst.setInt(2, user.getId());
+                cst.executeQuery(query);
             }
         }
         catch(Exception e)
