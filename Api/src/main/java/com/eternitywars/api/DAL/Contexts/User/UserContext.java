@@ -3,10 +3,8 @@ package com.eternitywars.api.DAL.Contexts.User;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.User.IUserContext;
 import com.eternitywars.api.Models.User;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+
+import java.sql.*;
 
 public class UserContext implements IUserContext
 {
@@ -71,11 +69,11 @@ public class UserContext implements IUserContext
         try(Connection conn = dbc.getDatabaseConnection())
         {
             String query = "update user set pack_amount = ? where id = ?;";
-            try (CallableStatement cst = conn.prepareCall(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, user.getPackAmount());
-                cst.setInt(2, user.getId());
-                cst.executeQuery(query);
+                pst.setInt(1, user.getPackAmount());
+                pst.setInt(2, user.getId());
+                pst.executeQuery(query);
             }
         }
         catch(Exception e)
@@ -89,11 +87,11 @@ public class UserContext implements IUserContext
         try(Connection conn = dbc.getDatabaseConnection())
         {
             String query = "update user set gold = ? where id = ?;";
-            try (CallableStatement cst = conn.prepareCall(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, user.getGold());
-                cst.setInt(2, user.getId());
-                cst.executeQuery(query);
+                pst.setInt(1, user.getGold());
+                pst.setInt(2, user.getId());
+                pst.executeQuery(query);
             }
         }
         catch(Exception e)
