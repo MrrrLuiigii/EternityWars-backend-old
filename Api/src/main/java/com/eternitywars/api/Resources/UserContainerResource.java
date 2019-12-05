@@ -3,13 +3,22 @@ package com.eternitywars.api.Resources;
 import com.eternitywars.api.DAL.Repositories.User.UserContainerRepository;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api", method = RequestMethod.GET)
+@RequestMapping(value = "/api/private/user", method = RequestMethod.GET)
 public class UserContainerResource
 {
     private UserContainerRepository userContainerRepository = new UserContainerRepository();
+
+    @PostMapping(value = "/getbyemail", consumes = "application/json", produces = "application/json")
+    public User GetUserByEmail(@RequestBody String userEmailJsonString)
+    {
+        JSONObject userEmailJson = new JSONObject(userEmailJsonString);
+        String userEmail = userEmailJson.getString("userEmail");
+        return userContainerRepository.GetUserByEmail(userEmail);
+    }
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public User addUser(@RequestBody User user)
