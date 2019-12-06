@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserResource
 {
     private UserRepository userRepository = new UserRepository();
+
     @RequestMapping(value = "/edit/{userId}", method = RequestMethod.GET)
     public void ChangeUsername(@PathVariable("userId")int userId, String username){
         userId = 1;
