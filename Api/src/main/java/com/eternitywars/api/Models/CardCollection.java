@@ -21,6 +21,4 @@ public class CardCollection
     {
         this.cards = cards;
     }
-
-    public void AddCard(Card card){ cards.add(card);}
 }

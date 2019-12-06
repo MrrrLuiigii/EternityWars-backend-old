@@ -16,12 +16,12 @@ public class DeckContainerRepository implements IDeckContainerContext
         return false;
     }
 
-    public DeckCollection GetAllDecksByUserId(Deck deck)
+    public DeckCollection GetAllDecksByUserId(int userId)
     {
         return null;
     }
 
-    public Deck GetDeckById(Deck deck)
+    public Deck GetDeckById(int deckId)
     {
         return null;
     }

@@ -6,17 +6,18 @@ import com.eternitywars.api.Models.CardCollection;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/card", method = RequestMethod.GET)
+@RequestMapping(value = "api", method = RequestMethod.GET)
 public class CardContainerResource
 {
-    @RequestMapping(value = "/get/userid/{userId}", method = RequestMethod.GET)
+    //TODO refactor this which route is private which is public this is only an example
+    @GetMapping(value = "/private/card/get/userid/{userId}")
     public CardCollection GetCardsByUserId(@PathVariable("userId")int userId)
     {
         CardContainerRepository cardContainerRepository = new CardContainerRepository();
         return cardContainerRepository.GetCardsByUserId(userId);
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @GetMapping(value = "/public/card/get")
     public CardCollection GetCards()
     {
         CardContainerRepository cardContainerRepository = new CardContainerRepository();

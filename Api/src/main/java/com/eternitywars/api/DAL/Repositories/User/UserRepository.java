@@ -13,13 +13,11 @@ public class UserRepository
         this.userContext = new UserContext();
     }
 
-
-
     public void ChangeUsername(int userId, String username){
         userContext.ChangeUserName( userId, username);
     }
 
-    public void UpdatePackAmount(User user){ userContext.UpdatePackAmount(user);}
+    public int GetPackAmount(int userId){ return userContext.GetPackAmount(userId);}
 
-    public void UpdateGold(User user){ userContext.UpdateGold(user);}
+    public void UpdatePackAmount(User user){ userContext.UpdatePackAmount(user);}
 }

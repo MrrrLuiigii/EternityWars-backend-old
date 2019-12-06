@@ -14,16 +14,6 @@ public class Card
 
     }
 
-    public Card(int cardId, String name, int health, int attack, int blue_mana, int death_essence)
-    {
-        this.cardId = cardId;
-        this.name = name;
-        this.health = health;
-        this.attack = attack;
-        this.blue_mana = blue_mana;
-        this.death_essence = death_essence;
-    }
-
     public int getCardId()
     {
         return cardId;

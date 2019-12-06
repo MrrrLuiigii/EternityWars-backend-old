@@ -8,13 +8,10 @@ import com.eternitywars.api.Models.UserCollection;
 public class UserContainerRepository implements IUserContainerContext
 {
     private IUserContainerContext userContainerContext;
-
     public UserContainerRepository()
     {
            userContainerContext = new UserContainerContext();
     }
-
-
 
     public User GetUserById(int userId)
     {
@@ -35,4 +32,5 @@ public class UserContainerRepository implements IUserContainerContext
     {
         return userContainerContext.AddUser(user);
     }
+
 }

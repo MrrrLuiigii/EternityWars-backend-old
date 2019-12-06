@@ -9,5 +9,4 @@ public interface IUserContext
     void ChangeUserStatus(User user);
     int GetPackAmount(int userId);
     void UpdatePackAmount(User user);
-    void UpdateGold(User user);
 }
