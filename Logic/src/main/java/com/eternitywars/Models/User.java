@@ -15,31 +15,10 @@ public class User extends Account
 
     public User(){}
 
-    public User(int id, String googleId, String email, String username, AccountStatus accountStatus, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection)
+    public User(String username, String email)
     {
-        super(id, googleId, username, accountStatus);
+        this.username = username;
         this.email = email;
-        this.gold = gold;
-        this.packAmount = packAmount;
-        this.friendCollection = friendCollection;
-        this.deckCollection = deckCollection;
-        this.cardCollection = cardCollection;
-    }
-
-    public User(int id, String googleId, String username, AccountStatus accountStatus, Socket socket, String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection)
-    {
-        super(id, googleId, username, accountStatus, socket);
-        this.email = email;
-        this.gold = gold;
-        this.packAmount = packAmount;
-        this.friendCollection = friendCollection;
-        this.deckCollection = deckCollection;
-        this.cardCollection = cardCollection;
-    }
-
-    public User(String username)
-    {
-        this.setUsername(username);
     }
 
     public String getEmail()

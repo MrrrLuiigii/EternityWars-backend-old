@@ -5,11 +5,11 @@ import java.net.Socket;
 
 public abstract class Account
 {
-    private int id;
-    private String googleId;
-    private String username;
-    private AccountStatus accountStatus;
-    private Socket socket;
+    protected int id;
+    protected String googleId;
+    protected String username;
+    protected AccountStatus accountStatus;
+    protected Socket socket;
 
     public Account(){}
 

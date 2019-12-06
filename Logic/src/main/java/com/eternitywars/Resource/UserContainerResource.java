@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -21,6 +18,25 @@ public class UserContainerResource {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    private UserContainerLogic userContainerLogic = new UserContainerLogic();
+
+    @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
+    public User AddUserByUsernameAndEmail(@RequestBody String userJsonString)
+    {
+        JSONObject jsonObject = new JSONObject(userJsonString);
+
+
+        String username = jsonObject.getString("username");
+        String email = jsonObject.getString("email");
+
+        System.out.println(username);
+        System.out.println(email);
+
+        User user = new User(username, email);
+
+        return userContainerLogic.AddUserByUsernameAndEmail(user);
+    }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public User AddUser(/*User user*/)
@@ -51,20 +67,9 @@ public class UserContainerResource {
         return user;
     }
 
-    public User LoginById(int userId) {
-        UserContainerLogic userContainerLogic = new UserContainerLogic();
-        return userContainerLogic.Login(userId);
-    }
-
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public UserCollection GetUsers() {
         return restTemplate.getForObject("http://eternity-wars-api/user/get", UserCollection.class);
-    }
-
-    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
-    public boolean DeleteUserById(@PathVariable("userId")int userId) {
-        UserContainerLogic userContainerLogic = new UserContainerLogic();
-        return userContainerLogic.DeleteUserById(userId);
     }
 
     @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)

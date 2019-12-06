@@ -3,7 +3,6 @@ package com.eternitywars.api.Resources;
 import com.eternitywars.api.DAL.Repositories.User.UserContainerRepository;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,9 +20,6 @@ public class UserContainerResource
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public User addUser(@RequestBody User user)
     {
-//        User user = new User();
-//        user.
-
         return userContainerRepository.AddUser(user);
     }
 
