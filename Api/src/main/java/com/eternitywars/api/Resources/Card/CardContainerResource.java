@@ -1,4 +1,4 @@
-package com.eternitywars.api.Resources;
+package com.eternitywars.api.Resources.Card;
 
 import com.eternitywars.api.DAL.Repositories.Card.CardContainerRepository;
 import com.eternitywars.api.Models.Card;

@@ -1,4 +1,4 @@
-package com.eternitywars.api.Resources;
+package com.eternitywars.api.Resources.User;
 
 import com.eternitywars.api.DAL.Repositories.User.UserRepository;
 import com.eternitywars.api.Models.User;

@@ -1,4 +1,4 @@
-package com.eternitywars.api.Resources;
+package com.eternitywars.api.Resources.User;
 
 import com.eternitywars.api.DAL.Repositories.User.UserContainerRepository;
 import com.eternitywars.api.Models.User;
@@ -28,7 +28,7 @@ public class UserContainerResource
     {
         return userContainerRepository.GetUserByEmail(email);
     }
-    
+
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public UserCollection GetUsers()
     {
