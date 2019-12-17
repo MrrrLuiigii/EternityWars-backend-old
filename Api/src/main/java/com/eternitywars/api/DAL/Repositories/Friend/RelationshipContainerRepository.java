@@ -3,6 +3,7 @@ package com.eternitywars.api.DAL.Repositories.Friend;
 import com.eternitywars.api.DAL.Contexts.Friend.RelationshipContainerContext;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
 import com.eternitywars.api.Models.RelationshipCollection;
+import com.eternitywars.api.Models.User;
 
 public class RelationshipContainerRepository implements IRelationshipContainerContext
 {
@@ -13,7 +14,10 @@ public class RelationshipContainerRepository implements IRelationshipContainerCo
         relationshipContext = new RelationshipContainerContext();
     }
 
-    public RelationshipCollection GetRelationships(int userId){
-        return relationshipContext.GetRelationships(userId);
+
+
+    public RelationshipCollection GetRelationships(User user )
+    {
+        return relationshipContext.GetRelationships(user);
     }
 }
