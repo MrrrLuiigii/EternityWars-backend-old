@@ -4,6 +4,7 @@ import com.eternitywars.api.DAL.Contexts.Card.CardContainerContext;
 import com.eternitywars.api.Interfaces.Card.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
+import com.eternitywars.api.Models.User;
 
 public class CardContainerRepository implements ICardContainerContext
 {
@@ -14,18 +15,20 @@ public class CardContainerRepository implements ICardContainerContext
         this.cardContainerContext = new CardContainerContext();
     }
 
-    public CardCollection GetCards()
-    {
-        return cardContainerContext.GetCards();
-    }
 
-    public CardCollection GetCardsByUserId(int userId)
+
+    public CardCollection GetCardsByUser(User user)
     {
-        return cardContainerContext.GetCardsByUserId(userId);
+        return cardContainerContext.GetCardsByUser(user);
     }
 
     public Card GetCardById(int cardId)
     {
         return cardContainerContext.GetCardById(cardId);
+    }
+
+    public CardCollection GetCards()
+    {
+        return cardContainerContext.GetCards();
     }
 }

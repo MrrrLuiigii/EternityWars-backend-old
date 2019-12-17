@@ -6,7 +6,7 @@ import com.eternitywars.api.Models.UserCollection;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/user", method = RequestMethod.GET)
+@RequestMapping(value = "/api/private/user")
 public class UserContainerResource
 {
     private UserContainerRepository userContainerRepository = new UserContainerRepository();
@@ -17,19 +17,19 @@ public class UserContainerResource
         return userContainerRepository.AddUser(user);
     }
 
-    @RequestMapping(value = "/getById/{userId}", method = RequestMethod.GET)
+    @GetMapping(value = "/getById/{userId}")
     public User GetUserById(@PathVariable("userId")int userId)
     {
         return userContainerRepository.GetUserById(userId);
     }
 
-    @RequestMapping(value = "/getByEmail/{email}", method = RequestMethod.GET)
+    @GetMapping(value = "/getByEmail/{email}")
     public User GetUserByEmail(@PathVariable("email") String email)
     {
         return userContainerRepository.GetUserByEmail(email);
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @GetMapping(value = "/get")
     public UserCollection GetUsers()
     {
         return userContainerRepository.GetUsers();

@@ -4,73 +4,45 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Card.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
+import com.eternitywars.api.Models.User;
+
+import java.sql.*;
 
 public class CardContainerContext implements ICardContainerContext
 {
     private DatabaseConnection dbc;
 
-    public CardContainerContext(){ dbc = new DatabaseConnection(); }
-
-    public CardCollection GetCards()
+    public CardContainerContext()
     {
-        CardCollection cc = new CardCollection();
-
-        try (Connection conn = dbc.getDatabaseConnection())
-        {
-            String query = "{call GetCards()}";
-
-            try (CallableStatement cst = conn.prepareCall(query))
-            {
-                try (ResultSet rs = cst.executeQuery())
-                {
-                    while (rs.next())
-                    {
-                        Card card = new Card();
-                        card.setCardId(rs.getInt("id"));
-                        card.setName(rs.getString("name"));
-                        card.setAttack(rs.getInt("attack"));
-                        card.setHealth(rs.getInt("health"));
-                        card.setBlue_mana(rs.getInt("blue_mana"));
-                        card.setDeath_essence(rs.getInt("death_essence"));
-                        cc.getCards().add(card);
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-
-        return cc;
+        dbc = new DatabaseConnection();
     }
 
-    public CardCollection GetCardsByUserId(int userId)
+
+
+    public CardCollection GetCardsByUser(User user)
     {
-        CardCollection cc = new CardCollection();
+        CardCollection cardCollection = new CardCollection();
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call GetCardsByUserId(?)}";
+            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` " +
+                    "from card " +
+                    "where card.`id` in (" +
+                        "select card_id " +
+                        "from card_collection " +
+                        "where `user_id` = ?" +
+                    ");";
 
-            try (CallableStatement cst = conn.prepareCall(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, userId);
-                try (ResultSet rs = cst.executeQuery())
+                pst.setInt(1, user.getUserId());
+
+                try (ResultSet rs = pst.executeQuery())
                 {
                     while (rs.next())
                     {
-                        Card card = new Card();
-                        card.setCardId(rs.getInt("id"));
-                        card.setName(rs.getString("name"));
-                        card.setAttack(rs.getInt("attack"));
-                        card.setHealth(rs.getInt("health"));
-                        card.setBlue_mana(rs.getInt("blue_mana"));
-                        card.setDeath_essence(rs.getInt("death_essence"));
-                        cc.getCards().add(card);
+                        Card card = FillCard(rs);
+                        cardCollection.getCards().add(card);
                     }
                 }
             }
@@ -80,7 +52,7 @@ public class CardContainerContext implements ICardContainerContext
             System.out.println(e);
         }
 
-        return cc;
+        return cardCollection;
     }
 
     public Card GetCardById(int cardId)
@@ -89,7 +61,9 @@ public class CardContainerContext implements ICardContainerContext
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call GetCardById(?)}";
+            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` " +
+                    "from card " +
+                    "where `id` = ?;";
 
             try (CallableStatement cst = conn.prepareCall(query))
             {
@@ -98,12 +72,7 @@ public class CardContainerContext implements ICardContainerContext
                 {
                     while(rs.next())
                     {
-                        card.setCardId(rs.getInt("id"));
-                        card.setName(rs.getString("name"));
-                        card.setAttack(rs.getInt("attack"));
-                        card.setHealth(rs.getInt("health"));
-                        card.setBlue_mana(rs.getInt("blue_mana"));
-                        card.setDeath_essence(rs.getInt("death_essence"));
+                        card = FillCard(rs);
                     }
                 }
             }
@@ -112,6 +81,48 @@ public class CardContainerContext implements ICardContainerContext
         {
             System.out.println(e);
         }
+
+        return card;
+    }
+
+    public CardCollection GetCards()
+    {
+        CardCollection cardCollection = new CardCollection();
+
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` from card;";
+
+            try (Statement st = conn.createStatement())
+            {
+                try (ResultSet rs = st.executeQuery(query))
+                {
+                    while (rs.next())
+                    {
+                        Card card = FillCard(rs);
+                        cardCollection.getCards().add(card);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return cardCollection;
+    }
+
+    private Card FillCard(ResultSet rs) throws SQLException
+    {
+        Card card = new Card();
+
+        card.setCardId(rs.getInt("id"));
+        card.setName(rs.getString("name"));
+        card.setAttack(rs.getInt("attack"));
+        card.setHealth(rs.getInt("health"));
+        card.setBlue_mana(rs.getInt("blue_mana"));
+        card.setDeath_essence(rs.getInt("death_essence"));
 
         return card;
     }
