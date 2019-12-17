@@ -5,48 +5,36 @@ import java.net.Socket;
 
 public abstract class Account
 {
-    private int id;
-    private String googleId;
-    private String username;
-    private AccountStatus accountStatus;
-    private Socket socket;
+    protected int userId;
+    protected String username;
+    protected AccountStatus accountStatus;
+    protected Socket socket;
 
     public Account(){}
 
-    public Account(int id, String googleId, String username, AccountStatus accountStatus)
+    public Account(int userId, String username, AccountStatus accountStatus)
     {
-        this.id = id;
-        this.googleId = googleId;
+        this.userId = userId;
         this.username = username;
         this.accountStatus = accountStatus;
     }
 
-    public Account(int id, String googleId, String username, AccountStatus accountStatus, Socket socket)
+    public Account(int userId, String username, AccountStatus accountStatus, Socket socket)
     {
-        this.id = id;
+        this.userId = userId;
         this.username = username;
         this.accountStatus = accountStatus;
         this.socket = socket;
     }
 
-    public int getId()
+    public int getUserId()
     {
-        return id;
+        return userId;
     }
 
-    public void setId(int id)
+    public void setUserId(int userId)
     {
-        this.id = id;
-    }
-
-    public String getGoogleId()
-    {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId)
-    {
-        this.googleId = googleId;
+        this.userId = userId;
     }
 
     public String getUsername()

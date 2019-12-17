@@ -11,24 +11,24 @@ public class UserContainerResource
 {
     private UserContainerRepository userContainerRepository = new UserContainerRepository();
 
-    @PostMapping(value = "/getbyemail", consumes = "text/plain", produces = "application/json")
-    public User GetUserByEmail(@RequestBody String userEmail)
-    {
-        return userContainerRepository.GetUserByEmail(userEmail);
-    }
-
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public User addUser(@RequestBody User user)
     {
         return userContainerRepository.AddUser(user);
     }
 
-    @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getById/{userId}", method = RequestMethod.GET)
     public User GetUserById(@PathVariable("userId")int userId)
     {
         return userContainerRepository.GetUserById(userId);
     }
 
+    @RequestMapping(value = "/getByEmail/{email}", method = RequestMethod.GET)
+    public User GetUserByEmail(@PathVariable("email") String email)
+    {
+        return userContainerRepository.GetUserByEmail(email);
+    }
+    
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public UserCollection GetUsers()
     {

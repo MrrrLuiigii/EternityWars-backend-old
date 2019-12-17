@@ -4,7 +4,7 @@ import com.eternitywars.api.DAL.Contexts.User.UserContext;
 import com.eternitywars.api.Interfaces.User.IUserContext;
 import com.eternitywars.api.Models.User;
 
-public class UserRepository
+public class UserRepository implements IUserContext
 {
     private IUserContext userContext;
 
@@ -13,11 +13,18 @@ public class UserRepository
         this.userContext = new UserContext();
     }
 
-    public void ChangeUsername(int userId, String username){
-        userContext.ChangeUserName( userId, username);
+    public User UpdateUsername(User user)
+    {
+        return userContext.UpdateUsername(user);
     }
 
-    public int GetPackAmount(int userId){ return userContext.GetPackAmount(userId);}
+    public boolean UpdateAccountStatus(User user)
+    {
+        return userContext.UpdateAccountStatus(user);
+    }
 
-    public void UpdatePackAmount(User user){ userContext.UpdatePackAmount(user);}
+    public boolean UpdatePackAmount(User user)
+    {
+        return userContext.UpdatePackAmount(user);
+    }
 }

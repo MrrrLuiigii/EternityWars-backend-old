@@ -18,8 +18,8 @@ public class UserContainerContext implements IUserContainerContext
         dbc = new DatabaseConnection();
     }
 
-    public User GetUserById(int userId){
-
+    public User GetUserById(int userId)
+    {
         User user = new User();
 
         try (Connection conn = dbc.getDatabaseConnection())
@@ -29,12 +29,12 @@ public class UserContainerContext implements IUserContainerContext
             try (CallableStatement cst = conn.prepareCall(query))
             {
                 cst.setInt(1, userId);
+
                 try (ResultSet rs = cst.executeQuery())
                 {
                     while (rs.next())
                     {
-                        user.setId(rs.getInt("id"));
-                        user.setGoogleId(rs.getString("google_id"));
+                        user.setUserId(rs.getInt("id"));
                         user.setEmail(rs.getString("email"));
                         user.setUsername(rs.getString("username"));
                         user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
@@ -72,8 +72,7 @@ public class UserContainerContext implements IUserContainerContext
                 {
                     while (rs.next())
                     {
-                        user.setId(rs.getInt("id"));
-                        user.setGoogleId(rs.getString("google_id"));
+                        user.setUserId(rs.getInt("id"));
                         user.setEmail(rs.getString("email"));
                         user.setUsername(rs.getString("username"));
                         user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
@@ -88,7 +87,7 @@ public class UserContainerContext implements IUserContainerContext
             System.out.println(e);
         }
 
-        System.out.println(user.getId());
+        System.out.println(user.getUserId());
         System.out.println(user.getUsername());
 
         return user;
@@ -108,8 +107,7 @@ public class UserContainerContext implements IUserContainerContext
                     while (rs.next())
                     {
                         User user = new User();
-                        user.setId(rs.getInt("id"));
-                        user.setGoogleId(rs.getString("google_id"));
+                        user.setUserId(rs.getInt("id"));
                         user.setEmail(rs.getString("email"));
                         user.setUsername(rs.getString("username"));
                         user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
@@ -136,7 +134,6 @@ public class UserContainerContext implements IUserContainerContext
 
             try (CallableStatement cst = conn.prepareCall(query))
             {
-                cst.setString(1, user.getGoogleId());
                 cst.setString(2, user.getEmail());
                 cst.setString(3, user.getUsername());
                 cst.setString(4, user.getAccountStatus().toString());
@@ -149,7 +146,7 @@ public class UserContainerContext implements IUserContainerContext
                 {
                     while (rs.next())
                     {
-                        user.setId(rs.getInt("id"));
+                        user.setUserId(rs.getInt("id"));
 //                        u.setGoogleId(rs.getString("google_id"));
 //                        u.setEmail(rs.getString("email"));
 //                        u.setUsername(rs.getString("username"));
