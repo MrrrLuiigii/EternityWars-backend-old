@@ -13,7 +13,9 @@ public class UserRepository implements IUserContext
         this.userContext = new UserContext();
     }
 
-    public User UpdateUsername(User user)
+
+
+    public boolean UpdateUsername(User user)
     {
         return userContext.UpdateUsername(user);
     }

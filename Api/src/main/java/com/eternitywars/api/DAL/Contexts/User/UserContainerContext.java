@@ -5,10 +5,8 @@ import com.eternitywars.api.Interfaces.User.IUserContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+import java.sql.*;
 
 public class UserContainerContext implements IUserContainerContext
 {
@@ -18,66 +16,55 @@ public class UserContainerContext implements IUserContainerContext
         dbc = new DatabaseConnection();
     }
 
+
+
     public User GetUserById(int userId)
     {
         User user = new User();
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call GetUserById(?)}";
+            String query = "select `id`, `username`, `email`, `account_status`, `gold`, `pack_amount` " +
+                    "from user " +
+                    "where id = ?;";
 
-            try (CallableStatement cst = conn.prepareCall(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, userId);
+                pst.setInt(1, userId);
 
-                try (ResultSet rs = cst.executeQuery())
+                try (ResultSet rs = pst.executeQuery())
                 {
-                    while (rs.next())
-                    {
-                        user.setUserId(rs.getInt("id"));
-                        user.setEmail(rs.getString("email"));
-                        user.setUsername(rs.getString("username"));
-                        user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
-                        user.setGold(rs.getInt("gold"));
-                        user.setPackAmount(rs.getInt("pack_amount"));
-                    }
+                    user = FillUser(rs);
                 }
             }
         }
         catch (Exception e)
         {
-            //System.err.println("Error getting user from database.");
             System.out.println(e);
         }
 
         return user;
     }
 
-    public User GetUserByEmail(String userEmail)
+    public User GetUserByEmail(String email)
     {
-        System.out.println(userEmail);
-
         User user = new User();
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "select id, google_id, email, username, account_status, gold, pack_amount " +
+            String query = "select `id`, `username`, `email`, `account_status`, `gold`, `pack_amount` " +
                     "from user " +
-                    "where email = ?";
+                    "where email = ?;";
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                pst.setString(1, userEmail);
+                pst.setString(1, email);
+
                 try (ResultSet rs = pst.executeQuery())
                 {
                     while (rs.next())
                     {
-                        user.setUserId(rs.getInt("id"));
-                        user.setEmail(rs.getString("email"));
-                        user.setUsername(rs.getString("username"));
-                        user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
-                        user.setGold(rs.getInt("gold"));
-                        user.setPackAmount(rs.getInt("pack_amount"));
+                        user = FillUser(rs);
                     }
                 }
             }
@@ -87,34 +74,22 @@ public class UserContainerContext implements IUserContainerContext
             System.out.println(e);
         }
 
-        System.out.println(user.getUserId());
-        System.out.println(user.getUsername());
-
         return user;
     }
 
-    public UserCollection GetUsers(){
-        UserCollection uc = new UserCollection();
+    public UserCollection GetUsers()
+    {
+        UserCollection userCollection = new UserCollection();
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call GetUsers()}";
+            String query = "select `id`, `username`, `email`, `account_status`, `gold`, `pack_amount` from user;";
 
             try (CallableStatement cst = conn.prepareCall(query))
             {
                 try (ResultSet rs = cst.executeQuery())
                 {
-                    while (rs.next())
-                    {
-                        User user = new User();
-                        user.setUserId(rs.getInt("id"));
-                        user.setEmail(rs.getString("email"));
-                        user.setUsername(rs.getString("username"));
-                        user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
-                        user.setGold(rs.getInt("gold"));
-                        user.setPackAmount(rs.getInt("pack_amount"));
-                        uc.addUser(user);
-                    }
+                    userCollection = FillUserCollection(rs);
                 }
             }
         }
@@ -123,36 +98,25 @@ public class UserContainerContext implements IUserContainerContext
             System.out.println(e);
         }
 
-        return uc;
+        return userCollection;
     }
 
     public User AddUser(User user)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call AddUser(?, ?, ?, ?, ?, ?)}";
+            String query = "{call AddUser(?, ?)};";
 
             try (CallableStatement cst = conn.prepareCall(query))
             {
+                cst.setString(1, user.getUsername());
                 cst.setString(2, user.getEmail());
-                cst.setString(3, user.getUsername());
-                cst.setString(4, user.getAccountStatus().toString());
-                cst.setInt(5, user.getGold());
-                cst.setInt(6, user.getPackAmount());
-
-                //todo make this return some actual shit
 
                 try (ResultSet rs = cst.executeQuery())
                 {
                     while (rs.next())
                     {
                         user.setUserId(rs.getInt("id"));
-//                        u.setGoogleId(rs.getString("google_id"));
-//                        u.setEmail(rs.getString("email"));
-//                        u.setUsername(rs.getString("username"));
-//                        u.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
-//                        u.setGold(rs.getInt("gold"));
-//                        u.setPackAmount(rs.getInt("pack_amount"));
                     }
                 }
 
@@ -163,6 +127,47 @@ public class UserContainerContext implements IUserContainerContext
             System.out.println(e);
         }
 
+        user.setAccountStatus(AccountStatus.Online);
+        user.setGold(0);
+        user.setPackAmount(0);
+
         return user;
     }
+
+    private User FillUser(ResultSet rs) throws SQLException
+    {
+        User user = new User();
+
+        while (rs.next())
+        {
+            user.setUserId(rs.getInt("id"));
+            user.setUsername(rs.getString("username"));
+            user.setEmail(rs.getString("email"));
+            user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
+            user.setGold(rs.getInt("gold"));
+            user.setPackAmount(rs.getInt("pack_amount"));
+        }
+
+        return user;
+    }
+
+    private UserCollection FillUserCollection(ResultSet rs) throws SQLException
+    {
+        UserCollection userCollection = new UserCollection();
+
+        while (rs.next())
+        {
+            User user = new User();
+            user.setUserId(rs.getInt("id"));
+            user.setEmail(rs.getString("email"));
+            user.setUsername(rs.getString("username"));
+            user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
+            user.setGold(rs.getInt("gold"));
+            user.setPackAmount(rs.getInt("pack_amount"));
+            userCollection.addUser(user);
+        }
+
+        return userCollection;
+    }
+
 }

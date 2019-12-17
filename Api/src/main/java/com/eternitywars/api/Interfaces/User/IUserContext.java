@@ -4,7 +4,7 @@ import com.eternitywars.api.Models.User;
 
 public interface IUserContext
 {
-    User UpdateUsername(User user);
+    boolean UpdateUsername(User user);
 
     boolean UpdateAccountStatus(User user);
 

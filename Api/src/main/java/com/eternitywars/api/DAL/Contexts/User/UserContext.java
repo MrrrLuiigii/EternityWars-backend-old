@@ -15,32 +15,28 @@ public class UserContext implements IUserContext
         this.dbc = new DatabaseConnection();
     }
 
-    public User UpdateUsername(User user)
+
+
+    public boolean UpdateUsername(User user)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call ChangeUserName(?,?)}";
+            String query = "update user set `username` = ? where `id` = ?;";
 
-            try (CallableStatement cst = conn.prepareCall(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, user.getUserId());
-                cst.setString(2, user.getUsername());
-
-                try(ResultSet rs = cst.executeQuery())
-                {
-                    while (rs.next())
-                    {
-                        user.setUsername(rs.getString("username"));
-                    }
-                }
+                pst.setString(1, user.getUsername());
+                pst.setInt(2, user.getUserId());
+                pst.executeUpdate();
             }
         }
         catch (Exception e)
         {
             System.out.println(e);
+            return false;
         }
 
-        return user;
+        return true;
     }
 
     public boolean UpdateAccountStatus(User user)
@@ -61,7 +57,6 @@ public class UserContext implements IUserContext
             System.out.println(e);
             return false;
         }
-
 
         return true;
     }
