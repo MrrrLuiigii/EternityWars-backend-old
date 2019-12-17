@@ -7,6 +7,11 @@ public class Deck
     private String name;
     private CardCollection cards;
 
+    public Deck(int deckId)
+    {
+        this.deckId = deckId;
+    }
+
     public Deck(CardCollection cards, int deckid)
     {
         this.deckId = deckid;
