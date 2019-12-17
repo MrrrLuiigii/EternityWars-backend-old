@@ -5,6 +5,10 @@ import com.eternitywars.api.Models.LobbyCollection;
 
 public interface ILobbyContainerContext
 {
+    Lobby AddLobby(Lobby lobby);
+
+    Lobby DeleteLobby(Lobby lobby);
+
     Lobby GetLobbyById(int lobbyId);
 
     LobbyCollection GetLobbies();

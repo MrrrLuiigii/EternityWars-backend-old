@@ -9,9 +9,9 @@ public class DatabaseConnection
     public Connection getDatabaseConnection()
     {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setServerName("localhost");
-        dataSource.setUser("root");
-        dataSource.setPassword("");
+        dataSource.setServerName("77.251.225.24");
+        dataSource.setUser("eternitywars");
+        dataSource.setPassword("OzOc5NHrMppplD3VkzzY");
         dataSource.setDatabaseName("eternitywars");
 
         try
