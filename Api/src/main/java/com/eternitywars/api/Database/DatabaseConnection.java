@@ -11,7 +11,7 @@ public class DatabaseConnection
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setServerName("77.251.225.24");
         dataSource.setUser("eternitywars");
-        dataSource.setPassword("OzOc5NHrMppplD3VkzzY");
+        dataSource.setPassword("OzOc5NHrMoidwD3VkzzY");
         dataSource.setDatabaseName("eternitywars");
 
         try
