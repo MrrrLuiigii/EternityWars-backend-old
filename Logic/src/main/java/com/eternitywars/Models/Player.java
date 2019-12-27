@@ -2,6 +2,7 @@ package com.eternitywars.Models;
 
 import com.eternitywars.Models.Enums.AccountStatus;
 import com.eternitywars.Models.Enums.LobbyPlayerStatus;
+import org.eclipse.jetty.websocket.api.Session;
 
 import java.net.Socket;
 import java.util.List;
@@ -13,9 +14,9 @@ public class Player extends Account
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
 
-    public Player(int id, String username, AccountStatus accountStatus, Socket socket, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
+    public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
     {
-        super(id, username, accountStatus, socket);
+        super(id, username, accountStatus, session);
         this.deck = deck;
         this.cardsInHand = cardsInHand;
         this.cardsInDeck = cardsInDeck;

@@ -6,6 +6,10 @@ import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class RegisterExecutor implements IExecutor {
 
     private Gson gson = new Gson();
