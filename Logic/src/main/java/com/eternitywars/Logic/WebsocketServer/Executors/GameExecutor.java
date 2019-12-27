@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.WebsocketServer.Executors;
 
+import com.eternitywars.Models.Account;
 import com.google.gson.Gson;
 import com.eternitywars.Logic.Game.GameContainerLogic;
 import com.eternitywars.Logic.Game.GameLogic;

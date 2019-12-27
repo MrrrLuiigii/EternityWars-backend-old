@@ -1,6 +1,7 @@
 package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Collection.CollectionLogic;
+import com.eternitywars.Models.Account;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;

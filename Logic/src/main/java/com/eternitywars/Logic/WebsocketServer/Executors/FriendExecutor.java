@@ -2,6 +2,7 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Friend.FriendContainerLogic;
 import com.eternitywars.Logic.Friend.FriendLogic;
+import com.eternitywars.Models.Account;
 import com.google.gson.Gson;
 import com.eternitywars.Models.FriendCollection;
 import org.eclipse.jetty.websocket.api.Session;
