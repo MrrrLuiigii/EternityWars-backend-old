@@ -11,6 +11,8 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.IOException;
+
 public class UserExecutor implements IExecutor{
 
     private UserContainerLogic userContainerLogic = new UserContainerLogic();
@@ -26,18 +28,17 @@ public class UserExecutor implements IExecutor{
     }
 
     @Override
-    public void Execute(JSONObject message, Session session) {
+    public void Execute(JSONObject message, Session session) throws IOException {
+        String json = message.getJSONObject("Content").toString();
         switch (message.getString("Action")) {
             case "GetUserById":
-
-                String json = message.getJSONObject("Content").toString();
-
                 User user = gson.fromJson(json, User.class);
                 //userContainerLogic.AddUserByUsernameAndEmail(user);
                 System.out.println(user);
                 break;
             case "GetUserByEmail":
-
+                user = userContainerLogic.GetUserByEmail(json);
+                session.getRemote().sendString(new JSONObject(user).toString());
                 break;
             case "GetUsers":
 

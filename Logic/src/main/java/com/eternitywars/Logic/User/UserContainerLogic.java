@@ -50,7 +50,7 @@ public class UserContainerLogic
         return restTemplate.postForObject("http://eternity-wars-api/api/private/user/get", request, UserCollection.class);
     }
 
-    private User GetUserByEmail(String json)
+    public User GetUserByEmail(String json)
     {
         User user = new User();
 
