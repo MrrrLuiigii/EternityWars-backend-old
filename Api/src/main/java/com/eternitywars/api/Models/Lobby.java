@@ -49,7 +49,7 @@ public class Lobby
         this.description = description;
     }
 
-    public boolean isHasPassword()
+    public boolean getHasPassword()
     {
         return hasPassword;
     }

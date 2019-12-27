@@ -1,4 +1,4 @@
-package com.eternitywars.api.Resources;
+package com.eternitywars.api.Resources.Deck;
 
 
 import com.eternitywars.api.DAL.Repositories.Deck.DeckContainerRepository;

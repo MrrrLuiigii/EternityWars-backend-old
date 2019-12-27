@@ -2,14 +2,12 @@ package com.eternitywars.api.DAL.Contexts.Lobby;
 
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Lobby.ILobbyContainerContext;
+import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.Lobby;
 import com.eternitywars.api.Models.LobbyCollection;
 import com.eternitywars.api.Models.Player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class LobbyContainerSqlContext implements ILobbyContainerContext
 {
@@ -20,15 +18,62 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
         dbc = new DatabaseConnection();
     }
 
+
+
+    public Lobby AddLobby(Lobby lobby)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "{call AddLobby(?, ?, ?, ?, ?)};";
+
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                cst.setString(1, lobby.getName());
+                cst.setString(2, lobby.getDescription());
+                cst.setBoolean(3, lobby.getHasPassword());
+                cst.setString(4, lobby.getPassword());
+                cst.setInt(5, lobby.getPlayerOne().getUserId());
+
+                try (ResultSet rs = cst.executeQuery())
+                {
+                    while (rs.next())
+                    {
+                        lobby.setId(rs.getInt("id"));
+                    }
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return lobby;
+    }
+
+    public boolean DeleteLobby(Lobby lobby)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "delete from `lobby` where `id` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, lobby.getId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
+
     //todo get deck from the players
-
-    public Lobby AddLobby(Lobby lobby) {
-        return null;
-    }
-
-    public Lobby DeleteLobby(Lobby lobby) {
-        return null;
-    }
 
     public Lobby GetLobbyById(int lobbyId)
     {

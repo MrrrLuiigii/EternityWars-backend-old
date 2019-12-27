@@ -14,12 +14,14 @@ public class LobbyContainerRepository implements ILobbyContainerContext
         this.lobbyContainerContext = new LobbyContainerSqlContext();
     }
 
-    public Lobby AddLobby(Lobby lobby) {
-        return null;
+    public Lobby AddLobby(Lobby lobby)
+    {
+        return lobbyContainerContext.AddLobby(lobby);
     }
 
-    public Lobby DeleteLobby(Lobby lobby) {
-        return null;
+    public boolean DeleteLobby(Lobby lobby)
+    {
+        return lobbyContainerContext.DeleteLobby(lobby);
     }
 
     public Lobby GetLobbyById(int lobbyId)
