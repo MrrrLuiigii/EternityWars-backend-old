@@ -29,6 +29,7 @@ public class RegisterExecutor implements IExecutor {
         User user = gson.fromJson(json, User.class);
         user.setSession(session);
         UserCollection.getConnectedUsers().add(user);
+        System.out.println(UserCollection.getConnectedUsers().size());
     }
 
     @Override

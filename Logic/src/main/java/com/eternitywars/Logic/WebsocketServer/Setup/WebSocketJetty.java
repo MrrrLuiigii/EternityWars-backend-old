@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.annotations.*;
 public class WebSocketJetty {
     @OnWebSocketConnect
     public void onConnect(Session session) {
+        System.out.println("Nigga im in");
         ServiceBean.getService().addSession(session);
     }
 

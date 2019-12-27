@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MessageHandler {
-    
+
     ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     public void handleMessage(Session session, JSONObject message) {
@@ -37,6 +37,9 @@ public class MessageHandler {
                 executorService.submit(new CollectionExecutor(message, session));
                 break;
             case "REGISTER":
+                executorService.submit(new RegisterExecutor(message,session));
+                break;
+            case "CHAT":
                 executorService.submit(new RegisterExecutor(message,session));
                 break;
         }
