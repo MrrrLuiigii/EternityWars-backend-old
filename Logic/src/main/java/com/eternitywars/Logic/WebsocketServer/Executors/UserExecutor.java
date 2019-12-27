@@ -62,6 +62,10 @@ public class UserExecutor implements IExecutor{
 
     @Override
     public void run() {
-        Execute(message, session);
+        try {
+            Execute(message, session);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
