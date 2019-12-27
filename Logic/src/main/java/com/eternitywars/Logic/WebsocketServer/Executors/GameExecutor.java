@@ -1,14 +1,15 @@
 package com.eternitywars.Logic.WebsocketServer.Executors;
 
-import com.eternitywars.Logic.Game.GameLogic;
-import com.eternitywars.Models.Account;
 import com.google.gson.Gson;
+import com.eternitywars.Logic.Game.GameContainerLogic;
+import com.eternitywars.Logic.Game.GameLogic;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
 public class GameExecutor implements IExecutor  {
 
-    GameLogic gameLogic = new GameLogic();
+    private GameLogic gameLogic = new GameLogic();
+    private GameContainerLogic gameContainerLogic = new GameContainerLogic();
 
     @Override
     public void Execute(JSONObject message, Session session) {
