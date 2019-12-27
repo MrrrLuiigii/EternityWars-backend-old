@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class UserExecutor implements IExecutor{
 
@@ -17,13 +18,31 @@ public class UserExecutor implements IExecutor{
 
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
-            case "GETBYID":
+            case "GetUserById":
                 Gson gson = new Gson();
                 String json = message.getJSONObject("Content").toString();
 
                 User user = gson.fromJson(json, User.class);
                 //userContainerLogic.AddUserByUsernameAndEmail(user);
                 System.out.println(user);
+                break;
+            case "GetUserByEmail":
+
+                break;
+            case "GetUsers":
+
+                break;
+            case "AddUser":
+
+                break;
+            case "UpdateUsername":
+
+                break;
+            case "UpdateAccountStatus":
+
+                break;
+            case "UpdatePackAmount":
+
                 break;
         }
     }
