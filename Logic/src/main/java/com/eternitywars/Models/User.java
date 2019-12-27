@@ -13,7 +13,9 @@ public class User extends Account
     private DeckCollection deckCollection;
     private CardCollection cardCollection;
 
-    public User(){}
+    public User() {
+
+    }
 
     public User(String username, String email)
     {

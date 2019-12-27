@@ -1,4 +1,4 @@
-package com.eternitywars.Logic.WebsocketServer;
+package com.eternitywars.Logic.WebsocketServer.Setup;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +12,7 @@ public class ServiceBean implements ApplicationContextAware {
         appCxt = applicationContext;
     }
 
-    public static WebsocketService getRandomNameService() throws BeansException {
+    public static WebsocketService getService() throws BeansException {
         return (WebsocketService) appCxt.getAutowireCapableBeanFactory().getBean("WebsocketService");
     }
 }

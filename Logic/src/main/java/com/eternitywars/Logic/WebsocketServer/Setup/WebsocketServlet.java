@@ -1,4 +1,4 @@
-package com.eternitywars.Logic.WebsocketServer;
+package com.eternitywars.Logic.WebsocketServer.Setup;
 
 
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;

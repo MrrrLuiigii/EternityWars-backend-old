@@ -9,9 +9,9 @@ public class Friend extends Account
 {
     private FriendStatus friendStatus;
 
-    public Friend(int id, String googleId, String username, AccountStatus accountStatus, Socket socket, FriendStatus friendStatus)
+    public Friend(int id, String username, AccountStatus accountStatus, Socket socket, FriendStatus friendStatus)
     {
-        super(id, googleId, username, accountStatus, socket);
+        super(id,username, accountStatus, socket);
         this.friendStatus = friendStatus;
     }
 
