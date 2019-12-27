@@ -11,7 +11,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class UserExecutor implements IExecutor, Runnable{
+public class UserExecutor implements IExecutor{
 
     private UserContainerLogic userContainerLogic = new UserContainerLogic();
     private UserLogic userLogic = new UserLogic();

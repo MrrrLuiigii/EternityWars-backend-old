@@ -12,6 +12,15 @@ import java.util.logging.Logger;
 
 public class RegisterExecutor implements IExecutor {
 
+
+    private JSONObject message;
+    private Session session;
+
+    public RegisterExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
     private Gson gson = new Gson();
 
     @Override
@@ -20,5 +29,10 @@ public class RegisterExecutor implements IExecutor {
         User user = gson.fromJson(json, User.class);
         user.setSession(session);
         UserCollection.getConnectedUsers().add(user);
+    }
+
+    @Override
+    public void run() {
+        Execute(message, session);
     }
 }

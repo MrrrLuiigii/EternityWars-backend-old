@@ -15,6 +15,14 @@ public class LobbyExecutor implements IExecutor  {
     private LobbyLogic lobbyLogic = new LobbyLogic();
     private LobbyContainerLogic lobbyContainerLogic = new LobbyContainerLogic();
 
+    private JSONObject message;
+    private Session session;
+
+    public LobbyExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
     @Override
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
@@ -37,5 +45,10 @@ public class LobbyExecutor implements IExecutor  {
             case "DELETELOBBY":
                 break;
         }
+    }
+
+    @Override
+    public void run() {
+        Execute(message, session);
     }
 }

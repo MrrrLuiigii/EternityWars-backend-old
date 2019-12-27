@@ -8,6 +8,10 @@ import org.json.JSONObject;
 
 public class CollectionExecutor implements IExecutor  {
 
+
+    private JSONObject message;
+    private Session session;
+
     private CollectionLogic collectionLogic = new CollectionLogic();
 
     @Override
@@ -30,5 +34,15 @@ public class CollectionExecutor implements IExecutor  {
                 break;
 
         }
+    }
+
+    public CollectionExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
+    @Override
+    public void run() {
+        Execute(message, session);
     }
 }

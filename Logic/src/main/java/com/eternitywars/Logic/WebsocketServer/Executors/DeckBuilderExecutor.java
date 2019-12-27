@@ -12,6 +12,9 @@ public class DeckBuilderExecutor implements IExecutor  {
     private DeckBuilderLogic deckBuilderLogic = new DeckBuilderLogic();
     private DeckBuilderContainerLogic deckBuilderContainerLogic = new DeckBuilderContainerLogic();
 
+    private JSONObject message;
+    private Session session;
+
     @Override
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
@@ -36,4 +39,13 @@ public class DeckBuilderExecutor implements IExecutor  {
         }
     }
 
+    public DeckBuilderExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
+    @Override
+    public void run() {
+        Execute(message, session);
+    }
 }

@@ -7,10 +7,13 @@ import com.eternitywars.Logic.Game.GameLogic;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-public class GameExecutor implements IExecutor, Runnable  {
+public class GameExecutor implements IExecutor{
 
     private GameLogic gameLogic = new GameLogic();
     private GameContainerLogic gameContainerLogic = new GameContainerLogic();
+
+    private JSONObject message;
+    private Session session;
 
     @Override
     public void Execute(JSONObject message, Session session) {
@@ -34,8 +37,13 @@ public class GameExecutor implements IExecutor, Runnable  {
         }
     }
 
+    public GameExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
     @Override
     public void run() {
-
+        Execute(message, session);
     }
 }

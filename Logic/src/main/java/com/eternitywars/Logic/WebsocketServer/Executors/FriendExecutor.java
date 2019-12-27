@@ -13,6 +13,9 @@ public class FriendExecutor implements IExecutor  {
     private FriendContainerLogic friendContainerLogic = new FriendContainerLogic();
     private FriendLogic friendLogic = new FriendLogic();
 
+    private JSONObject message;
+    private Session session;
+
     @Override
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
@@ -31,5 +34,15 @@ public class FriendExecutor implements IExecutor  {
             case "REMOVEFRIEND":
                 break;
         }
+    }
+
+    public FriendExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
+    @Override
+    public void run() {
+        Execute(message, session);
     }
 }
