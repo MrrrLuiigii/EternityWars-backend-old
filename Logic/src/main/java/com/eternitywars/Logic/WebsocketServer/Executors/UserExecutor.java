@@ -20,8 +20,9 @@ public class UserExecutor implements IExecutor{
             case "GETBYID":
                 Gson gson = new Gson();
                 String json = message.getJSONObject("Content").toString();
+
                 User user = gson.fromJson(json, User.class);
-                userContainerLogic.AddUserByUsernameAndEmail(user);
+                //userContainerLogic.AddUserByUsernameAndEmail(user);
                 System.out.println(user);
                 break;
         }
