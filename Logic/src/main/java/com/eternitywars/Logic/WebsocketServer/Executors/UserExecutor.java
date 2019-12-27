@@ -11,12 +11,21 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class UserExecutor implements IExecutor{
+public class UserExecutor implements IExecutor, Runnable{
 
     private UserContainerLogic userContainerLogic = new UserContainerLogic();
     private UserLogic userLogic = new UserLogic();
     private Gson gson = new Gson();
 
+    private JSONObject message;
+    private Session session;
+
+    public UserExecutor(JSONObject message, Session session) {
+        this.message = message;
+        this.session = session;
+    }
+
+    @Override
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
             case "GetUserById":
@@ -46,5 +55,11 @@ public class UserExecutor implements IExecutor{
 
                 break;
         }
+    }
+
+
+    @Override
+    public void run() {
+        Execute(message, session);
     }
 }

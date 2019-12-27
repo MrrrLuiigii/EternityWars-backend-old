@@ -6,9 +6,11 @@ import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MessageHandler {
 
-    private UserExecutor userExecutor = new UserExecutor();
     private LobbyExecutor lobbyExecutor = new LobbyExecutor();
     private ShopExecutor shopExecutor = new ShopExecutor();
     private GameExecutor gameExecutor = new GameExecutor();
@@ -17,10 +19,12 @@ public class MessageHandler {
     private CollectionExecutor collectionExecutor = new CollectionExecutor();
     private RegisterExecutor registerExecutor = new RegisterExecutor();
 
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
+
     public void handleMessage(Session session, JSONObject message) {
         switch (message.getString("Subject")) {
             case "USER":
-                userExecutor.Execute(message, session);
+                executorService.submit(new UserExecutor(message, session));
                 break;
             case "LOBBY":
                 lobbyExecutor.Execute(message, session);

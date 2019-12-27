@@ -7,7 +7,7 @@ import com.eternitywars.Logic.Game.GameLogic;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-public class GameExecutor implements IExecutor  {
+public class GameExecutor implements IExecutor, Runnable  {
 
     private GameLogic gameLogic = new GameLogic();
     private GameContainerLogic gameContainerLogic = new GameContainerLogic();
@@ -32,5 +32,10 @@ public class GameExecutor implements IExecutor  {
             case "DELETEGAME":
                 break;
         }
+    }
+
+    @Override
+    public void run() {
+
     }
 }
