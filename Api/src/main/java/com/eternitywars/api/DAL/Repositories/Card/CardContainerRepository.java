@@ -1,6 +1,6 @@
 package com.eternitywars.api.DAL.Repositories.Card;
 
-import com.eternitywars.api.DAL.Contexts.Card.CardContainerContext;
+import com.eternitywars.api.DAL.Contexts.Card.CardContainerSqlContext;
 import com.eternitywars.api.Interfaces.Card.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
@@ -12,7 +12,7 @@ public class CardContainerRepository implements ICardContainerContext
 
     public CardContainerRepository()
     {
-        this.cardContainerContext = new CardContainerContext();
+        this.cardContainerContext = new CardContainerSqlContext();
     }
 
 

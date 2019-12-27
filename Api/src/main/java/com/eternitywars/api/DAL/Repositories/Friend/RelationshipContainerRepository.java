@@ -1,6 +1,6 @@
 package com.eternitywars.api.DAL.Repositories.Friend;
 
-import com.eternitywars.api.DAL.Contexts.Friend.RelationshipContainerContext;
+import com.eternitywars.api.DAL.Contexts.Friend.RelationshipContainerSqlContext;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
 import com.eternitywars.api.Models.RelationshipCollection;
 import com.eternitywars.api.Models.User;
@@ -11,7 +11,7 @@ public class RelationshipContainerRepository implements IRelationshipContainerCo
 
     public RelationshipContainerRepository()
     {
-        relationshipContext = new RelationshipContainerContext();
+        relationshipContext = new RelationshipContainerSqlContext();
     }
 
 

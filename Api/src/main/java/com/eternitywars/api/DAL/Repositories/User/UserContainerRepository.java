@@ -1,6 +1,6 @@
 package com.eternitywars.api.DAL.Repositories.User;
 
-import com.eternitywars.api.DAL.Contexts.User.UserContainerContext;
+import com.eternitywars.api.DAL.Contexts.User.UserContainerSqlContext;
 import com.eternitywars.api.Interfaces.User.IUserContainerContext;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
@@ -11,7 +11,7 @@ public class UserContainerRepository implements IUserContainerContext
 
     public UserContainerRepository()
     {
-           userContainerContext = new UserContainerContext();
+           userContainerContext = new UserContainerSqlContext();
     }
 
 
