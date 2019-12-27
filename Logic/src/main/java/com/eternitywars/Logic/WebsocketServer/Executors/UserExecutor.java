@@ -22,6 +22,20 @@ public class UserExecutor implements IExecutor{
                 userContainerLogic.AddUserByUsernameAndEmail(user);
                 System.out.println(user);
                 break;
+            case "LOGOUT":
+                break;
+            case "CHANGEUSERNAME":
+                break;
+            case "CANGESTATUS":
+                break;
+            case "ADDUSERBYUSERNAMEANDEMAIL":
+                break;
+            case "ANDUSERBYUSERNAMEANDEMAILAPI":
+                break;
+            case "GETUSERCOLLECTIONFROMAPI":
+                break;
+            case "CHECKUSERTOKEN":
+                break;
         }
     }
 }
