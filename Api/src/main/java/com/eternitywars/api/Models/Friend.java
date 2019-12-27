@@ -8,6 +8,13 @@ public class Friend extends Account
 {
     private FriendStatus friendStatus;
 
+    public Friend(){}
+
+    public Friend(int friendId)
+    {
+        this.userId = friendId;
+    }
+
     public Friend(int id, String username, AccountStatus accountStatus, Socket socket, FriendStatus friendStatus)
     {
         super(id, username, accountStatus, socket);

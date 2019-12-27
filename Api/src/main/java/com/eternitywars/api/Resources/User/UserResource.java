@@ -16,7 +16,7 @@ public class UserResource
         return userRepository.UpdateUsername(user);
     }
 
-    @PostMapping(value = "/updateUserStatus", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/updateAccountStatus", consumes = "application/json", produces = "application/json")
     public boolean UpdateAccountStatus(@RequestBody User user)
     {
         return userRepository.UpdateAccountStatus(user);

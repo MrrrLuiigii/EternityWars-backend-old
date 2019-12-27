@@ -3,11 +3,10 @@ package com.eternitywars.api.DAL.Contexts.Friend;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
+import com.eternitywars.api.Models.Friend;
 import com.eternitywars.api.Models.Relationship;
 import com.eternitywars.api.Models.RelationshipCollection;
 import com.eternitywars.api.Models.User;
-
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +21,56 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
 
 
 
+    public boolean AddRelationship(User user, Friend friend)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "insert into `friend`(`user_one_id`, `user_two_id`, `status`) " +
+                    "values(?, ?, ?);";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, user.getUserId());
+                pst.setInt(2, friend.getUserId());
+                pst.setString(3, FriendStatus.Pending.toString());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean DeleteRelationship(User user, Friend friend)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "delete from `friend` " +
+                    "where (`user_one_id` = ? and `user_two_id` = ? and `status` != 'Blocked') " +
+                    "or (`user_two_id` = ? and `user_one_id` = ? and `status` != 'Blocked');";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, user.getUserId());
+                pst.setInt(2, friend.getUserId());
+                pst.setInt(3, user.getUserId());
+                pst.setInt(4, friend.getUserId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
+
     public RelationshipCollection GetRelationships(User user)
     {
         RelationshipCollection relationshipCollection = new RelationshipCollection();
@@ -32,11 +81,12 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
                     "from friend " +
                     "where `user_one_id` = ? or `user_two_id` = ?;";
 
-            try (PreparedStatement cst = conn.prepareStatement(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, user.getUserId());
+                pst.setInt(1, user.getUserId());
+                pst.setInt(2, user.getUserId());
 
-                try (ResultSet rs = cst.executeQuery())
+                try (ResultSet rs = pst.executeQuery())
                 {
                     while (rs.next())
                     {
