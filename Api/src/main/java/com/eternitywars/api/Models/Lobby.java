@@ -10,6 +10,8 @@ public class Lobby
     private Player playerOne;
     private Player playerTwo;
 
+    public Lobby(){}
+
     public Lobby(int lobbyId, String name, String description, boolean hasPassword, String password)
     {
         this.id = lobbyId;

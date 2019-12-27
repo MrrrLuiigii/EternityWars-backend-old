@@ -7,10 +7,10 @@ import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/lobby", method = RequestMethod.GET)
+@RequestMapping(value = "/api/private/lobby")
 public class LobbyContainerResource
 {
-    LobbyContainerRepository lobbyContainerRepository = new LobbyContainerRepository();
+    private LobbyContainerRepository lobbyContainerRepository = new LobbyContainerRepository();
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
     public Lobby AddLobby(@RequestBody Lobby lobby)

@@ -56,12 +56,12 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "delete from `lobby` where `id` = ?;";
+            String query = "{call DeleteLobby(?)}";
 
-            try (PreparedStatement pst = conn.prepareStatement(query))
+            try (CallableStatement cst = conn.prepareCall(query))
             {
-                pst.setInt(1, lobby.getId());
-                pst.executeUpdate();
+                cst.setInt(1, lobby.getId());
+                cst.executeQuery();
             }
         }
         catch (Exception e)
