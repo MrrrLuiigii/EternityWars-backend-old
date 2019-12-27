@@ -10,11 +10,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class DeckContainerContext implements IDeckContainerContext
+public class DeckContainerSqlContext implements IDeckContainerContext
 {
     private DatabaseConnection dbc;
 
-    public DeckContainerContext()
+    public DeckContainerSqlContext()
     {
         this.dbc = new DatabaseConnection();
     }

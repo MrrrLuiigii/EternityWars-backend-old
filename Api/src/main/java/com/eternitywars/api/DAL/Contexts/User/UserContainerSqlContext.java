@@ -8,11 +8,11 @@ import com.eternitywars.api.Models.UserCollection;
 
 import java.sql.*;
 
-public class UserContainerContext implements IUserContainerContext
+public class UserContainerSqlContext implements IUserContainerContext
 {
     private DatabaseConnection dbc;
 
-    public UserContainerContext(){
+    public UserContainerSqlContext(){
         dbc = new DatabaseConnection();
     }
 

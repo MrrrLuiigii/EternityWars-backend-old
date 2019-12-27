@@ -11,16 +11,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class LobbyContainerContext implements ILobbyContainerContext
+public class LobbyContainerSqlContext implements ILobbyContainerContext
 {
     private DatabaseConnection dbc;
 
-    public LobbyContainerContext()
+    public LobbyContainerSqlContext()
     {
         dbc = new DatabaseConnection();
     }
 
     //todo get deck from the players
+
+    public Lobby AddLobby(Lobby lobby) {
+        return null;
+    }
+
+    public Lobby DeleteLobby(Lobby lobby) {
+        return null;
+    }
 
     public Lobby GetLobbyById(int lobbyId)
     {

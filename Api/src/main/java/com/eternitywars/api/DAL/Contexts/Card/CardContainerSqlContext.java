@@ -8,11 +8,11 @@ import com.eternitywars.api.Models.User;
 
 import java.sql.*;
 
-public class CardContainerContext implements ICardContainerContext
+public class CardContainerSqlContext implements ICardContainerContext
 {
     private DatabaseConnection dbc;
 
-    public CardContainerContext()
+    public CardContainerSqlContext()
     {
         dbc = new DatabaseConnection();
     }

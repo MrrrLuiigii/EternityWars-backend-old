@@ -7,12 +7,12 @@ import com.eternitywars.api.Interfaces.Shop.IShopContext;
 import com.eternitywars.api.Models.Pack;
 import com.eternitywars.api.Models.User;
 
-public class ShopContext implements IShopContext
+public class ShopSqlContext implements IShopContext
 {
     private DatabaseConnection dbc = new DatabaseConnection();
     UserRepository userRepository = new UserRepository();
 
-    public ShopContext(DatabaseConnection dbc)
+    public ShopSqlContext(DatabaseConnection dbc)
     {
         this.dbc = dbc;
     }

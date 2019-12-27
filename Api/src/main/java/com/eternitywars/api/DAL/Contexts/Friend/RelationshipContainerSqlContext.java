@@ -12,11 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class RelationshipContainerContext implements IRelationshipContainerContext
+public class RelationshipContainerSqlContext implements IRelationshipContainerContext
 {
     private DatabaseConnection dbc;
 
-    public RelationshipContainerContext(){
+    public RelationshipContainerSqlContext(){
         dbc = new DatabaseConnection();
     }
 

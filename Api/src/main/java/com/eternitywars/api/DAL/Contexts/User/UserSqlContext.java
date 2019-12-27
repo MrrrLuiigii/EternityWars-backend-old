@@ -6,11 +6,11 @@ import com.eternitywars.api.Models.User;
 
 import java.sql.*;
 
-public class UserContext implements IUserContext
+public class UserSqlContext implements IUserContext
 {
     private DatabaseConnection dbc;
 
-    public UserContext()
+    public UserSqlContext()
     {
         this.dbc = new DatabaseConnection();
     }
