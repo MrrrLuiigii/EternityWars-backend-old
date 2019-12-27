@@ -4,15 +4,12 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Relationship;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 public class RelationshipSqlContext implements IRelationshipContext
 {
-    @Autowired
-    private DatabaseConnection dbc;
+    private DatabaseConnection dbc = new DatabaseConnection();
 
     public boolean UpdateRelationship(Relationship relationship)
     {

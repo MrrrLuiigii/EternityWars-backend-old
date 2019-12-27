@@ -2,7 +2,6 @@ package com.eternitywars.api.Resources.Friend;
 
 import com.eternitywars.api.DAL.Repositories.Friend.RelationshipContainerRepository;
 import com.eternitywars.api.Models.*;
-import com.eternitywars.api.Models.Enums.FriendStatus;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
