@@ -1,32 +1,32 @@
 package com.eternitywars.Models;
 
 import com.eternitywars.Models.Enums.AccountStatus;
+import org.eclipse.jetty.websocket.api.Session;
+
 import java.net.Socket;
 
 public abstract class Account
 {
-    protected int id;
-    protected String googleId;
-    protected String username;
-    protected AccountStatus accountStatus;
-    protected Socket socket;
+     int id;
+     String username;
+     AccountStatus accountStatus;
+    Session session;
 
     public Account(){}
 
-    public Account(int id, String googleId, String username, AccountStatus accountStatus)
+    public Account(int id, String username, AccountStatus accountStatus)
     {
         this.id = id;
-        this.googleId = googleId;
         this.username = username;
         this.accountStatus = accountStatus;
     }
 
-    public Account(int id, String googleId, String username, AccountStatus accountStatus, Socket socket)
+    public Account(int id,String username, AccountStatus accountStatus, Session session)
     {
         this.id = id;
         this.username = username;
         this.accountStatus = accountStatus;
-        this.socket = socket;
+        this.session = session;
     }
 
     public int getId()
@@ -37,16 +37,6 @@ public abstract class Account
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    public String getGoogleId()
-    {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId)
-    {
-        this.googleId = googleId;
     }
 
     public String getUsername()
@@ -69,13 +59,13 @@ public abstract class Account
         this.accountStatus = accountStatus;
     }
 
-    public Socket getSocket()
+    public Session getSession()
     {
-        return socket;
+        return session;
     }
 
-    public void setSocket(Socket socket)
+    public void setSession(Session session)
     {
-        this.socket = socket;
+        this.session = session;
     }
 }

@@ -1,7 +1,11 @@
-package com.eternitywars.Logic.WebsocketServer;
+package com.eternitywars.Logic.WebsocketServer.Setup;
 
+import com.eternitywars.Logic.WebsocketServer.MessageHandler.MessageHandler;
+import com.eternitywars.Logic.WebsocketServer.Models.WsMessage;
 import com.github.javafaker.Faker;
+import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +15,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 @Service("WebsocketService")
 public class WebsocketService {
+    private MessageHandler messageHandler = new MessageHandler();
     private Set<Session> listenerSessions = new CopyOnWriteArraySet<>();
 
     public void removeSession(Session session){
@@ -21,19 +26,16 @@ public class WebsocketService {
         listenerSessions.add(session);
     }
 
+    public void sendmessage(Session session, String message){
+        JSONObject jsonObject = new JSONObject(message);
+        messageHandler.handleMessage(session,  jsonObject);
+    }
+
     @PostConstruct
     private void init(){
         Runnable runnable = () -> {
             while (true){
-                try {
-                    Thread.sleep(2000);
-                    String message = new Faker().name().fullName();
-                    listenerSessions.stream()
-                            .filter(s-> s.isOpen())
-                            .forEach(s -> sendRandomName(s,message));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
             }
         };
 

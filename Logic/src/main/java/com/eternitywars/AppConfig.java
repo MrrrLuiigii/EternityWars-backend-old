@@ -1,7 +1,7 @@
 package com.eternitywars;
 
-import com.eternitywars.Logic.WebsocketServer.ServiceBean;
-import com.eternitywars.Logic.WebsocketServer.WebsocketServlet;
+import com.eternitywars.Logic.WebsocketServer.Setup.ServiceBean;
+import com.eternitywars.Logic.WebsocketServer.Setup.WebsocketServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
     @Bean
     public ServletRegistrationBean socketServlet(){
-        return new ServletRegistrationBean(new WebsocketServlet(), "/ws/random");
+        return new ServletRegistrationBean(new WebsocketServlet(), "/ws/");
     }
 
     @Bean

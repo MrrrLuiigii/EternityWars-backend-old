@@ -45,7 +45,6 @@ public class UserContainerResource {
         //we get real user from front end via socket
         User user = new User();
         user.setId(1);
-        user.setGoogleId("asuhqpiufashkv");
         user.setUsername("yeet");
         user.setEmail("yeet");
         user.setGold(999);
