@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.User;
 
+import com.eternitywars.Models.Relationship;
 import com.eternitywars.Models.User;
 import com.eternitywars.Models.UserCollection;
 import org.json.JSONObject;
@@ -47,6 +48,24 @@ public class UserContainerLogic
         HttpEntity<String> request = new HttpEntity<>(headers);
 
         return restTemplate.postForObject("http://eternity-wars-api/api/private/user/get", request, UserCollection.class);
+    }
+
+    private User GetUserByEmail(String json)
+    {
+        User user = new User();
+
+        JSONObject incommingobject = new JSONObject(json);
+        user.setEmail(incommingobject.getString("Content"));
+        String token = incommingobject.getString("Token");
+
+        JSONObject output = new JSONObject(user);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
+        return restTemplate.postForObject("example", request, User.class);
     }
 
     private boolean CheckUserTaken(UserCollection userCollection, User user)
