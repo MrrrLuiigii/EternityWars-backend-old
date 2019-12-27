@@ -15,11 +15,12 @@ public class UserExecutor implements IExecutor{
 
     private UserContainerLogic userContainerLogic = new UserContainerLogic();
     private UserLogic userLogic = new UserLogic();
+    private Gson gson = new Gson();
 
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
             case "GetUserById":
-                Gson gson = new Gson();
+
                 String json = message.getJSONObject("Content").toString();
 
                 User user = gson.fromJson(json, User.class);
