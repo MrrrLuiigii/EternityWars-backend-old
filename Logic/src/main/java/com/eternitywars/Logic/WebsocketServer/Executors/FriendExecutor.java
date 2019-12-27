@@ -24,10 +24,13 @@ public class FriendExecutor implements IExecutor  {
                 String json = message.getJSONObject("Content").toString();
                 Account account = gson.fromJson(json, Account.class);
                 System.out.println(account);
+                friendLogic.HandleFriendStatus("json thing", "Invite");
                 break;
             case "ACCEPTREQUEST":
+                friendLogic.HandleFriendStatus("json thing", "Accept");
                 break;
             case "REJECTREQUEST":
+                friendLogic.HandleFriendStatus("json thing", "Reject");
                 break;
             case "GETALLFRIENDS":
                 break;
