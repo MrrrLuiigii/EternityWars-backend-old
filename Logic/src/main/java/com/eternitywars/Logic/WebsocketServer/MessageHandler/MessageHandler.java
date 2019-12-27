@@ -15,6 +15,7 @@ public class MessageHandler {
     private FriendExecutor friendExecutor = new FriendExecutor();
     private DeckBuilderExecutor deckBuilderExecutor = new DeckBuilderExecutor();
     private CollectionExecutor collectionExecutor = new CollectionExecutor();
+    private RegisterExecutor registerExecutor = new RegisterExecutor();
 
     public void handleMessage(Session session, JSONObject message) {
         switch (message.getString("Subject")) {
@@ -38,6 +39,9 @@ public class MessageHandler {
                 break;
             case "COLLECTION":
                 collectionExecutor.Execute(message, session);
+                break;
+            case "REGISTER":
+                registerExecutor.Execute(message, session);
                 break;
         }
     }

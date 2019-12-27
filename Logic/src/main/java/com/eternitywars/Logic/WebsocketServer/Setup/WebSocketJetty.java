@@ -5,7 +5,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
 @WebSocket
-public class GameWebSocket {
+public class WebSocketJetty {
     @OnWebSocketConnect
     public void onConnect(Session session) {
         ServiceBean.getService().addSession(session);
@@ -18,7 +18,6 @@ public class GameWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(Session session, String text){
-
         ServiceBean.getService().sendmessage(session, text);
     }
 }
