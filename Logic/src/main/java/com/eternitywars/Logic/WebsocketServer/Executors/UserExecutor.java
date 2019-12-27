@@ -29,16 +29,20 @@ public class UserExecutor implements IExecutor{
 
     @Override
     public void Execute(JSONObject message, Session session) throws IOException {
-        String json = message.getJSONObject("Content").toString();
         switch (message.getString("Action")) {
             case "GetUserById":
+                String json = message.getJSONObject("Content").toString();
                 User user = gson.fromJson(json, User.class);
                 //userContainerLogic.AddUserByUsernameAndEmail(user);
                 System.out.println(user);
                 break;
             case "GetUserByEmail":
-                user = userContainerLogic.GetUserByEmail(json);
+                json = message.getString("Content");
+                System.out.println(json);
+                user = userContainerLogic.GetUserByEmail(message);
+                System.out.println(user.toString());
                 session.getRemote().sendString(new JSONObject(user).toString());
+                System.out.println("klaar");
                 break;
             case "GetUsers":
 
@@ -59,9 +63,14 @@ public class UserExecutor implements IExecutor{
         }
     }
 
-
     @Override
     public void run() {
-        Execute(message, session);
+        try {
+            synchronized (message){
+                Execute(message, session);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

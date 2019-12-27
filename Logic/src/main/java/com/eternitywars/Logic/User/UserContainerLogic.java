@@ -50,22 +50,22 @@ public class UserContainerLogic
         return restTemplate.postForObject("http://eternity-wars-api/api/private/user/get", request, UserCollection.class);
     }
 
-    public User GetUserByEmail(String json)
+    public User GetUserByEmail(JSONObject json)
     {
         User user = new User();
-
-        JSONObject incommingobject = new JSONObject(json);
-        user.setEmail(incommingobject.getString("Content"));
-        String token = incommingobject.getString("Token");
-
+        user.setEmail(json.getString("Content"));
+        String token = json.getString("Token");
+        System.out.println(token);
         JSONObject output = new JSONObject(user);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
-        return restTemplate.postForObject("example", request, User.class);
+        RestTemplate rs = new RestTemplate();
+        System.out.println("test");
+
+        return rs.getForObject("localhost:8083/api/private/user/getByEmail/"+user.getEmail(), User.class);
     }
 
     private boolean CheckUserTaken(UserCollection userCollection, User user)
