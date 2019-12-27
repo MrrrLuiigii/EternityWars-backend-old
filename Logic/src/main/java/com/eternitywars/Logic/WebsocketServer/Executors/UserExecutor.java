@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-public class UserExecutor {
+public class UserExecutor implements IExecutor{
 
     private UserContainerLogic userContainerLogic = new UserContainerLogic();
 
@@ -17,10 +17,9 @@ public class UserExecutor {
         switch (message.getString("Action")) {
             case "GETBYID":
                 Gson gson = new Gson();
-               String json = message.getJSONObject("Content").toString();
-
-                MockUser user = gson.fromJson(json, MockUser.class);
-                //userContainerLogic.AddUserByUsernameAndEmail(user);
+                String json = message.getJSONObject("Content").toString();
+                User user = gson.fromJson(json, User.class);
+                userContainerLogic.AddUserByUsernameAndEmail(user);
                 System.out.println(user);
                 break;
         }
