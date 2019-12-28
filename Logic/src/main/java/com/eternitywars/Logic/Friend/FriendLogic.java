@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class FriendLogic
 {
+    private RestTemplate restTemplate = new RestTemplate();
+
     public void HandleFriendStatus(String json, String status){
         Relationship relationship = new Relationship();
         //take the token and data out of the json and put them in models
@@ -40,8 +42,6 @@ public class FriendLogic
 //        headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
-
-        RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.postForObject("http://localhost:8083/api/public/friend/update", request, String.class);
     }
