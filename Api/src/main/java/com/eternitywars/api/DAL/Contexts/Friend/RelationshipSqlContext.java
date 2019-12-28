@@ -4,10 +4,8 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Relationship;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 public class RelationshipSqlContext implements IRelationshipContext
 {
@@ -31,15 +29,14 @@ public class RelationshipSqlContext implements IRelationshipContext
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "update `friend` set `status` = ? " +
-                    "where `user_one_id` = ? and `user_two_id` = ?;";
+            String query = "{call BlockFriend(?, ?, ?)};";
 
-            try (PreparedStatement pst = conn.prepareStatement(query))
+            try (CallableStatement cst = conn.prepareCall(query))
             {
-                pst.setString(1, relationship.getFriendStatus().toString());
-                pst.setInt(2, relationship.getFriendOneId());
-                pst.setInt(3, relationship.getFriendTwoId());
-                pst.executeUpdate();
+                cst.setInt(1, relationship.getFriendOneId());
+                cst.setInt(2, relationship.getFriendTwoId());
+                cst.setString(3, relationship.getFriendStatus().toString());
+                cst.executeQuery();
             }
         }
         catch (Exception e)
