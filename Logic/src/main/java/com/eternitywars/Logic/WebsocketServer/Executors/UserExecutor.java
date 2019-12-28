@@ -29,11 +29,13 @@ public class UserExecutor implements IExecutor{
 
     @Override
     public void Execute(JSONObject message, Session session) throws IOException {
+        String json = message.getJSONObject("Content").toString();
         switch (message.getString("Action")) {
             case "GetUserById":
-                String json = message.getJSONObject("Content").toString();
-                User user = gson.fromJson(json, User.class);
-                //userContainerLogic.AddUserByUsernameAndEmail(user);
+                System.out.println(message.getJSONObject("Content").toString());
+                //todo gson heeft geen zin in
+                User user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
+                userContainerLogic.GetUserById(user);
                 System.out.println(user);
                 break;
             case "GetUserByEmail":
