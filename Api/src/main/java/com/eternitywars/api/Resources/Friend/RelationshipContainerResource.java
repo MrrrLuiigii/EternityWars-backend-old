@@ -15,8 +15,8 @@ public class RelationshipContainerResource
     public boolean AddRelationship(@RequestBody String json)
     {
         JSONObject jsonObject = new JSONObject(json);
-        int userId = jsonObject.getInt("userId");
-        int friendId = jsonObject.getInt("friendId");
+        int userId = jsonObject.getInt("friendOneId");
+        int friendId = jsonObject.getInt("friendTwoId");
 
         return relationshipContainerRepository.AddRelationship(new User(userId), new Friend(friendId));
     }
@@ -25,8 +25,8 @@ public class RelationshipContainerResource
     public boolean DeleteRelationship(@RequestBody String json)
     {
         JSONObject jsonObject = new JSONObject(json);
-        int userId = jsonObject.getInt("userId");
-        int friendId = jsonObject.getInt("friendId");
+        int userId = jsonObject.getInt("friendOneId");
+        int friendId = jsonObject.getInt("friendTwoId");
 
         return relationshipContainerRepository.DeleteRelationship(new User(userId), new Friend(friendId));
     }
