@@ -2,6 +2,7 @@ package com.eternitywars.api.DAL.Contexts.Friend;
 
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
+import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Friend;
 import com.eternitywars.api.Models.Relationship;
@@ -78,9 +79,20 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "select `user_one_id`, `user_two_id`, `status` " +
-                    "from friend " +
-                    "where `user_one_id` = ? or `user_two_id` = ?;";
+            String query = "SELECT " +
+                        "ONE.`id` AS friend_one_id, " +
+                        "ONE.`username` AS friend_one_username, " +
+                        "ONE.`account_status` AS friend_one_account_status, " +
+                        "TWO.`id` AS friend_two_id, " +
+                        "TWO.`username` AS friend_two_username, " +
+                        "TWO.`account_status` AS friend_two_account_status, " +
+                        "F.`status` " +
+                    "FROM `friend` AS F " +
+                    "INNER JOIN `user` AS ONE " +
+                    "ON F.`user_one_id` = ONE.`id` " +
+                    "INNER JOIN `user` AS TWO " +
+                    "ON F.`user_two_id` = TWO.`id`" +
+                    "WHERE ONE.`id` = ? OR TWO.`id` = ?;";
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {
@@ -92,8 +104,15 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
                     while (rs.next())
                     {
                         Relationship relationship = new Relationship();
-                        relationship.setFriendOneId(rs.getInt("user_one_id"));
-                        relationship.setFriendTwoId(rs.getInt("user_two_id"));
+
+                        relationship.setFriendOneId(rs.getInt("friend_one_id"));
+                        relationship.setFriendOneUsername(rs.getString("friend_one_username"));
+                        relationship.setFriendOneAccountStatus(AccountStatus.valueOf(rs.getString("friend_one_account_status")));
+
+                        relationship.setFriendTwoId(rs.getInt("friend_two_id"));
+                        relationship.setFriendTwoUsername(rs.getString("friend_two_username"));
+                        relationship.setFriendTwoAccountStatus(AccountStatus.valueOf(rs.getString("friend_two_account_status")));
+
                         relationship.setFriendStatus(FriendStatus.valueOf(rs.getString("status")));
                         relationshipCollection.getRelationships().add(relationship);
                     }
