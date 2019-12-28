@@ -3,6 +3,7 @@ package com.eternitywars.api.Resources.User;
 import com.eternitywars.api.DAL.Repositories.User.UserContainerRepository;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +18,11 @@ public class UserContainerResource
         return userContainerRepository.AddUser(user);
     }
 
-    @GetMapping(value = "/getById/{userId}")
-    public User GetUserById(@PathVariable("userId")int userId)
+    @GetMapping(value = "/getById", consumes = "application/json", produces = "application/json")
+    public User GetUserById(@RequestBody String json)
     {
+        JSONObject jsonObject = new JSONObject(json);
+        int userId = jsonObject.getInt("userId");
         return userContainerRepository.GetUserById(userId);
     }
 

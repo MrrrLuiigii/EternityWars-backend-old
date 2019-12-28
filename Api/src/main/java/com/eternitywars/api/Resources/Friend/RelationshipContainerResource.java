@@ -31,10 +31,12 @@ public class RelationshipContainerResource
         return relationshipContainerRepository.DeleteRelationship(new User(userId), new Friend(friendId));
     }
 
-    @GetMapping(value = "/get/{userId}")
-    public RelationshipCollection GetRelationshipByUserId(@PathVariable("userId")int userId)
+    @GetMapping(value = "/get", consumes = "application/json", produces = "application/json")
+    public RelationshipCollection GetRelationshipByUserId(@RequestBody String json)
     {
-        User user = new User(userId);
+        JSONObject jsonObject = new JSONObject(json);
+        User user = new User();
+        user.setUserId(jsonObject.getInt("userId"));
         return relationshipContainerRepository.GetRelationships(user);
     }
 }

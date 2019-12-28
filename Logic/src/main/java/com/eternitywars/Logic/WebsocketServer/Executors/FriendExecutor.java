@@ -30,7 +30,7 @@ public class FriendExecutor implements IExecutor  {
                 friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Accept");
                 break;
             case "REJECTREQUEST":
-                friendLogic.HandleFriendStatus("json thing", "Reject");
+                friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Reject");
                 break;
             case "GETALLFRIENDS":
                 break;
