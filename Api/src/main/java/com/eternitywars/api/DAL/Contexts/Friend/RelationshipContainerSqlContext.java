@@ -7,6 +7,8 @@ import com.eternitywars.api.Models.Friend;
 import com.eternitywars.api.Models.Relationship;
 import com.eternitywars.api.Models.RelationshipCollection;
 import com.eternitywars.api.Models.User;
+
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,15 +27,14 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "insert into `friend`(`user_one_id`, `user_two_id`, `status`) " +
-                    "values(?, ?, ?);";
+            String query = "{call RequestFriend(?, ?, ?)};";
 
-            try (PreparedStatement pst = conn.prepareStatement(query))
+            try (CallableStatement cst = conn.prepareCall(query))
             {
-                pst.setInt(1, user.getUserId());
-                pst.setInt(2, friend.getUserId());
-                pst.setString(3, FriendStatus.Pending.toString());
-                pst.executeUpdate();
+                cst.setInt(1, user.getUserId());
+                cst.setInt(2, friend.getUserId());
+                cst.setString(3, FriendStatus.Pending.toString());
+                cst.executeQuery();
             }
         }
         catch (Exception e)
