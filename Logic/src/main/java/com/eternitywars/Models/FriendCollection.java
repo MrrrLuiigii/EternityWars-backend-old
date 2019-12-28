@@ -1,14 +1,15 @@
 package com.eternitywars.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendCollection
 {
     private List<Friend> friends;
 
-    public FriendCollection(List<Friend> friends)
+    public FriendCollection()
     {
-        this.friends = friends;
+        this.friends = new ArrayList<>();
     }
 
     public List<Friend> getFriends()

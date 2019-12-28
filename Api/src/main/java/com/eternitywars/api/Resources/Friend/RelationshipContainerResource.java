@@ -32,7 +32,7 @@ public class RelationshipContainerResource
     }
 
     @GetMapping(value = "/get/{userId}")
-    public RelationshipCollection GetRelationshipCollectionByUserId(@PathVariable("userId")int userId)
+    public RelationshipCollection GetRelationshipByUserId(@PathVariable("userId")int userId)
     {
         User user = new User(userId);
         return relationshipContainerRepository.GetRelationships(user);

@@ -65,7 +65,7 @@ public class UserContainerLogic
         RestTemplate rs = new RestTemplate();
         System.out.println("test");
 
-        return rs.getForObject("localhost:8083/api/private/user/getByEmail/"+user.getEmail(), User.class);
+        return rs.getForObject("localhost:8083/api/private/user/getByEmail/" + user.getEmail(), User.class);
     }
 
     private boolean CheckUserTaken(UserCollection userCollection, User user)
