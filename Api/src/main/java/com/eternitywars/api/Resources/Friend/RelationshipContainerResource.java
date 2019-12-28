@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/friend")
+@RequestMapping(value = "/api/public/friend")
 public class RelationshipContainerResource
 {
     private RelationshipContainerRepository relationshipContainerRepository = new RelationshipContainerRepository();

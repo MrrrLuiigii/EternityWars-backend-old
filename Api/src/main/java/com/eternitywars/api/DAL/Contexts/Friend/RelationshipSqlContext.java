@@ -4,6 +4,8 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Relationship;
+
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -15,17 +17,17 @@ public class RelationshipSqlContext implements IRelationshipContext
     {
         if (relationship.getFriendStatus() == FriendStatus.Accepted)
         {
-            return UpdateRelationshipToAccepted(relationship);
+            return AcceptFriend(relationship);
         }
         else if (relationship.getFriendStatus() == FriendStatus.Blocked)
         {
-            return UpdateRelationshipToBlocked(relationship);
+            return BlockFriend(relationship);
         }
 
         return false;
     }
 
-    private boolean UpdateRelationshipToBlocked(Relationship relationship)
+    private boolean BlockFriend(Relationship relationship)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
@@ -49,19 +51,18 @@ public class RelationshipSqlContext implements IRelationshipContext
         return true;
     }
 
-    private boolean UpdateRelationshipToAccepted(Relationship relationship)
+    private boolean AcceptFriend(Relationship relationship)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "update `friend` set `status` = ? " +
-                    "where `user_one_id` = ? and `user_two_id` = ?;";
+            String query = "{call AcceptFriend(?, ?, ?)};";
 
-            try (PreparedStatement pst = conn.prepareStatement(query))
+            try (CallableStatement cst = conn.prepareCall(query))
             {
-                pst.setString(1, relationship.getFriendStatus().toString());
-                pst.setInt(2, relationship.getFriendTwoId());
-                pst.setInt(3, relationship.getFriendOneId());
-                pst.executeUpdate();
+                cst.setInt(1, relationship.getFriendOneId());
+                cst.setInt(2, relationship.getFriendTwoId());
+                cst.setString(3, relationship.getFriendStatus().toString());
+                cst.executeQuery();
             }
         }
         catch (Exception e)
