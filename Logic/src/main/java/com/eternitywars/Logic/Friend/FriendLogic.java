@@ -13,10 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 public class FriendLogic
 {
-
-    @Autowired
-    private RestTemplate restTemplate;
-
     public void HandleFriendStatus(String json, String status){
         Relationship relationship = new Relationship();
         //take the token and data out of the json and put them in models
@@ -24,7 +20,7 @@ public class FriendLogic
         relationship.setFriendOneId(incommingobject.getInt("userId"));
         relationship.setFriendTwoId(incommingobject.getInt("friendId"));
         
-        String token = incommingobject.getString("Token");
+//        String token = incommingobject.getString("Token");
         
         switch (status){
             case "Accept":
@@ -41,11 +37,13 @@ public class FriendLogic
         //serialize the model back to json
         JSONObject output = new JSONObject(relationship);
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
+//        headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
-        restTemplate.postForObject("localhost:8083/api/public/friend/update", request, Relationship.class);
+        RestTemplate restTemplate = new RestTemplate();
+
+        restTemplate.postForObject("http://localhost:8083/api/public/friend/update", request, String.class);
     }
 
     public FriendCollection GetRelationschipsByUserId(String json)
@@ -53,6 +51,6 @@ public class FriendLogic
         FriendCollection friends = new FriendCollection();
         JSONObject incommingobject = new JSONObject(json);
 
-
+        return friends;
     }
 }

@@ -16,8 +16,8 @@ public class RelationshipResource
     public boolean UpdateRelationship(@RequestBody String json)
     {
         JSONObject jsonObject = new JSONObject(json);
-        int userId = jsonObject.getInt("userId");
-        int friendId = jsonObject.getInt("friendId");
+        int userId = jsonObject.getInt("friendOneId");
+        int friendId = jsonObject.getInt("friendTwoId");
         String status = jsonObject.getString("friendStatus");
 
         FriendStatus friendStatus = FriendStatus.Pending;

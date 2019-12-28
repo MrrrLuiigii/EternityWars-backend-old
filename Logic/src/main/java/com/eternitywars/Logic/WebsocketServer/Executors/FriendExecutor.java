@@ -27,7 +27,7 @@ public class FriendExecutor implements IExecutor  {
                 friendLogic.HandleFriendStatus("json thing", "Invite");
                 break;
             case "ACCEPTREQUEST":
-                friendLogic.HandleFriendStatus("json thing", "Accept");
+                friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Accept");
                 break;
             case "REJECTREQUEST":
                 friendLogic.HandleFriendStatus("json thing", "Reject");
