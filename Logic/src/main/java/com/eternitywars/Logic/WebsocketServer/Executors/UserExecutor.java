@@ -7,8 +7,10 @@ import com.eternitywars.Models.MockUser;
 import com.eternitywars.Models.User;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+import sun.nio.cs.US_ASCII;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
@@ -29,22 +31,21 @@ public class UserExecutor implements IExecutor{
 
     @Override
     public void Execute(JSONObject message, Session session) throws IOException {
-        String json = message.getJSONObject("Content").toString();
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+        String json;
         switch (message.getString("Action")) {
             case "GetUserById":
-                System.out.println(message.getJSONObject("Content").toString());
+                json = message.getJSONObject("Content").toString();
                 //todo gson heeft geen zin in
                 User user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
                 userContainerLogic.GetUserById(user);
                 System.out.println(user);
                 break;
             case "GetUserByEmail":
-                json = message.getString("Content");
-                System.out.println(json);
                 user = userContainerLogic.GetUserByEmail(message);
-                System.out.println(user.toString());
-                session.getRemote().sendString(new JSONObject(user).toString());
-                System.out.println("klaar");
+                session.getRemote().sendString(gson.toJson(user));
                 break;
             case "GetUsers":
 
