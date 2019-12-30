@@ -2,6 +2,8 @@ package com.eternitywars.api.Models;
 
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.Enums.FriendStatus;
+
+import javax.websocket.Session;
 import java.net.Socket;
 
 public class Friend extends Account
@@ -15,9 +17,9 @@ public class Friend extends Account
         this.userId = friendId;
     }
 
-    public Friend(int id, String username, AccountStatus accountStatus, Socket socket, FriendStatus friendStatus)
+    public Friend(int id, String username, AccountStatus accountStatus, Session session, FriendStatus friendStatus)
     {
-        super(id, username, accountStatus, socket);
+        super(id, username, accountStatus, session);
         this.friendStatus = friendStatus;
     }
 

@@ -27,8 +27,8 @@ public class ShopLogic {
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
             restTemplate.postForObject("http://eternity-wars-api/api/public/user/updateGold", request, User.class);
-
-
+            restTemplate.postForObject("http://eternity-wars-api/api/public/user/updatePackAmount", request, User.class);
+            //todo APi call not working yet
             return true;
         }
         return false;
@@ -36,6 +36,15 @@ public class ShopLogic {
 
     public Pack OpenPack(User user) {
         if (user.getPackAmount() > 0) {
+            int pack_amount = user.getPackAmount() -1;
+            user.setPackAmount(pack_amount);
+
+            HttpHeaders headers = new HttpHeaders();
+            //headers.setBearerAuth(token);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            JSONObject userJson = new JSONObject(user);
+            HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
+            restTemplate.postForObject("http://eternity-wars-api/api/public/user/updatePackAmount", request, User.class);
             Pack pack = cpl.PickCards();
             return pack;
         }
