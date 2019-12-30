@@ -26,6 +26,9 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
 
     public boolean AddRelationship(User user, Friend friend)
     {
+        //todo this stored procedure is not working yet
+        //trying to automatically accept the request if both users send a friend request to eachother
+
         try (Connection conn = dbc.getDatabaseConnection())
         {
             String query = "{call RequestFriend(?, ?, ?)};";
