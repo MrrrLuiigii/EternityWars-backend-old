@@ -1,10 +1,8 @@
 package com.eternitywars.Logic.User;
 
 import com.eternitywars.Models.Enums.AccountStatus;
-import com.eternitywars.Models.Relationship;
 import com.eternitywars.Models.User;
 import com.eternitywars.Models.UserCollection;
-import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -12,15 +10,14 @@ import org.springframework.web.client.RestTemplate;
 
 public class UserContainerLogic
 {
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public UserCollection GetUsers(JSONObject jsonObject)
+    public UserCollection GetUsers(String token)
     {
-        String token = jsonObject.getString("Token");
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         HttpEntity<String> request = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/private/user/get", HttpMethod.GET, request , String.class);
         return restTemplate.getForObject("localhost:8083/api/private/user/get" , UserCollection.class);
     }
 
@@ -37,18 +34,22 @@ public class UserContainerLogic
             return null;
         }
 
-        return AddUserByUsernameAndEmailAPI(user, token);
+        return AddUser(user, token);
     }
 
-    private User AddUserByUsernameAndEmailAPI(User user, String token)
+    public User AddUser(User user, String token)
     {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        JSONObject userJson = new JSONObject(user);
-        HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
+        if(CheckUserTaken(GetUsers(token), user))
+        {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(token);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            JSONObject userJson = new JSONObject(user);
+            HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
 
-        return restTemplate.postForObject("http://eternity-wars-api/api/private/user/add", request, User.class);
+            return restTemplate.postForObject("http://locahost:8083/api/private/user/add", request, User.class);
+        }
+        return null;
     }
 
     private UserCollection GetUserCollectionFromAPI(String token)
@@ -57,7 +58,7 @@ public class UserContainerLogic
         headers.setBearerAuth(token);
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        return restTemplate.postForObject("http://eternity-wars-api/api/private/user/get", request, UserCollection.class);
+        return restTemplate.postForObject("http://localhost:8083/api/private/user/get", request, UserCollection.class);
     }
 
     public User GetUserByEmail(JSONObject json)
@@ -127,11 +128,10 @@ public class UserContainerLogic
         {
             if (u.getUsername() == user.getUsername() || u.getEmail() == user.getEmail())
             {
-                return true;
+                return false;
             }
         }
-
-        return false;
+        return true;
     }
 
 }

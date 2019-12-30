@@ -6,8 +6,11 @@ import com.eternitywars.Models.Pack;
 import com.eternitywars.Models.User;
 import com.google.gson.Gson;
 import com.eternitywars.Logic.Shop.ShopLogic;
+import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class ShopExecutor implements IExecutor{
 
@@ -23,8 +26,10 @@ public class ShopExecutor implements IExecutor{
     }
 
     @Override
-    public void Execute(JSONObject message, Session session) {
-        Gson gson = new Gson();
+    public void Execute(JSONObject message, Session session) throws IOException {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
         String json = message.getJSONObject("Content").toString();
         User user = gson.fromJson(json, User.class);
         switch (message.getString("Action")) {
@@ -33,6 +38,7 @@ public class ShopExecutor implements IExecutor{
                 break;
             case "OPENPACK":
                 Pack pack = shopLogic.OpenPack(user);
+                session.getRemote().sendString(gson.toJson(pack));
                 //todo return pack via ws
                 break;
         }
@@ -40,6 +46,10 @@ public class ShopExecutor implements IExecutor{
 
     @Override
     public void run() {
-        Execute(message, session);
+        try {
+            Execute(message, session);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

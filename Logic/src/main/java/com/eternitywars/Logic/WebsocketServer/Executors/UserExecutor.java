@@ -31,11 +31,13 @@ public class UserExecutor implements IExecutor{
         gs.serializeNulls();
         Gson gson = gs.create();
         String json;
+        User user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
+        String token = message.getString("Token");
         switch (message.getString("Action")) {
             case "GetUserById":
                 json = message.getJSONObject("Content").toString();
                 //todo gson heeft geen zin in
-                User user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
+
                 userContainerLogic.GetUserById(user);
                 System.out.println(user);
                 break;
@@ -50,7 +52,7 @@ public class UserExecutor implements IExecutor{
 
                 break;
             case "AddUser":
-
+                userContainerLogic.AddUser(user, token);
                 break;
             case "UpdateUsername":
 
