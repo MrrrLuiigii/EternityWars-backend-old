@@ -1,8 +1,10 @@
 package com.eternitywars.Logic.Shop;
 
-import com.eternitywars.Models.Card;
-import com.eternitywars.Models.CardCollection;
-import com.eternitywars.Models.Pack;
+import com.eternitywars.Models.*;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -40,5 +42,19 @@ public class CardPickerLogic
     public Card GetCardById(int id)
     {
         return restTemplate.getForObject("http://localhost:8083/api/public/card/get/" + id, Card.class);
+    }
+
+    public boolean AddCardToAccount(Card card, User user)
+    {
+        CardAdder cardAdder = new CardAdder();
+        cardAdder.setUserid(user.getId());
+        cardAdder.setCardid(card.getCardId());
+        HttpHeaders headers = new HttpHeaders();
+        //headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        JSONObject json = new JSONObject(card);
+        HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
+        restTemplate.postForObject("http://localhost:8083/api/public/card/addToAccount", request, Card.class);
+        return true;
     }
 }

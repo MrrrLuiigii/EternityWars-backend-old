@@ -3,6 +3,7 @@ package com.eternitywars.api.DAL.Contexts.Card;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Card.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
+import com.eternitywars.api.Models.CardAdder;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.User;
 
@@ -85,6 +86,11 @@ public class CardContainerSqlContext implements ICardContainerContext
         return card;
     }
 
+    @Override
+    public void AddCardToAccount(CardAdder cardAdder) {
+        //insert shit into card_user
+    }
+
     public CardCollection GetCards()
     {
         CardCollection cardCollection = new CardCollection();
@@ -126,4 +132,5 @@ public class CardContainerSqlContext implements ICardContainerContext
 
         return card;
     }
+
 }

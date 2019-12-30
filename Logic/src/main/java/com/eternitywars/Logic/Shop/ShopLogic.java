@@ -26,9 +26,8 @@ public class ShopLogic {
             headers.setContentType(MediaType.APPLICATION_JSON);
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
-            restTemplate.postForObject("http://eternity-wars-api/api/public/user/updateGold", request, User.class);
-            restTemplate.postForObject("http://eternity-wars-api/api/public/user/updatePackAmount", request, User.class);
-            //todo APi call not working yet
+            restTemplate.postForObject("http://localhost:8083/api/public/user/updateGold", request, User.class);
+            restTemplate.postForObject("http://localhost:8083/api/public/user/updatePackAmount", request, User.class);
             return true;
         }
         return false;

@@ -2,6 +2,7 @@ package com.eternitywars.api.Resources.Card;
 
 import com.eternitywars.api.DAL.Repositories.Card.CardContainerRepository;
 import com.eternitywars.api.Models.Card;
+import com.eternitywars.api.Models.CardAdder;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,12 @@ public class CardContainerResource
         CardCollection cardCollection = cardContainerRepository.GetCards();
         System.out.println(cardCollection.getCards().size());
         return cardCollection;
+    }
+
+    @PostMapping(value = "/addCardToAccount", consumes = "application/json", produces = "application/json")
+    public void AddCardToAccount(@RequestBody CardAdder cardAdder)
+    {
+        CardContainerRepository cardContainerRepository = new CardContainerRepository();
+        cardContainerRepository.AddCardToAccount(cardAdder);
     }
 }
