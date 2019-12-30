@@ -1,6 +1,8 @@
 package com.eternitywars.api.Models;
 
 import com.eternitywars.api.Models.Enums.AccountStatus;
+
+import javax.websocket.Session;
 import java.net.Socket;
 
 public abstract class Account
@@ -8,7 +10,7 @@ public abstract class Account
     protected int userId;
     protected String username;
     protected AccountStatus accountStatus;
-    protected Socket socket;
+    Session session;
 
     public Account(){}
 
@@ -19,12 +21,12 @@ public abstract class Account
         this.accountStatus = accountStatus;
     }
 
-    public Account(int userId, String username, AccountStatus accountStatus, Socket socket)
+    public Account(int userId, String username, AccountStatus accountStatus, Session session)
     {
         this.userId = userId;
         this.username = username;
         this.accountStatus = accountStatus;
-        this.socket = socket;
+        this.session = session;
     }
 
     public int getUserId()
@@ -57,13 +59,13 @@ public abstract class Account
         this.accountStatus = accountStatus;
     }
 
-    public Socket getSocket()
+    public Session getSession()
     {
-        return socket;
+        return session;
     }
 
-    public void setSocket(Socket socket)
+    public void setSession(Session session)
     {
-        this.socket = socket;
+        this.session = session;
     }
 }

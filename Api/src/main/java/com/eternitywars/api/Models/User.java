@@ -1,6 +1,8 @@
 package com.eternitywars.api.Models;
 
 import com.eternitywars.api.Models.Enums.AccountStatus;
+
+import javax.websocket.Session;
 import java.net.Socket;
 
 public class User extends Account
@@ -27,9 +29,9 @@ public class User extends Account
         this.packAmount = packAmount;
     }
 
-    public User(int id, String username, AccountStatus accountStatus, Socket socket, String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection)
+    public User(int id, String username, AccountStatus accountStatus, Session session, String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection)
     {
-        super(id, username, accountStatus, socket);
+        super(id, username, accountStatus, session);
         this.email = email;
         this.gold = gold;
         this.packAmount = packAmount;
