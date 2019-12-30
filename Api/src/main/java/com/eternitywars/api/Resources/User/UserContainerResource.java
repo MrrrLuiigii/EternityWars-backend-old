@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/user")
+@RequestMapping(value = "/api/public/user")
 public class UserContainerResource
 {
     private UserContainerRepository userContainerRepository = new UserContainerRepository();

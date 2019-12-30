@@ -10,11 +10,7 @@ import java.sql.*;
 
 public class UserContainerSqlContext implements IUserContainerContext
 {
-    private DatabaseConnection dbc;
-
-    public UserContainerSqlContext(){
-        dbc = new DatabaseConnection();
-    }
+    private DatabaseConnection dbc = new DatabaseConnection();
 
 
 

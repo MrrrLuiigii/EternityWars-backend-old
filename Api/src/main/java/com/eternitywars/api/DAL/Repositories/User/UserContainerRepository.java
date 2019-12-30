@@ -7,12 +7,7 @@ import com.eternitywars.api.Models.UserCollection;
 
 public class UserContainerRepository implements IUserContainerContext
 {
-    private IUserContainerContext userContainerContext;
-
-    public UserContainerRepository()
-    {
-           userContainerContext = new UserContainerSqlContext();
-    }
+    private IUserContainerContext userContainerContext = new UserContainerSqlContext();
 
 
 
