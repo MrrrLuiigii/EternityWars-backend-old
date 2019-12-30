@@ -18,14 +18,6 @@ public class ShopSqlContext implements IShopContext
     }
 
     @Override
-    public Pack OpenPack(User user)
-    {
-        //minus 1 for packs user
-        //generate cards
-        return null;
-    }
-
-    @Override
     public void BuyPack(User user)
     {
 

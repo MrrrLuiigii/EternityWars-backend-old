@@ -9,4 +9,6 @@ public interface IUserContext
     boolean UpdateAccountStatus(User user);
 
     boolean UpdatePackAmount(User user);
+
+    boolean UpdateGold(User user);
 }

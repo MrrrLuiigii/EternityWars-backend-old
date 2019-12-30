@@ -29,4 +29,6 @@ public class UserRepository implements IUserContext
     {
         return userContext.UpdatePackAmount(user);
     }
+
+    public boolean UpdateGold(User user){return userContext.UpdateGold(user);}
 }

@@ -33,7 +33,9 @@ public class UserContainerResource {
         System.out.println(username);
         System.out.println(email);
 
-        User user = new User(username, email);
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
 
         return userContainerLogic.AddUserByUsernameAndEmail(user);
     }

@@ -7,7 +7,7 @@ import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/card")
+@RequestMapping(value = "/api/public/card")
 public class CardContainerResource
 {
     CardContainerRepository cardContainerRepository = new CardContainerRepository();
@@ -28,6 +28,8 @@ public class CardContainerResource
     @GetMapping(value = "/get")
     public CardCollection GetCards()
     {
-        return cardContainerRepository.GetCards();
+        CardCollection cardCollection = cardContainerRepository.GetCards();
+        System.out.println(cardCollection.getCards().size());
+        return cardCollection;
     }
 }

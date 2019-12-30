@@ -82,4 +82,26 @@ public class UserSqlContext implements IUserContext
 
         return true;
     }
+
+    public boolean UpdateGold(User user)
+    {
+        try(Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "update user set gold = ? where id = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, user.getGold());
+                pst.setInt(2, user.getUserId());
+                pst.executeUpdate();
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
 }

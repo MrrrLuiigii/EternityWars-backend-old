@@ -5,7 +5,7 @@ import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/user")
+@RequestMapping(value = "/api/public/user")
 public class UserResource
 {
     private UserRepository userRepository = new UserRepository();
@@ -27,4 +27,7 @@ public class UserResource
     {
         return userRepository.UpdatePackAmount(user);
     }
+
+    @PostMapping(value = "/updateGold", consumes = "application/json", produces = "application/json")
+    public boolean UpdateGold(@RequestBody User user) { return userRepository.UpdateGold(user); }
 }
