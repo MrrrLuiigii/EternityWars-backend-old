@@ -4,6 +4,7 @@ import com.eternitywars.Models.Enums.AccountStatus;
 import com.eternitywars.Models.Relationship;
 import com.eternitywars.Models.User;
 import com.eternitywars.Models.UserCollection;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -62,19 +63,20 @@ public class UserContainerLogic
     public User GetUserByEmail(JSONObject json)
     {
         User user = new User();
-        user.setEmail(json.getString("Content"));
+        String email = json.getString("Content");
         String token = json.getString("Token");
         System.out.println(token);
-        JSONObject output = new JSONObject(user);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        RestTemplate rs = new RestTemplate();
-        System.out.println("test");
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
-        return rs.getForObject("localhost:8083/api/private/user/getByEmail/" + user.getEmail(), User.class);
+        ResponseEntity<User> response = restTemplate.exchange("http://localhost:8083/api/private/user/getByEmail/{email}", HttpMethod.GET, request , User.class, email);
+
+        return response.getBody();
+
     }
 
     public User GetUserById(User user)
