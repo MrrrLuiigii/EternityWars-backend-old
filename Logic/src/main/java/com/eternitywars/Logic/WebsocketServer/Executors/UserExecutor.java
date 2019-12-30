@@ -53,7 +53,8 @@ public class UserExecutor implements IExecutor{
 
                 break;
             case "AddUser":
-                userContainerLogic.AddUser(user, token);
+                user = userContainerLogic.AddUser(user, token);
+                session.getRemote().sendString(gson.toJson(user));
                 break;
             case "UpdateUsername":
 
