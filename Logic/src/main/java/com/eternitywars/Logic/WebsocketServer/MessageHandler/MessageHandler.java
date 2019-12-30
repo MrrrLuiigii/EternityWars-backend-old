@@ -1,8 +1,6 @@
 package com.eternitywars.Logic.WebsocketServer.MessageHandler;
 
 import com.eternitywars.Logic.WebsocketServer.Executors.*;
-import com.eternitywars.Logic.WebsocketServer.Models.WsMessage;
-import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
