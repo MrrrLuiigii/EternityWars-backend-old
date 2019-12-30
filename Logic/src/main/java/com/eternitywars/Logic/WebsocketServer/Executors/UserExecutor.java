@@ -2,16 +2,12 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.User.UserContainerLogic;
 import com.eternitywars.Logic.User.UserLogic;
-import com.eternitywars.Logic.WebsocketServer.Models.WsMessage;
-import com.eternitywars.Models.MockUser;
+import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.User;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
-import sun.nio.cs.US_ASCII;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 
@@ -46,8 +42,11 @@ public class UserExecutor implements IExecutor{
                 System.out.println(user);
                 break;
             case "GetUserByEmail":
+                WsReturnMessage returnMessage = new WsReturnMessage();
+                returnMessage.setAction("GetUserByEmail");
                 user = userContainerLogic.GetUserByEmail(message);
-                session.getRemote().sendString(gson.toJson(user));
+                returnMessage.setContent(user);
+                session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "GetUsers":
 

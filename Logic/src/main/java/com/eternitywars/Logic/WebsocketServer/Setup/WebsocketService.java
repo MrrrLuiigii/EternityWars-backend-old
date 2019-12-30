@@ -1,9 +1,6 @@
 package com.eternitywars.Logic.WebsocketServer.Setup;
 
 import com.eternitywars.Logic.WebsocketServer.MessageHandler.MessageHandler;
-import com.eternitywars.Logic.WebsocketServer.Models.WsMessage;
-import com.github.javafaker.Faker;
-import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
