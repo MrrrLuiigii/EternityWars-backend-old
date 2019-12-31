@@ -1,9 +1,7 @@
 package com.eternitywars.Logic.Friend;
 
-import com.eternitywars.Models.FriendCollection;
-import com.eternitywars.Models.Relationship;
-import com.eternitywars.Models.RelationshipCollection;
-import com.eternitywars.Models.User;
+import com.eternitywars.Models.*;
+import com.eternitywars.Models.Enums.FriendStatus;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -15,7 +13,8 @@ public class FriendContainerLogic
     private Gson gson = new Gson();
 
 //TODO get the friends out of this relationship
-    public RelationshipCollection GetAllFriends(JSONObject message){
+    public FriendCollection GetAllFriends(JSONObject message)
+    {
         String json = message.getJSONObject("Content").toString();
         String token = message.getString("Token");
 
@@ -28,10 +27,40 @@ public class FriendContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(headers);
-
         ResponseEntity<RelationshipCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , RelationshipCollection.class, user.getUserId());
-        //todo get all friends stuff
-        return response.getBody();
+
+        //
+        // Filter relationshipcollection and make it into a friendcollection
+        //
+
+        RelationshipCollection relationshipCollection = response.getBody();
+        FriendCollection friendCollection = new FriendCollection();
+
+        for (Relationship r : relationshipCollection.getRelationships())
+        {
+            if (r.getFriendOneId() == user.getUserId())
+            {
+                Friend friend = new Friend();
+                friend.setUserId(r.getFriendTwoId());
+                friend.setAccountStatus(r.getFriendTwoAccountStatus());
+                friend.setFriendStatus(r.getFriendStatus());
+                friendCollection.AddFriend(friend);
+            }
+
+            if (r.getFriendStatus() == FriendStatus.Blocked && r.getFriendTwoId() == user.getUserId())
+            {
+                // todo ik ben geblokkeerd door hem, hoe maken we hier onderscheid in betreft enum? een extra enum waarde maken?
+                // is nodig omdat ik geen contact met hem mag leggen als ik geblokkeerd ben.
+                // ik heb nu geïmplementeerd met extra enum waarde, als iemand het er niet mee eens is pas je het maar aan.
+
+                Friend friend = new Friend();
+                friend.setUserId(r.getFriendOneId());
+//                friend.setAccountStatus(r.getFriendOneAccountStatus());     // deze mag ik niet zien denk ik?
+                friend.setFriendStatus(FriendStatus.BlockedMe);
+            }
+        }
+
+        return friendCollection;
     }
 
     public void RemoveFriend(int accountId){

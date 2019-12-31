@@ -141,6 +141,8 @@ public class DeckContainerSqlContext implements IDeckContainerContext
     {
         Deck deck = new Deck();
 
+        // todo werkt alleen als ik kaarten in mijn deck heb... hier nog ff naar kijken -> left/right/outer join?
+
         try(Connection conn = dbc.getDatabaseConnection())
         {
             String query = "SELECT " +

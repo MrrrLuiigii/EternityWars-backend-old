@@ -7,7 +7,8 @@ public class RelationshipCollection
 {
     private List<Relationship> relationships;
 
-    public RelationshipCollection(){
+    public RelationshipCollection()
+    {
         relationships = new ArrayList<>();
     }
 
