@@ -6,8 +6,6 @@ import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.Deck;
 import com.eternitywars.api.Models.DeckCollection;
-import com.eternitywars.api.Models.Enums.FriendStatus;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +15,21 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 {
     private DatabaseConnection dbc = new DatabaseConnection();
 
-
-
     public Deck AddDeck(Deck deck)
+    {
+        Deck addedDeck = AddDeckWithoutCards(deck);
+
+        DeckSqlContext deckSqlContext = new DeckSqlContext();
+
+        for (Card c : deck.getCards().getCards())
+        {
+            deckSqlContext.AddCard(deck, c);
+        }
+
+        return addedDeck;
+    }
+
+    private Deck AddDeckWithoutCards(Deck deck)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
