@@ -1,6 +1,8 @@
 package com.eternitywars.Logic.Friend;
 
 import com.eternitywars.Models.FriendCollection;
+import com.eternitywars.Models.Relationship;
+import com.eternitywars.Models.RelationshipCollection;
 import com.eternitywars.Models.User;
 import com.google.gson.Gson;
 import org.json.JSONObject;
@@ -12,7 +14,8 @@ public class FriendContainerLogic
     private RestTemplate restTemplate = new RestTemplate();
     private Gson gson = new Gson();
 
-    public FriendCollection GetAllFriends(JSONObject message){
+//TODO get the friends out of this relationship
+    public RelationshipCollection GetAllFriends(JSONObject message){
         String json = message.getJSONObject("Content").toString();
         String token = message.getString("Token");
 
@@ -26,7 +29,7 @@ public class FriendContainerLogic
 
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        ResponseEntity<FriendCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , FriendCollection.class, user.getUserId());
+        ResponseEntity<RelationshipCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , RelationshipCollection.class, user.getUserId());
         //todo get all friends stuff
         return response.getBody();
     }
