@@ -7,7 +7,7 @@ import com.eternitywars.api.Models.DeckCollection;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/deck", method = RequestMethod.GET)
+@RequestMapping(value = "/api/public/deck", method = RequestMethod.GET)
 public class DeckContainerResource
 {
     private DeckContainerRepository deckContainerRepository = new DeckContainerRepository();

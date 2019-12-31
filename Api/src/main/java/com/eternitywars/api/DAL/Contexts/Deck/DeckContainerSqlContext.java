@@ -50,15 +50,19 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
                 try(ResultSet rs = pst.executeQuery())
                 {
+                    Deck deck = new Deck(0);
                     Deck completeDeck = null;
+                    CardCollection cardCollection = null;
 
                     while(rs.next())
                     {
-                        Deck deck = new Deck(0);
-                        deck.setDeckId(rs.getInt("deck_id"));
-                        deck.setName(rs.getString("name"));
-                        deck.setUserId(rs.getInt("user_id"));
-                        CardCollection cardCollection = new CardCollection();
+                        if (deck.getDeckId() == 0)
+                        {
+                            deck.setDeckId(rs.getInt("deck_id"));
+                            deck.setName(rs.getString("deck_name"));
+                            deck.setUserId(rs.getInt("user_id"));
+                            cardCollection = new CardCollection();
+                        }
 
                         if (rs.getInt("deck_id") == deck.getDeckId())
                         {
@@ -73,10 +77,20 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
                             completeDeck = deck;
                         }
-                        else if (deck.getDeckId() != 0)
+                        else
                         {
-                            deckCollection.AddDeck(completeDeck);
+                            if (completeDeck != null)
+                            {
+                                completeDeck.setCards(cardCollection);
+                                deckCollection.AddDeck(completeDeck);
+                            }
                         }
+                    }
+
+                    if (deckCollection.decks.isEmpty() && completeDeck != null)
+                    {
+                        completeDeck.setCards(cardCollection);
+                        deckCollection.AddDeck(completeDeck);
                     }
                 }
             }
