@@ -3,40 +3,55 @@ package com.eternitywars.Models;
 import com.eternitywars.Models.Enums.AccountStatus;
 import org.eclipse.jetty.websocket.api.Session;
 
-import java.net.Socket;
-
 public abstract class Account
 {
-     int id;
-     String username;
-     AccountStatus accountStatus;
-    Session session;
+    protected String email;
+    protected int userId;
+    protected String username;
+    protected AccountStatus accountStatus;
+    protected Session session;
 
-    public Account(){}
-
-    public Account(int id, String username, AccountStatus accountStatus)
-    {
-        this.id = id;
-        this.username = username;
-        this.accountStatus = accountStatus;
-    }
-
-    public Account(int id,String username, AccountStatus accountStatus, Session session)
-    {
-        this.id = id;
+    public Account(String email, int userId, String username, AccountStatus accountStatus, Session session) {
+        this.email = email;
+        this.userId = userId;
         this.username = username;
         this.accountStatus = accountStatus;
         this.session = session;
     }
 
-    public int getId()
-    {
-        return id;
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(int id)
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Account(){}
+
+    public Account(int userId, String username, AccountStatus accountStatus)
     {
-        this.id = id;
+        this.userId = userId;
+        this.username = username;
+        this.accountStatus = accountStatus;
+    }
+
+    public Account(int userId, String username, AccountStatus accountStatus, Session session)
+    {
+        this.userId = userId;
+        this.username = username;
+        this.accountStatus = accountStatus;
+        this.session = session;
+    }
+
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(int userId)
+    {
+        this.userId = userId;
     }
 
     public String getUsername()

@@ -4,7 +4,6 @@ import com.eternitywars.Models.Enums.AccountStatus;
 import com.eternitywars.Models.User;
 import com.eternitywars.Models.UserCollection;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -93,11 +92,11 @@ public class UserContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
-        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/public/user/getByEmail/", HttpMethod.GET, request , String.class);
+        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/private/user/getByEmail/", HttpMethod.GET, request , String.class);
         //todo how does response work
         JSONObject api_output = new JSONObject(response.getBody());
 
-        user.setId(api_output.getInt("userId"));
+        user.setUserId(api_output.getInt("userId"));
         user.setEmail(api_output.getString("email"));
         user.setGold(api_output.getInt("gold"));
         user.setPackAmount(api_output.getInt("packAmount"));
