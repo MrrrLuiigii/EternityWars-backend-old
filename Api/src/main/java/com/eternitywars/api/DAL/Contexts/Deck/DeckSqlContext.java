@@ -26,7 +26,7 @@ public class DeckSqlContext implements IDeckContext
             {
                 pst.setInt(1, deck.getDeckId());
                 pst.setInt(2, card.getCardId());
-                pst.executeQuery();
+                pst.executeUpdate();
             }
         }
         catch (Exception e)

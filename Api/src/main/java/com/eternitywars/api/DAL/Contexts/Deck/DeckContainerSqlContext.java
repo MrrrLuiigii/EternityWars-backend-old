@@ -151,7 +151,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
                     "ON d.`id` = dc.`deck_id` " +
                     "INNER JOIN `card` AS c " +
                     "ON dc.`card_id` = c.`id` " +
-                    "where d.`user_id` = ?;";
+                    "WHERE d.`user_id` = ?;";
 
             try(PreparedStatement pst = conn.prepareStatement(query))
             {
