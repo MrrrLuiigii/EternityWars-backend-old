@@ -1,16 +1,11 @@
 package com.eternitywars.Logic.Friend;
 
-import com.eternitywars.Models.Account;
-import com.eternitywars.Models.Friend;
 import com.eternitywars.Models.FriendCollection;
 import com.eternitywars.Models.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 public class FriendContainerLogic
 {
@@ -31,7 +26,7 @@ public class FriendContainerLogic
 
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        ResponseEntity<FriendCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , FriendCollection.class, user.getId());
+        ResponseEntity<FriendCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , FriendCollection.class, user.getUserId());
         //todo get all friends stuff
         return response.getBody();
     }

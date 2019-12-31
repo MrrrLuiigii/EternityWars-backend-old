@@ -1,35 +1,64 @@
 package com.eternitywars.Models;
 
 import com.eternitywars.Models.Enums.AccountStatus;
-
-import java.net.Socket;
+import org.eclipse.jetty.websocket.api.Session;
 
 public class User extends Account
 {
-    private String email;
     private int gold;
     private int packAmount;
     private FriendCollection friendCollection;
     private DeckCollection deckCollection;
     private CardCollection cardCollection;
 
-    public User() {
 
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(int userId)
+    {
+        this.userId = userId;
+    }
+
+
+    public User(String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection) {
+        this.email = email;
+        this.gold = gold;
+        this.packAmount = packAmount;
+        this.friendCollection = friendCollection;
+        this.deckCollection = deckCollection;
+        this.cardCollection = cardCollection;
+    }
+
+    public User(int id, String username, AccountStatus accountStatus, String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection) {
+        super(id, username, accountStatus);
+        this.email = email;
+        this.gold = gold;
+        this.packAmount = packAmount;
+        this.friendCollection = friendCollection;
+        this.deckCollection = deckCollection;
+        this.cardCollection = cardCollection;
+    }
+
+    public User(int id, String username, AccountStatus accountStatus, Session session, String email, int gold, int packAmount, FriendCollection friendCollection, DeckCollection deckCollection, CardCollection cardCollection) {
+        super(id, username, accountStatus, session);
+        this.email = email;
+        this.gold = gold;
+        this.packAmount = packAmount;
+        this.friendCollection = friendCollection;
+        this.deckCollection = deckCollection;
+        this.cardCollection = cardCollection;
+    }
+
+    public User() {
+        super();
     }
 
     public User(String username, String email)
     {
         this.username = username;
-        this.email = email;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(String email)
-    {
         this.email = email;
     }
 

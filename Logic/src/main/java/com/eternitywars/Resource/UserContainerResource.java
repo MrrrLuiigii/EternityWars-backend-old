@@ -46,7 +46,7 @@ public class UserContainerResource {
         //create Mock user
         //we get real user from front end via socket
         User user = new User();
-        user.setId(1);
+        user.setUserId(1);
         user.setUsername("yeet");
         user.setEmail("yeet");
         user.setGold(999);

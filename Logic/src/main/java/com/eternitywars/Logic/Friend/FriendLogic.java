@@ -5,7 +5,6 @@ import com.eternitywars.Models.FriendCollection;
 import com.eternitywars.Models.Relationship;
 import com.eternitywars.Models.User;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -52,7 +51,7 @@ public class FriendLogic
         User user = new User();
         JSONObject incommingobject = new JSONObject(json);
         //get data out the JSON
-        user.setId(incommingobject.getInt("userId"));
+        user.setUserId(incommingobject.getInt("userId"));
 
         //make call to API
         //return the data back to the ws
