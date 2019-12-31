@@ -16,11 +16,7 @@ import java.sql.ResultSet;
 
 public class RelationshipContainerSqlContext implements IRelationshipContainerContext
 {
-    private DatabaseConnection dbc;
-
-    public RelationshipContainerSqlContext(){
-        dbc = new DatabaseConnection();
-    }
+    private DatabaseConnection dbc = new DatabaseConnection();
 
 
 

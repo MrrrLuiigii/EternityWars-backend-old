@@ -17,8 +17,8 @@ public class CardCollection
         return cards;
     }
 
-    public void setCards(List<Card> cards)
+    public void AddCard(Card card)
     {
-        this.cards = cards;
+        this.cards.add(card);
     }
 }

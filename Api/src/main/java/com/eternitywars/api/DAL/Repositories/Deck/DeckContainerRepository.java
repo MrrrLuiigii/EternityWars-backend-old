@@ -6,9 +6,9 @@ import com.eternitywars.api.Models.DeckCollection;
 
 public class DeckContainerRepository implements IDeckContainerContext
 {
-    public boolean AddDeck(Deck deck)
+    public Deck AddDeck(Deck deck)
     {
-        return false;
+        return null;
     }
 
     public boolean DeleteDeck(Deck deck)
