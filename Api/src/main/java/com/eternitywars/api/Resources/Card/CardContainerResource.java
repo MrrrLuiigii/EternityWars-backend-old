@@ -7,7 +7,7 @@ import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/public/card")
+@RequestMapping(value = "/api/private/card")
 public class CardContainerResource
 {
     CardContainerRepository cardContainerRepository = new CardContainerRepository();
