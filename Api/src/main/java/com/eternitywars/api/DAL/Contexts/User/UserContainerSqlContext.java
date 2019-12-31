@@ -58,10 +58,7 @@ public class UserContainerSqlContext implements IUserContainerContext
 
                 try (ResultSet rs = pst.executeQuery())
                 {
-                    while (rs.next())
-                    {
-                        user = FillUser(rs);
-                    }
+                    user = FillUser(rs);
                 }
             }
         }
