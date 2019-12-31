@@ -4,9 +4,8 @@ import com.eternitywars.Logic.Friend.FriendContainerLogic;
 import com.eternitywars.Logic.Friend.FriendLogic;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.Account;
-import com.eternitywars.Models.RelationshipCollection;
-import com.google.gson.Gson;
 import com.eternitywars.Models.FriendCollection;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
@@ -42,7 +41,7 @@ public class FriendExecutor implements IExecutor  {
                 friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Reject");
                 break;
             case "GETALLFRIENDS":
-                RelationshipCollection content = friendContainerLogic.GetAllFriends(message);
+                FriendCollection content = friendContainerLogic.GetAllFriends(message);
                 returnMessage.setAction("GETALLFRIENDS");
                 returnMessage.setContent(content);
                 session.getRemote().sendString(gson.toJson(returnMessage));

@@ -3,14 +3,26 @@ package com.eternitywars.Models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelationshipCollection {
-    private List<Relationship> relationships = new ArrayList<>();
+public class RelationshipCollection
+{
+    private List<Relationship> relationships;
 
-    public List<Relationship> getRelationships() {
+    public RelationshipCollection(){
+        relationships = new ArrayList<>();
+    }
+
+    public RelationshipCollection(List<Relationship> relationships)
+    {
+        this.relationships = relationships;
+    }
+
+    public List<Relationship> getRelationships()
+    {
         return relationships;
     }
 
-    public void setRelationships(List<Relationship> relationships) {
+    public void setRelationships(List<Relationship> relationships)
+    {
         this.relationships = relationships;
     }
 }
