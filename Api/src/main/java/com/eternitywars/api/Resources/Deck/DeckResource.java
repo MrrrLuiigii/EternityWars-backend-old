@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/public/deck")
+@RequestMapping(value = "/api/private/deck")
 public class DeckResource
 {
     private DeckRepository deckRepository = new DeckRepository();
