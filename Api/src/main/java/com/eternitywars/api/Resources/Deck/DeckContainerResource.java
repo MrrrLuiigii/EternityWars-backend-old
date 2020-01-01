@@ -7,7 +7,7 @@ import com.eternitywars.api.Models.DeckCollection;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/deck")
+@RequestMapping(value = "/api/public/deck")
 public class DeckContainerResource
 {
     private DeckContainerRepository deckContainerRepository = new DeckContainerRepository();
@@ -26,10 +26,22 @@ public class DeckContainerResource
         return deckContainerRepository.DeleteDeck(deck);
     }
 
+    @GetMapping(value = "/getEmptyByUserId/{userId}")
+    public DeckCollection GetEmptyDecksByUserId(@PathVariable("userId") int userId)
+    {
+        return deckContainerRepository.GetEmptyDecksByUserId(userId);
+    }
+
+    @GetMapping(value = "/getEmptyByDeckId/{deckId}")
+    public Deck GetEmptyDeckById(@PathVariable("deckId") int deckId)
+    {
+        return deckContainerRepository.GetEmptyDeckById(deckId);
+    }
+
     @GetMapping(value = "/getByUserId/{userId}")
     public DeckCollection GetDecksByUserId(@PathVariable("userId") int userId)
     {
-        return deckContainerRepository.GetAllDecksByUserId(userId);
+        return deckContainerRepository.GetDecksByUserId(userId);
     }
 
     @GetMapping(value = "/getByDeckId/{deckId}")

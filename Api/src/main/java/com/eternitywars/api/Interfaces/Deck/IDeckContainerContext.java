@@ -9,7 +9,11 @@ public interface IDeckContainerContext
 
     boolean DeleteDeck(Deck deck);
 
-    DeckCollection GetAllDecksByUserId(int userId);
+    DeckCollection GetEmptyDecksByUserId(int userId);
+
+    Deck GetEmptyDeckById(int deckId);
+
+    DeckCollection GetDecksByUserId(int userId);
 
     Deck GetDeckById(int deckId);
 }
