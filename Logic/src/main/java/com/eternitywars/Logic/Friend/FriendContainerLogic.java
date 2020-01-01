@@ -48,9 +48,9 @@ public class FriendContainerLogic
             if (r.getFriendStatus() == FriendStatus.Pending && r.getFriendTwoId() == user.getUserId())
             {
                 Friend friend = new Friend();
-                friend.setUserId(r.getFriendTwoId());
+                friend.setUserId(r.getFriendOneId());
                 friend.setUsername(r.getFriendOneUsername());
-                friend.setAccountStatus(r.getFriendTwoAccountStatus());
+                friend.setAccountStatus(r.getFriendOneAccountStatus());
                 friend.setFriendStatus(FriendStatus.Requested);
                 friendCollection.AddFriend(friend);
             }
