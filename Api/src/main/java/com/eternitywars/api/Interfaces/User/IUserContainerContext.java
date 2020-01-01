@@ -7,6 +7,8 @@ public interface IUserContainerContext
 {
     User GetUserById(int userId);
 
+    User GetUserByUsername(String username);
+
     User GetUserByEmail(String userEmail);
 
     UserCollection GetUsers();
