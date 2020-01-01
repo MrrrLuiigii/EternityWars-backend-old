@@ -134,4 +134,17 @@ public class UserContainerLogic
         return true;
     }
 
+    public User getUserByUsername(String friendname, String token) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        ResponseEntity<User> response = restTemplate.exchange("http://localhost:8083/api/private/user/getByUsername/{friendname}", HttpMethod.GET, request , User.class, friendname);
+
+        return response.getBody();
+
+    }
 }
