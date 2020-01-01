@@ -44,7 +44,7 @@ public class ShopLogic {
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
             restTemplate.postForObject("http://eternity-wars-api/api/public/user/updatePackAmount", request, User.class);
-            Pack pack = cpl.PickCards();
+            Pack pack = cpl.PickCards(user);
             return pack;
         }
         return null;

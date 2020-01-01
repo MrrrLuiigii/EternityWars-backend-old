@@ -15,7 +15,7 @@ public class CardPickerLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
 
-    public Pack PickCards()
+    public Pack PickCards(User user)
     {
         Random random = new Random();
         CardCollection cardCollection = GetAllCards();
@@ -26,7 +26,9 @@ public class CardPickerLogic
         {
             int card_number = random.nextInt(cardCollection.getCards().size() + 1);
             System.out.println(card_number);
-            pack.getCard().add(GetCardById(card_number));
+            Card card = cardCollection.getCards().get(card_number);
+            AddCardToAccount(card , user);
+            pack.getCard().add(card);
         }
 
         return pack;

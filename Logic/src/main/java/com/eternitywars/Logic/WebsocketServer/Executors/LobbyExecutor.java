@@ -4,6 +4,8 @@ import com.eternitywars.Logic.Lobby.LobbyContainerLogic;
 import com.eternitywars.Logic.Lobby.LobbyLogic;
 
 import com.eternitywars.Models.Account;
+import com.eternitywars.Models.Lobby;
+import com.eternitywars.Models.Player;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
@@ -25,12 +27,17 @@ public class LobbyExecutor implements IExecutor  {
 
     @Override
     public void Execute(JSONObject message, Session session) {
+
+        Gson gson = new Gson();
+        String lobbyjson = message.getJSONObject("Lobby").toString();
+        String playerjson = message.getJSONObject("Player").toString();
+        String token = message.getString("token");
+        Lobby lobbyobject = gson.fromJson(lobbyjson, Lobby.class);
+        Player player = gson.fromJson(playerjson ,Player.class);
         switch (message.getString("Action")) {
             case "JOINLOBBY":
-                Gson gson = new Gson();
-                String json = message.getJSONObject("Content").toString();
-                Account account = gson.fromJson(json, Account.class);
-                System.out.println(account);
+                Lobby lobby = lobbyLogic.JoinLobby(lobbyobject, player,  token);
+
                 break;
             case "LEAVELOBBY":
                 break;
