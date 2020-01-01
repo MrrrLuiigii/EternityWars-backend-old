@@ -42,6 +42,7 @@ public class FriendContainerLogic
             {
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendTwoId());
+                friend.setUsername(r.getFriendOneUsername());
                 friend.setAccountStatus(r.getFriendTwoAccountStatus());
                 friend.setFriendStatus(r.getFriendStatus());
                 friendCollection.AddFriend(friend);
@@ -55,7 +56,7 @@ public class FriendContainerLogic
 
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendOneId());
-//                friend.setAccountStatus(r.getFriendOneAccountStatus());     // deze mag ik niet zien denk ik?
+                friend.setUsername(r.getFriendOneUsername());
                 friend.setFriendStatus(FriendStatus.BlockedMe);
             }
         }

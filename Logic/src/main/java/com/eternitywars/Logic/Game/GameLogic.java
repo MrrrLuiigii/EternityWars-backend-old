@@ -1,8 +1,10 @@
 package com.eternitywars.Logic.Game;
 
+import com.eternitywars.Models.Lobby;
+
 public class GameLogic
 {
-    public void LaunchGame(){
+    public void LaunchGame(Lobby lobby){
         //todo launch game stuff
     }
 
