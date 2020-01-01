@@ -10,11 +10,7 @@ import java.sql.*;
 
 public class UserContainerSqlContext implements IUserContainerContext
 {
-    private DatabaseConnection dbc;
-
-    public UserContainerSqlContext(){
-        dbc = new DatabaseConnection();
-    }
+    private DatabaseConnection dbc = new DatabaseConnection();
 
 
 
@@ -62,10 +58,7 @@ public class UserContainerSqlContext implements IUserContainerContext
 
                 try (ResultSet rs = pst.executeQuery())
                 {
-                    while (rs.next())
-                    {
-                        user = FillUser(rs);
-                    }
+                    user = FillUser(rs);
                 }
             }
         }

@@ -14,9 +14,9 @@ public class Deck
         this.deckId = deckId;
     }
 
-    public Deck(CardCollection cards, int deckid)
+    public Deck(CardCollection cards, int deckId)
     {
-        this.deckId = deckid;
+        this.deckId = deckId;
         this.cards = cards;
     }
 

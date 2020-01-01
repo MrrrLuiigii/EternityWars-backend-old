@@ -2,13 +2,12 @@ package com.eternitywars.api.Resources.Card;
 
 import com.eternitywars.api.DAL.Repositories.Card.CardContainerRepository;
 import com.eternitywars.api.Models.Card;
-import com.eternitywars.api.Models.CardAdder;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/public/card")
+@RequestMapping(value = "/api/private/card")
 public class CardContainerResource
 {
     CardContainerRepository cardContainerRepository = new CardContainerRepository();
@@ -35,9 +34,9 @@ public class CardContainerResource
     }
 
     @PostMapping(value = "/addCardToAccount", consumes = "application/json", produces = "application/json")
-    public void AddCardToAccount(@RequestBody CardAdder cardAdder)
+    public void AddCardToAccount()
     {
         CardContainerRepository cardContainerRepository = new CardContainerRepository();
-        cardContainerRepository.AddCardToAccount(cardAdder);
+        cardContainerRepository.AddCardToAccount();
     }
 }

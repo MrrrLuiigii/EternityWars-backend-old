@@ -5,7 +5,7 @@ import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/public/user")
+@RequestMapping(value = "/api/private/user")
 public class UserResource
 {
     private UserRepository userRepository = new UserRepository();

@@ -4,11 +4,13 @@ import com.eternitywars.Models.Enums.AccountStatus;
 import com.eternitywars.Models.Enums.FriendStatus;
 import org.eclipse.jetty.websocket.api.Session;
 
-import java.net.Socket;
-
 public class Friend extends Account
 {
     private FriendStatus friendStatus;
+
+    
+
+    public Friend(){}
 
     public Friend(int id, String username, AccountStatus accountStatus, Session session, FriendStatus friendStatus)
     {

@@ -4,21 +4,21 @@ import com.eternitywars.Models.Enums.AccountStatus;
 import com.eternitywars.Models.User;
 import com.eternitywars.Models.UserCollection;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 public class UserContainerLogic
 {
-    @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
 
     public UserCollection GetUsers(String token)
     {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         HttpEntity<String> request = new HttpEntity<>(headers);
-        return restTemplate.getForObject("localhost:8083/api/private/user/get" , UserCollection.class);
+        ResponseEntity<UserCollection> response = restTemplate.exchange("http://localhost:8083/api/private/user/get" , HttpMethod.GET, request, UserCollection.class);
+
+        return response.getBody();
     }
 
 
@@ -47,7 +47,8 @@ public class UserContainerLogic
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
 
-            return restTemplate.postForObject("http://locahost:8083/api/private/user/add", request, User.class);
+            ResponseEntity<User> response = restTemplate.exchange("http://localhost:8083/api/private/user/add" , HttpMethod.POST, request, User.class);
+            return response.getBody();
         }
         return null;
     }
@@ -63,7 +64,6 @@ public class UserContainerLogic
 
     public User GetUserByEmail(JSONObject json)
     {
-        User user = new User();
         String email = json.getString("Content");
         String token = json.getString("Token");
         System.out.println(token);
@@ -92,11 +92,11 @@ public class UserContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
-        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/public/user/getByEmail/", HttpMethod.GET, request , String.class);
+        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/private/user/getByEmail/", HttpMethod.GET, request , String.class);
         //todo how does response work
         JSONObject api_output = new JSONObject(response.getBody());
 
-        user.setId(api_output.getInt("userId"));
+        user.setUserId(api_output.getInt("userId"));
         user.setEmail(api_output.getString("email"));
         user.setGold(api_output.getInt("gold"));
         user.setPackAmount(api_output.getInt("packAmount"));

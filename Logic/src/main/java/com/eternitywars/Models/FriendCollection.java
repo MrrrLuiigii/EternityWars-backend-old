@@ -17,8 +17,8 @@ public class FriendCollection
         return friends;
     }
 
-    public void setFriends(List<Friend> friends)
+    public void AddFriend(Friend friend)
     {
-        this.friends = friends;
+        this.friends.add(friend);
     }
 }

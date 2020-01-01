@@ -2,11 +2,15 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Friend.FriendContainerLogic;
 import com.eternitywars.Logic.Friend.FriendLogic;
+import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.Account;
-import com.google.gson.Gson;
 import com.eternitywars.Models.FriendCollection;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class FriendExecutor implements IExecutor  {
 
@@ -16,11 +20,15 @@ public class FriendExecutor implements IExecutor  {
     private JSONObject message;
     private Session session;
 
+
     @Override
-    public void Execute(JSONObject message, Session session) {
+    public void Execute(JSONObject message, Session session) throws IOException {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+        WsReturnMessage returnMessage = new WsReturnMessage();
         switch (message.getString("Action")) {
             case "INVITE":
-                Gson gson = new Gson();
                 String json = message.getJSONObject("Content").toString();
                 Account account = gson.fromJson(json, Account.class);
                 System.out.println(account);
@@ -33,6 +41,10 @@ public class FriendExecutor implements IExecutor  {
                 friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Reject");
                 break;
             case "GETALLFRIENDS":
+                FriendCollection content = friendContainerLogic.GetAllFriends(message);
+                returnMessage.setAction("GETALLFRIENDS");
+                returnMessage.setContent(content);
+                session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "REMOVEFRIEND":
                 break;
@@ -46,6 +58,10 @@ public class FriendExecutor implements IExecutor  {
 
     @Override
     public void run() {
-        Execute(message, session);
+        try {
+            Execute(message, session);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

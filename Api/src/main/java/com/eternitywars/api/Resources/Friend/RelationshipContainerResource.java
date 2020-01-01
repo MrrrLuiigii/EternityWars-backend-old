@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/public/friend")
+@RequestMapping(value = "/api/private/friend")
 public class RelationshipContainerResource
 {
     private RelationshipContainerRepository relationshipContainerRepository = new RelationshipContainerRepository();
@@ -31,12 +31,10 @@ public class RelationshipContainerResource
         return relationshipContainerRepository.DeleteRelationship(new User(userId), new Friend(friendId));
     }
 
-    @GetMapping(value = "/get", consumes = "application/json", produces = "application/json")
-    public RelationshipCollection GetRelationshipByUserId(@RequestBody String json)
+    @GetMapping(value = "/get/{userId}", consumes = "application/json", produces = "application/json")
+    public RelationshipCollection GetRelationshipByUserId(@PathVariable("userId") int userId)
     {
-        JSONObject jsonObject = new JSONObject(json);
-        User user = new User();
-        user.setUserId(jsonObject.getInt("userId"));
+        User user = new User(userId);
         return relationshipContainerRepository.GetRelationships(user);
     }
 }

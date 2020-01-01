@@ -47,7 +47,7 @@ public class CardPickerLogic
     public boolean AddCardToAccount(Card card, User user)
     {
         CardAdder cardAdder = new CardAdder();
-        cardAdder.setUserid(user.getId());
+        cardAdder.setUserid(user.getUserId());
         cardAdder.setCardid(card.getCardId());
         HttpHeaders headers = new HttpHeaders();
         //headers.setBearerAuth(token);

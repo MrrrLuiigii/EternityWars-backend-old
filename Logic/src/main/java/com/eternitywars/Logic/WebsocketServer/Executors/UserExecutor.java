@@ -30,19 +30,16 @@ public class UserExecutor implements IExecutor{
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
         Gson gson = gs.create();
-        String json;
-        User user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
+        User user;
+        WsReturnMessage returnMessage = new WsReturnMessage();
         String token = message.getString("Token");
         switch (message.getString("Action")) {
             case "GetUserById":
-                json = message.getJSONObject("Content").toString();
-                //todo gson heeft geen zin in
-
+                user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
                 userContainerLogic.GetUserById(user);
                 System.out.println(user);
                 break;
             case "GetUserByEmail":
-                WsReturnMessage returnMessage = new WsReturnMessage();
                 returnMessage.setAction("GetUserByEmail");
                 user = userContainerLogic.GetUserByEmail(message);
                 returnMessage.setContent(user);
@@ -52,8 +49,12 @@ public class UserExecutor implements IExecutor{
 
                 break;
             case "AddUser":
-                user = userContainerLogic.AddUser(user, token);
-                session.getRemote().sendString(gson.toJson(user));
+                user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
+                userContainerLogic.AddUser(user, token);
+                returnMessage.setAction("AddUser");
+                returnMessage.setContent(user);
+                session.getRemote().sendString(gson.toJson(returnMessage));
+
                 break;
             case "UpdateUsername":
 

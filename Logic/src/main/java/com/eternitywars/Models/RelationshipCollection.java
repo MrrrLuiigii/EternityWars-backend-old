@@ -1,4 +1,4 @@
-package com.eternitywars.api.Models;
+package com.eternitywars.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,7 @@ public class RelationshipCollection
 {
     private List<Relationship> relationships;
 
-    public RelationshipCollection()
-    {
+    public RelationshipCollection(){
         relationships = new ArrayList<>();
     }
 

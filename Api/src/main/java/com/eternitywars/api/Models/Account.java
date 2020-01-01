@@ -10,7 +10,7 @@ public abstract class Account
     protected int userId;
     protected String username;
     protected AccountStatus accountStatus;
-    Session session;
+    private Session session;
 
     public Account(){}
 
