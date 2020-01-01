@@ -9,5 +9,5 @@ public interface IDeckContext
 
     boolean DeleteCard(Deck deck, Card card);
 
-    boolean UpdateDeck(Deck deck);
+    boolean UpdateDeckName(Deck deck);
 }
