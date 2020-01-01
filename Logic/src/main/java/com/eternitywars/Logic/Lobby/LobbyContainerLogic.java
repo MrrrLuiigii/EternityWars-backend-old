@@ -12,14 +12,14 @@ public class LobbyContainerLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
 
-    public void AddLobby(Lobby lobby, String token){
+    public Lobby AddLobby(Lobby lobby, String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
         //send lobby object with the user that wants to join
-        restTemplate.postForObject("http://localhost:8083/api/private/lobby/add", request , Lobby.class);
+        return restTemplate.postForObject("http://localhost:8083/api/private/lobby/add", request , Lobby.class);
     }
 
     public Lobby GetLobbyById(Lobby lobby, String token)
@@ -42,12 +42,12 @@ public class LobbyContainerLogic
         return response.getBody();
     }
 
-    public void DeleteLobby(Lobby lobby, String token){
+    public Lobby DeleteLobby(Lobby lobby, String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        restTemplate.postForObject("http://localhost:8083/api/private/lobby/delete", request , Lobby.class);
+        return restTemplate.postForObject("http://localhost:8083/api/private/lobby/delete", request , Lobby.class);
     }
 }
