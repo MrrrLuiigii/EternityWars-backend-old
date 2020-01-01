@@ -60,11 +60,51 @@ public class LobbySqlContext implements ILobbyContext
 
     public boolean UpdatePlayerStatus(Lobby lobby, Player player)
     {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "update `player` " +
+                    "set `lobby_player_status` = ? " +
+                    "where `lobby_id` = ? and `user_id` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setString(1, player.getLobbyPlayerStatus().toString());
+                pst.setInt(2, lobby.getId());
+                pst.setInt(3, player.getUserId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
         return true;
     }
 
     public boolean UpdatePlayerDeck(Lobby lobby, Player player)
     {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "update `player` " +
+                    "set `deck_id` = ? " +
+                    "where `lobby_id` = ? and `user_id` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, player.getDeck().getDeckId());
+                pst.setInt(2, lobby.getId());
+                pst.setInt(3, player.getUserId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
         return true;
     }
 }

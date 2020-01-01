@@ -45,6 +45,16 @@ public class FriendContainerLogic
                 friendCollection.AddFriend(friend);
             }
 
+            if (r.getFriendStatus() == FriendStatus.Pending && r.getFriendTwoId() == user.getUserId())
+            {
+                Friend friend = new Friend();
+                friend.setUserId(r.getFriendTwoId());
+                friend.setUsername(r.getFriendOneUsername());
+                friend.setAccountStatus(r.getFriendTwoAccountStatus());
+                friend.setFriendStatus(FriendStatus.Requested);
+                friendCollection.AddFriend(friend);
+            }
+
             if (r.getFriendStatus() == FriendStatus.Blocked && r.getFriendTwoId() == user.getUserId())
             {
                 // todo ik ben geblokkeerd door hem, hoe maken we hier onderscheid in betreft enum? een extra enum waarde maken?

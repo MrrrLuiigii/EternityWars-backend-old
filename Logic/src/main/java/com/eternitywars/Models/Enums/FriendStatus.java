@@ -5,5 +5,6 @@ public enum FriendStatus
     Pending,
     Accepted,
     Blocked,
+    Requested,
     BlockedMe
 }

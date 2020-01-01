@@ -23,12 +23,12 @@ public class Player extends Account
 
     // Getters & Setters
 
-    public LobbyPlayerStatus getPlayerReady()
+    public LobbyPlayerStatus getLobbyPlayerStatus()
     {
         return lobbyPlayerStatus;
     }
 
-    public void setPlayerReady(LobbyPlayerStatus lobbyPlayerStatus)
+    public void setLobbyPlayerStatus(LobbyPlayerStatus lobbyPlayerStatus)
     {
         this.lobbyPlayerStatus = lobbyPlayerStatus;
     }
