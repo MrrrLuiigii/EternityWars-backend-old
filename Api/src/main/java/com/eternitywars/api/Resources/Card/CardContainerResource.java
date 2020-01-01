@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/private/card")
 public class CardContainerResource
 {
-    CardContainerRepository cardContainerRepository = new CardContainerRepository();
+    private CardContainerRepository cardContainerRepository = new CardContainerRepository();
 
     @GetMapping(value = "/getByUser/{userId}")
     public CardCollection GetCardsByUser(@PathVariable("userId")int userId)

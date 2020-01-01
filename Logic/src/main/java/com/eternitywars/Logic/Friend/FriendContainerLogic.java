@@ -29,10 +29,7 @@ public class FriendContainerLogic
         HttpEntity<String> request = new HttpEntity<>(headers);
         ResponseEntity<RelationshipCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , RelationshipCollection.class, user.getUserId());
 
-        //
-        // Filter relationshipcollection and make it into a friendcollection
-        //
-
+        //<editor-fold desc="Filter relationshipcollection and make it into a friendcollection">
         RelationshipCollection relationshipCollection = response.getBody();
         FriendCollection friendCollection = new FriendCollection();
 
@@ -60,6 +57,7 @@ public class FriendContainerLogic
                 friend.setFriendStatus(FriendStatus.BlockedMe);
             }
         }
+        //</editor-fold>
 
         return friendCollection;
     }

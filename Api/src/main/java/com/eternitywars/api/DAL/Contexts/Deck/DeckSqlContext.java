@@ -4,11 +4,8 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Deck.IDeckContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.Deck;
-import com.eternitywars.api.Models.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class DeckSqlContext implements IDeckContext
 {
@@ -40,11 +37,44 @@ public class DeckSqlContext implements IDeckContext
 
     public boolean DeleteCard(Deck deck, Card card)
     {
-        return false;
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "delete from `deck_card` where `card_id` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, card.getCardId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
     }
 
-    public boolean UpdateDeck(Deck deck)
+    public boolean UpdateDeckName(Deck deck)
     {
-        return false;
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "update `deck` set `name` = ? where `id` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setString(1, deck.getName());
+                pst.setInt(2, deck.getDeckId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
     }
 }

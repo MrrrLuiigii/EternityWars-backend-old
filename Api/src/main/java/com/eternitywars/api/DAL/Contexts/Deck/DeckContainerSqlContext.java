@@ -17,19 +17,19 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
     public Deck AddDeck(Deck deck)
     {
-        Deck addedDeck = AddDeckWithoutCards(deck);
+        Deck addedDeck = AddEmptyDeck(deck);
 
         DeckSqlContext deckSqlContext = new DeckSqlContext();
 
         for (Card c : deck.getCards().getCards())
         {
-            deckSqlContext.AddCard(deck, c);
+            deckSqlContext.AddCard(addedDeck, c);
         }
 
         return addedDeck;
     }
 
-    private Deck AddDeckWithoutCards(Deck deck)
+    private Deck AddEmptyDeck(Deck deck)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
@@ -54,15 +54,95 @@ public class DeckContainerSqlContext implements IDeckContainerContext
             System.out.println(e);
         }
 
-        return GetDeckById(deck.getDeckId());
+        return deck;
     }
 
     public boolean DeleteDeck(Deck deck)
     {
-        return false;
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "{call DeleteDeck(?)};";
+
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                cst.setInt(1, deck.getDeckId());
+                cst.executeQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
     }
 
-    public DeckCollection GetAllDecksByUserId(int userId)
+    public DeckCollection GetEmptyDecksByUserId(int userId)
+    {
+        DeckCollection deckCollection = new DeckCollection();
+
+        try(Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "select `id`, `user_id`, `name` from `deck` where `user_id` = ?;";
+
+            try(PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, userId);
+
+                try(ResultSet rs = pst.executeQuery())
+                {
+                    while(rs.next())
+                    {
+                        Deck deck = new Deck();
+                        deck.setDeckId(rs.getInt("id"));
+                        deck.setName(rs.getString("name"));
+                        deck.setUserId(rs.getInt("user_id"));
+                        deckCollection.AddDeck(deck);
+                    }
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return deckCollection;
+    }
+
+    public Deck GetEmptyDeckById(int deckId)
+    {
+        Deck deck = new Deck();
+
+        try(Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "select `id`, `user_id`, `name` from `deck` where `id` = ?;";
+
+            try(PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, deckId);
+
+                try(ResultSet rs = pst.executeQuery())
+                {
+                    while(rs.next())
+                    {
+                        deck.setDeckId(rs.getInt("id"));
+                        deck.setName(rs.getString("name"));
+                        deck.setUserId(rs.getInt("user_id"));
+                    }
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return deck;
+    }
+
+    public DeckCollection GetDecksByUserId(int userId)
     {
         DeckCollection deckCollection = new DeckCollection();
 

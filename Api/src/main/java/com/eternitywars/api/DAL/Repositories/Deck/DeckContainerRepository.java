@@ -19,9 +19,19 @@ public class DeckContainerRepository implements IDeckContainerContext
         return deckContainerSqlContext.DeleteDeck(deck);
     }
 
-    public DeckCollection GetAllDecksByUserId(int userId)
+    public DeckCollection GetEmptyDecksByUserId(int userId)
     {
-        return deckContainerSqlContext.GetAllDecksByUserId(userId);
+        return deckContainerSqlContext.GetEmptyDecksByUserId(userId);
+    }
+
+    public Deck GetEmptyDeckById(int deckId)
+    {
+        return deckContainerSqlContext.GetEmptyDeckById(deckId);
+    }
+
+    public DeckCollection GetDecksByUserId(int userId)
+    {
+        return deckContainerSqlContext.GetDecksByUserId(userId);
     }
 
     public Deck GetDeckById(int deckId)
