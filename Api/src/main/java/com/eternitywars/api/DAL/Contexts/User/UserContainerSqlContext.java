@@ -42,6 +42,34 @@ public class UserContainerSqlContext implements IUserContainerContext
         return user;
     }
 
+    public User GetUserByUsername(String username)
+    {
+        User user = new User();
+
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "select `id`, `username`, `email`, `account_status`, `gold`, `pack_amount` " +
+                    "from user " +
+                    "where `username` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setString(1, username);
+
+                try (ResultSet rs = pst.executeQuery())
+                {
+                    user = FillUser(rs);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        return user;
+    }
+
     public User GetUserByEmail(String email)
     {
         User user = new User();
@@ -50,7 +78,7 @@ public class UserContainerSqlContext implements IUserContainerContext
         {
             String query = "select `id`, `username`, `email`, `account_status`, `gold`, `pack_amount` " +
                     "from user " +
-                    "where email = ?;";
+                    "where `email` = ?;";
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {

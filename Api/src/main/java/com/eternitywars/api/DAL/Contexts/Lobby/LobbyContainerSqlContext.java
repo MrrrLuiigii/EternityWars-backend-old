@@ -3,6 +3,7 @@ package com.eternitywars.api.DAL.Contexts.Lobby;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Lobby.ILobbyContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
+import com.eternitywars.api.Models.Enums.LobbyPlayerStatus;
 import com.eternitywars.api.Models.Lobby;
 import com.eternitywars.api.Models.LobbyCollection;
 import com.eternitywars.api.Models.Player;
@@ -56,7 +57,7 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "{call DeleteLobby(?)}";
+            String query = "{call DeleteLobby(?)};";
 
             try (CallableStatement cst = conn.prepareCall(query))
             {
@@ -73,8 +74,6 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
         return true;
     }
 
-    //todo get deck from the players
-
     public Lobby GetLobbyById(int lobbyId)
     {
         Lobby lobby = null;
@@ -82,7 +81,7 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
         try (Connection conn = dbc.getDatabaseConnection())
         {
             String query = "select `lobby`.`id`, `lobby`.`name`, `lobby`.`description`, `lobby`.`has_password`, " +
-                    "`lobby`.`password`, `player`.`user_id`, `user`.`username`, `player`.`user_ready`, `player`.`deck_id` " +
+                    "`lobby`.`password`, `player`.`user_id`, `user`.`username`, `player`.`lobby_player_status`, `player`.`deck_id` " +
                     "from `lobby` " +
                     "inner join `player` " +
                     "on `player`.`lobby_id` = `lobby`.`id` " +
@@ -108,9 +107,9 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
 
                         int player_id = rs.getInt("user_id");
                         String username = rs.getString("username");
-                        boolean player_ready = rs.getBoolean("user_ready");
+                        LobbyPlayerStatus lobbyPlayerStatus = LobbyPlayerStatus.valueOf(rs.getString("lobby_player_status"));
                         int deck_id = rs.getInt("deck_id");
-                        Player player = new Player(player_id, username, player_ready, deck_id);
+                        Player player = new Player(player_id, username, lobbyPlayerStatus, deck_id);
 
                         if (oldLobbyId != rsLobbyId)
                         {
@@ -142,7 +141,7 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
         try (Connection conn = dbc.getDatabaseConnection())
         {
             String query = "select `lobby`.`id`, `lobby`.`name`, `lobby`.`description`, `lobby`.`has_password`, " +
-                    "`lobby`.`password`, `player`.`user_id`, `user`.`username`, `player`.`user_ready`, `player`.`deck_id` " +
+                    "`lobby`.`password`, `player`.`user_id`, `user`.`username`, `player`.`lobby_player_status`, `player`.`deck_id` " +
                     "from `lobby` " +
                     "inner join `player` " +
                     "on `player`.`lobby_id` = `lobby`.`id` " +
@@ -166,9 +165,9 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
 
                         int player_id = rs.getInt("user_id");
                         String username = rs.getString("username");
-                        boolean player_ready = rs.getBoolean("user_ready");
+                        LobbyPlayerStatus lobbyPlayerStatus = LobbyPlayerStatus.valueOf(rs.getString("lobby_player_status"));
                         int deck_id = rs.getInt("deck_id");
-                        Player player = new Player(player_id, username, player_ready, deck_id);
+                        Player player = new Player(player_id, username, lobbyPlayerStatus, deck_id);
 
                         if (oldLobbyId != lobbyId)
                         {

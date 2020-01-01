@@ -32,6 +32,12 @@ public class UserContainerResource
         return userContainerRepository.GetUserByEmail(email);
     }
 
+    @GetMapping(value = "/getByUsername/{username}")
+    public User GetUserByUsername(@PathVariable("username") String username)
+    {
+        return userContainerRepository.GetUserByUsername(username);
+    }
+
     @GetMapping(value = "/get")
     public UserCollection GetUsers()
     {

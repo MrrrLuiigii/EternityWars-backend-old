@@ -1,32 +1,36 @@
 package com.eternitywars.api.Models;
 
+import com.eternitywars.api.Models.Enums.LobbyPlayerStatus;
+
 import java.util.List;
 
 public class Player extends Account
 {
-    private boolean playerReady;
+    private LobbyPlayerStatus lobbyPlayerStatus;
     private Deck deck;
     private List<Card> cardsInHand;
     private List<Card> cardsInDeck;
 
-    public Player(int id, String username, boolean playerReady, int deckId)
+    public Player(){}
+
+    public Player(int id, String username, LobbyPlayerStatus lobbyPlayerStatus, int deckId)
     {
         this.userId = id;
         this.username = username;
-        this.playerReady = playerReady;
+        this.lobbyPlayerStatus = lobbyPlayerStatus;
         this.deck = new Deck(deckId);
     }
 
     // Getters & Setters
 
-    public boolean getPlayerReady()
+    public LobbyPlayerStatus getPlayerReady()
     {
-        return playerReady;
+        return lobbyPlayerStatus;
     }
 
-    public void setPlayerReady(boolean playerReady)
+    public void setPlayerReady(LobbyPlayerStatus lobbyPlayerStatus)
     {
-        this.playerReady = playerReady;
+        this.lobbyPlayerStatus = lobbyPlayerStatus;
     }
 
     public Deck getDeck()
