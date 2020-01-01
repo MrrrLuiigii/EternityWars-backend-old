@@ -12,7 +12,7 @@ public class CardAdder {
     }
 
     public void setUserid(int userid) {
-        this.userid = userid;
+
     }
 
     public int getCardid() {
