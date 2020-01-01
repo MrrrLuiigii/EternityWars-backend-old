@@ -39,7 +39,7 @@ public class FriendContainerLogic
             {
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendTwoId());
-                friend.setUsername(r.getFriendOneUsername());
+                friend.setUsername(r.getFriendTwoUsername());
                 friend.setAccountStatus(r.getFriendTwoAccountStatus());
                 friend.setFriendStatus(r.getFriendStatus());
                 friendCollection.AddFriend(friend);
@@ -49,7 +49,7 @@ public class FriendContainerLogic
             {
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendTwoId());
-                friend.setUsername(r.getFriendOneUsername());
+                friend.setUsername(r.getFriendTwoUsername());
                 friend.setAccountStatus(r.getFriendTwoAccountStatus());
                 friend.setFriendStatus(FriendStatus.Requested);
                 friendCollection.AddFriend(friend);
