@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.Friend;
 
+import com.eternitywars.Logic.User.UserContainerLogic;
 import com.eternitywars.Models.Enums.FriendStatus;
 import com.eternitywars.Models.FriendCollection;
 import com.eternitywars.Models.Relationship;
@@ -14,14 +15,17 @@ public class FriendLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
 
-    public void HandleFriendStatus(String json, String status){
+    public void HandleFriendStatus(JSONObject json, String status){
+
+        String token = json.getString("Token");
         Relationship relationship = new Relationship();
-        //take the token and data out of the json and put them in models
-        JSONObject incommingobject = new JSONObject(json);
-        relationship.setFriendOneId(incommingobject.getInt("userId"));
-        relationship.setFriendTwoId(incommingobject.getInt("friendId"));
-        
-//        String token = incommingobject.getString("Token");
+
+
+        UserContainerLogic userContainerLogic = new UserContainerLogic();
+        User friend = userContainerLogic.getUserByUsername(json.getString("friendname"), token);
+
+        relationship.setFriendOneId(json.getJSONObject("Content").getInt("userId"));
+        relationship.setFriendTwoId(friend.getUserId());
         
         switch (status){
             case "Accept":
@@ -38,11 +42,11 @@ public class FriendLogic
         //serialize the model back to json
         JSONObject output = new JSONObject(relationship);
         HttpHeaders headers = new HttpHeaders();
-//        headers.setBearerAuth(token);
+        headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
-        restTemplate.postForObject("http://localhost:8083/api/public/friend/update", request, String.class);
+        restTemplate.postForObject("http://localhost:8083/api/private/friend/update", request, String.class);
     }
 
     public FriendCollection GetRelationschipsByUserId(String json)

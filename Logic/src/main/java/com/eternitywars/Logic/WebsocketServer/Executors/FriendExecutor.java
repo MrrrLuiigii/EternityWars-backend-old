@@ -5,6 +5,7 @@ import com.eternitywars.Logic.Friend.FriendLogic;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.Account;
 import com.eternitywars.Models.FriendCollection;
+import com.eternitywars.Models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
@@ -29,19 +30,27 @@ public class FriendExecutor implements IExecutor  {
         WsReturnMessage returnMessage = new WsReturnMessage();
         switch (message.getString("Action")) {
             case "INVITE":
-                String json = message.getJSONObject("Content").toString();
-                Account account = gson.fromJson(json, Account.class);
-                System.out.println(account);
-                friendLogic.HandleFriendStatus("json thing", "Invite");
+                friendLogic.HandleFriendStatus(message, "Invite");
                 break;
             case "ACCEPTREQUEST":
-                friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Accept");
+                friendLogic.HandleFriendStatus(message, "Accept");
+
+                FriendCollection content2 = friendContainerLogic.GetAllFriends(message);
+                returnMessage.setAction("GETALLFRIENDS");
+                returnMessage.setContent(content2);
+                session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "REJECTREQUEST":
-                friendLogic.HandleFriendStatus(message.getJSONObject("Content").toString(), "Reject");
+                friendLogic.HandleFriendStatus(message, "Reject");
+
+                FriendCollection content1 = friendContainerLogic.GetAllFriends(message);
+                returnMessage.setAction("GETALLFRIENDS");
+                returnMessage.setContent(content1);
+                session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "GETALLFRIENDS":
                 FriendCollection content = friendContainerLogic.GetAllFriends(message);
+
                 returnMessage.setAction("GETALLFRIENDS");
                 returnMessage.setContent(content);
                 session.getRemote().sendString(gson.toJson(returnMessage));
