@@ -33,20 +33,30 @@ public class FriendLogic
                 break;
             case "Invite":
                 relationship.setFriendStatus(FriendStatus.Pending);
+                //serialize the model back to json
+                JSONObject output = new JSONObject(relationship);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setBearerAuth(token);
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
+
+                restTemplate.postForObject("http://localhost:8083/api/private/friend/add", request, String.class);
                 break;
             case "Blocked":
                 relationship.setFriendStatus(FriendStatus.Blocked);
                 break;
         }
-        
-        //serialize the model back to json
-        JSONObject output = new JSONObject(relationship);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
-        restTemplate.postForObject("http://localhost:8083/api/private/friend/update", request, String.class);
+        if(!status.equals("Invite")) {
+            //serialize the model back to json
+            JSONObject output = new JSONObject(relationship);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(token);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
+
+            restTemplate.postForObject("http://localhost:8083/api/private/friend/update", request, String.class);
+        }
     }
 
     public FriendCollection GetRelationschipsByUserId(String json)

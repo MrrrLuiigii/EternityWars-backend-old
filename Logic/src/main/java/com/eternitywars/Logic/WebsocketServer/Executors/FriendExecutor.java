@@ -28,28 +28,34 @@ public class FriendExecutor implements IExecutor  {
         gs.serializeNulls();
         Gson gson = gs.create();
         WsReturnMessage returnMessage = new WsReturnMessage();
+        FriendCollection content;
         switch (message.getString("Action")) {
             case "INVITE":
                 friendLogic.HandleFriendStatus(message, "Invite");
+
+                content = friendContainerLogic.GetAllFriends(message);
+                returnMessage.setAction("GETALLFRIENDS");
+                returnMessage.setContent(content);
+                session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "ACCEPTREQUEST":
                 friendLogic.HandleFriendStatus(message, "Accept");
 
-                FriendCollection content2 = friendContainerLogic.GetAllFriends(message);
+                 content = friendContainerLogic.GetAllFriends(message);
                 returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content2);
+                returnMessage.setContent(content);
                 session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "REJECTREQUEST":
                 friendLogic.HandleFriendStatus(message, "Reject");
 
-                FriendCollection content1 = friendContainerLogic.GetAllFriends(message);
+                 content = friendContainerLogic.GetAllFriends(message);
                 returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content1);
+                returnMessage.setContent(content);
                 session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "GETALLFRIENDS":
-                FriendCollection content = friendContainerLogic.GetAllFriends(message);
+                 content = friendContainerLogic.GetAllFriends(message);
 
                 returnMessage.setAction("GETALLFRIENDS");
                 returnMessage.setContent(content);
