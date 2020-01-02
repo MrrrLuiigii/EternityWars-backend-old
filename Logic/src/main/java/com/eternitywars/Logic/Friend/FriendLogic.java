@@ -16,24 +16,7 @@ public class FriendLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
 
-    public void InviteFriend(JSONObject jsonObject)
-    {
-        String token = jsonObject.getString("Token");
 
-        //Get the friend with it's username
-        UserContainerLogic userContainerLogic = new UserContainerLogic();
-        User friend = userContainerLogic.getUserByUsername(jsonObject.getString("friendname"), token);
-
-        //Create a relationship with friend, user and status
-        Relationship relationship = new Relationship();
-        relationship.setFriendOneId(jsonObject.getJSONObject("Content").getInt("userId"));
-        relationship.setFriendTwoId(friend.getUserId());
-        relationship.setFriendStatus(FriendStatus.Pending);
-
-        String url = "http://localhost:8083/api/private/friend/add";
-
-        CreateRequest(relationship, token, url);
-    }
 
     public void BlockFriend(JSONObject jsonObject)
     {
@@ -49,15 +32,6 @@ public class FriendLogic
         String token = jsonObject.getString("Token");
         Relationship relationship = CreateRelationship(jsonObject, FriendStatus.Accepted);
         String url = "http://localhost:8083/api/private/friend/update";
-
-        CreateRequest(relationship, token, url);
-    }
-
-    public void RemoveFriend(JSONObject jsonObject)
-    {
-        String token = jsonObject.getString("Token");
-        Relationship relationship = CreateRelationship(jsonObject, null);
-        String url = "http://localhost:8083/api/private/friend/delete";
 
         CreateRequest(relationship, token, url);
     }

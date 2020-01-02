@@ -28,63 +28,57 @@ public class FriendExecutor implements IExecutor
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
         Gson gson = gs.create();
-        User user;
-        String token;
-        WsReturnMessage returnMessage = new WsReturnMessage();
-        FriendCollection content;
+
         switch (jsonObject.getString("Action"))
         {
             case "INVITE":
-                friendLogic.InviteFriend(jsonObject);
-                JSONObject userContent = jsonObject.getJSONObject("Content");
-                user = gson.fromJson(userContent.getJSONObject("user").toString(), User.class);
-                token = jsonObject.getString("Token");
-                content = friendContainerLogic.GetAllFriends(user, token);
-                returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content);
-                session.getRemote().sendString(gson.toJson(returnMessage));
+                friendContainerLogic.InviteFriend(jsonObject);
+                RespondFriendCollection(jsonObject);
                 break;
             case "ACCEPTREQUEST":
                 friendLogic.AcceptFriend(jsonObject);
-                JSONObject userContent2 = jsonObject.getJSONObject("Content");
-                user = gson.fromJson(userContent2.getJSONObject("user").toString(), User.class);
-                token = jsonObject.getString("Token");
-                content = friendContainerLogic.GetAllFriends(user, token);
-                returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content);
-                session.getRemote().sendString(gson.toJson(returnMessage));
+                RespondFriendCollection(jsonObject);
                 break;
             case "BLOCKREQUEST":
                 friendLogic.BlockFriend(jsonObject);
-                JSONObject userContent1 = jsonObject.getJSONObject("Content");
-                user = gson.fromJson(userContent1.getJSONObject("user").toString(), User.class);
-                token = jsonObject.getString("Token");
-                content = friendContainerLogic.GetAllFriends(user, token);
-                returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content);
-                session.getRemote().sendString(gson.toJson(returnMessage));
+                RespondFriendCollection(jsonObject);
                 break;
             case "REMOVEFRIEND":
-                friendLogic.RemoveFriend(jsonObject);
-                JSONObject userContent4 = jsonObject.getJSONObject("Content");
-                user = gson.fromJson(userContent4.getJSONObject("user").toString(), User.class);
-                token = jsonObject.getString("Token");
-                content = friendContainerLogic.GetAllFriends(user, token);
-                returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content);
-                session.getRemote().sendString(gson.toJson(returnMessage));
+                friendContainerLogic.RemoveFriend(jsonObject);
+                RespondFriendCollection(jsonObject);
                 break;
             default:
-                user = gson.fromJson(jsonObject.getJSONObject("Content").toString(), User.class);
-                token = jsonObject.getString("Token");
-                content = friendContainerLogic.GetAllFriends(user, token);
+                User user = gson.fromJson(jsonObject.getJSONObject("Content").toString(), User.class);
+                String token = jsonObject.getString("Token");
+                FriendCollection friendCollection = friendContainerLogic.GetAllFriends(user, token);
+
+                WsReturnMessage returnMessage = new WsReturnMessage();
                 returnMessage.setAction("GETALLFRIENDS");
-                returnMessage.setContent(content);
+                returnMessage.setContent(friendCollection);
                 session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
         }
+    }
 
+    private void RespondFriendCollection(JSONObject jsonObject) throws IOException
+    {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
 
+        //Get the user object from the jsonObject
+        JSONObject userJsonObject = jsonObject.getJSONObject("Content");
+        User user = gson.fromJson(userJsonObject.getJSONObject("user").toString(), User.class);
+
+        String token = jsonObject.getString("Token");
+
+        //Get friendCollection from API via friendContainerLogic
+        FriendCollection friendCollection = friendContainerLogic.GetAllFriends(user, token);
+
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction("GETALLFRIENDS");
+        returnMessage.setContent(friendCollection);
+        session.getRemote().sendString(gson.toJson(returnMessage));
     }
 
     public FriendExecutor(JSONObject message, Session session) {
