@@ -4,6 +4,7 @@ import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Interfaces.Card.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
+import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class CardContainerSqlContext implements ICardContainerContext
 
 
 
-    public CardCollection GetCardsByUser(User user)
+    public CardCollection GetCardsByUser(int userId)
     {
         CardCollection cardCollection = new CardCollection();
 
@@ -35,7 +36,7 @@ public class CardContainerSqlContext implements ICardContainerContext
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                pst.setInt(1, user.getUserId());
+                pst.setInt(1, userId);
 
                 try (ResultSet rs = pst.executeQuery())
                 {
@@ -85,27 +86,6 @@ public class CardContainerSqlContext implements ICardContainerContext
         return card;
     }
 
-    @Override
-    public boolean AddCard(User user, Card card) {
-        return false;
-    }
-
-    @Override
-    public boolean DeleteCard(User user, Card card) {
-        return false;
-    }
-
-
-    public boolean AddCard()
-    {
-        return false;
-    }
-
-    public boolean DeleteCard()
-    {
-        return false;
-    }
-
     public CardCollection GetCards()
     {
         CardCollection cardCollection = new CardCollection();
@@ -134,9 +114,48 @@ public class CardContainerSqlContext implements ICardContainerContext
         return cardCollection;
     }
 
-    @Override
-    public CardCollection GetCardsByUser(int userId) {
-        return null;
+    public boolean AddCard(User user, Card card)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "insert into `card_collection`(`user_id`, `card_id`) values(?, ?);";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, user.getUserId());
+                pst.setInt(2, card.getCardId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean DeleteCard(User user, Card card)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "delete from `card_collection` where `user_id` = ? and `card_id` = ?;";
+
+            try (PreparedStatement pst = conn.prepareStatement(query))
+            {
+                pst.setInt(1, user.getUserId());
+                pst.setInt(2, card.getCardId());
+                pst.executeUpdate();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
     }
 
     private Card FillCard(ResultSet rs) throws SQLException
@@ -152,5 +171,4 @@ public class CardContainerSqlContext implements ICardContainerContext
 
         return card;
     }
-
 }

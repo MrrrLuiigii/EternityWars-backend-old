@@ -8,8 +8,10 @@ import com.eternitywars.api.Models.Player;
 import com.eternitywars.api.Models.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
+
 @RestController
-@RequestMapping(value = "/api/private/card")
+@RequestMapping(value = "/api/public/card")
 public class CardContainerResource
 {
     private CardContainerRepository cardContainerRepository = new CardContainerRepository();
@@ -37,16 +39,16 @@ public class CardContainerResource
     @PostMapping(value = "/delete", consumes = "application/json", produces = "application/json")
     public boolean DeleteCard(@RequestBody Player player)
     {
-        User user = new User();
-        Card card = new Card();
+        User user = new User(player.getUserId());
+        Card card = player.getDeck().getCards().getCards().get(0);
         return cardContainerRepository.DeleteCard(user, card);
     }
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public boolean AddCard()
+    public boolean AddCard(@RequestBody Player player)
     {
-        User user = new User();
-        Card card = new Card();
+        User user = new User(player.getUserId());
+        Card card = player.getDeck().getCards().getCards().get(0);
         return cardContainerRepository.AddCard(user, card);
     }
 }
