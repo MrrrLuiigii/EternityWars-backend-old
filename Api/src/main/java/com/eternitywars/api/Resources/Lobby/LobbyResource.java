@@ -6,7 +6,7 @@ import com.eternitywars.api.Models.Player;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/public/lobby")
+@RequestMapping(value = "/api/private/lobby")
 public class LobbyResource
 {
     private LobbyRepository lobbyRepository = new LobbyRepository();

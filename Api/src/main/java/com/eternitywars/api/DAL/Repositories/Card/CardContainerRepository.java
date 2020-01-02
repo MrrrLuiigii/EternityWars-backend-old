@@ -8,18 +8,18 @@ import com.eternitywars.api.Models.User;
 
 public class CardContainerRepository implements ICardContainerContext
 {
-    private ICardContainerContext cardContainerContext;
+    private ICardContainerContext cardContainerContext = new CardContainerSqlContext();
 
-    public CardContainerRepository()
+
+
+    public CardCollection GetCards()
     {
-        this.cardContainerContext = new CardContainerSqlContext();
+        return cardContainerContext.GetCards();
     }
 
-
-
-    public CardCollection GetCardsByUser(User user)
+    public CardCollection GetCardsByUser(int userId)
     {
-        return cardContainerContext.GetCardsByUser(user);
+        return cardContainerContext.GetCardsByUser(userId);
     }
 
     public Card GetCardById(int cardId)
@@ -27,15 +27,13 @@ public class CardContainerRepository implements ICardContainerContext
         return cardContainerContext.GetCardById(cardId);
     }
 
-
-    public void AddCardToAccount() {
-        cardContainerContext.AddCardToAccount();
-    }
-
-    public CardCollection GetCards()
+    public boolean AddCard(User user, Card card)
     {
-        return cardContainerContext.GetCards();
+        return cardContainerContext.AddCard(user, card);
     }
 
-
+    public boolean DeleteCard(User user, Card card)
+    {
+        return cardContainerContext.DeleteCard(user, card);
+    }
 }

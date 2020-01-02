@@ -20,19 +20,16 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
 
 
 
-    public boolean AddRelationship(User user, Friend friend)
+    public boolean AddRelationship(Relationship relationship)
     {
-        //todo this stored procedure is not working yet
-        //trying to automatically accept the request if both users send a friend request to eachother
-
         try (Connection conn = dbc.getDatabaseConnection())
         {
             String query = "{call RequestFriend(?, ?, ?)};";
 
             try (CallableStatement cst = conn.prepareCall(query))
             {
-                cst.setInt(1, user.getUserId());
-                cst.setInt(2, friend.getUserId());
+                cst.setInt(1, relationship.getFriendOneId());
+                cst.setInt(2, relationship.getFriendTwoId());
                 cst.setString(3, FriendStatus.Pending.toString());
                 cst.executeQuery();
             }
@@ -46,7 +43,7 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
         return true;
     }
 
-    public boolean DeleteRelationship(User user, Friend friend)
+    public boolean DeleteRelationship(Relationship relationship)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
@@ -56,10 +53,10 @@ public class RelationshipContainerSqlContext implements IRelationshipContainerCo
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                pst.setInt(1, user.getUserId());
-                pst.setInt(2, friend.getUserId());
-                pst.setInt(3, user.getUserId());
-                pst.setInt(4, friend.getUserId());
+                pst.setInt(1, relationship.getFriendOneId());
+                pst.setInt(2, relationship.getFriendTwoId());
+                pst.setInt(3, relationship.getFriendOneId());
+                pst.setInt(4, relationship.getFriendTwoId());
                 pst.executeUpdate();
             }
         }

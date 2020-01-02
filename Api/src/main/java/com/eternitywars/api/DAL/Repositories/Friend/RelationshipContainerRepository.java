@@ -15,14 +15,14 @@ public class RelationshipContainerRepository implements IRelationshipContainerCo
 
 
 
-    public boolean AddRelationship(User user, Friend friend)
+    public boolean AddRelationship(Relationship relationship)
     {
-        return relationshipContainerContext.AddRelationship(user, friend);
+        return relationshipContainerContext.AddRelationship(relationship);
     }
 
-    public boolean DeleteRelationship(User user, Friend friend)
+    public boolean DeleteRelationship(Relationship relationship)
     {
-        return relationshipContainerContext.DeleteRelationship(user, friend);
+        return relationshipContainerContext.DeleteRelationship(relationship);
     }
 
     public RelationshipCollection GetRelationships(User user )
