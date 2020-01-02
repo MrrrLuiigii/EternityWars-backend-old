@@ -13,11 +13,12 @@ import java.io.IOException;
 
 public class FriendExecutor implements IExecutor
 {
-    private FriendContainerLogic friendContainerLogic = new FriendContainerLogic();
     private FriendLogic friendLogic = new FriendLogic();
+    private FriendContainerLogic friendContainerLogic = new FriendContainerLogic();
 
     private JSONObject message;
     private Session session;
+
 
 
     @Override

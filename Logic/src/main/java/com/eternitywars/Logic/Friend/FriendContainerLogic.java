@@ -12,7 +12,7 @@ public class FriendContainerLogic
     private RestTemplate restTemplate = new RestTemplate();
     private Gson gson = new Gson();
 
-//TODO get the friends out of this relationship
+    //TODO get the friends out of this relationship
     public FriendCollection GetAllFriends(JSONObject message)
     {
         String json = message.getJSONObject("Content").toString();
