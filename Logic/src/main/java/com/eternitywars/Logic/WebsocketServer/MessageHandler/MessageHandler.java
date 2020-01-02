@@ -7,12 +7,14 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MessageHandler {
+public class MessageHandler
+{
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-    ExecutorService executorService = Executors.newFixedThreadPool(10);
-
-    public void handleMessage(Session session, JSONObject message) {
-        switch (message.getString("Subject")) {
+    public void handleMessage(Session session, JSONObject message)
+    {
+        switch (message.getString("Subject"))
+        {
             case "USER":
                 executorService.submit(new UserExecutor(message, session));
                 break;

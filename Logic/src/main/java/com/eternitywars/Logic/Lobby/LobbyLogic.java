@@ -1,13 +1,9 @@
 package com.eternitywars.Logic.Lobby;
 
 import com.eternitywars.Logic.Game.GameLogic;
+import com.eternitywars.Models.*;
 import com.eternitywars.Models.Enums.LobbyPlayerStatus;
 import com.eternitywars.Models.Enums.LobbyStatus;
-import com.eternitywars.Models.Lobby;
-import com.eternitywars.Models.Player;
-import com.eternitywars.Models.RelationshipCollection;
-import com.eternitywars.Models.User;
-import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +11,8 @@ import org.springframework.web.client.RestTemplate;
 public class LobbyLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
-    LobbyContainerLogic lobbyContainerLogic = new LobbyContainerLogic();
-    GameLogic gameLogic = new GameLogic();
+    private LobbyContainerLogic lobbyContainerLogic = new LobbyContainerLogic();
+    private GameLogic gameLogic = new GameLogic();
 
     public Lobby JoinLobby(Lobby lobby, Player player, String token)
     {

@@ -57,10 +57,6 @@ public class FriendContainerLogic
 
             if (r.getFriendStatus() == FriendStatus.Blocked && r.getFriendTwoId() == user.getUserId())
             {
-                // todo ik ben geblokkeerd door hem, hoe maken we hier onderscheid in betreft enum? een extra enum waarde maken?
-                // is nodig omdat ik geen contact met hem mag leggen als ik geblokkeerd ben.
-                // ik heb nu geïmplementeerd met extra enum waarde, als iemand het er niet mee eens is pas je het maar aan.
-
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendOneId());
                 friend.setUsername(r.getFriendOneUsername());
@@ -72,7 +68,8 @@ public class FriendContainerLogic
         return friendCollection;
     }
 
-    public void RemoveFriend(int accountId){
+    public void RemoveFriend(int accountId)
+    {
         //todo remove friend stuff
     }
 }

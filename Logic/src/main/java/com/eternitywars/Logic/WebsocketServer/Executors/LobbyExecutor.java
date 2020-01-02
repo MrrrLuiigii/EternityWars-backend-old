@@ -2,84 +2,95 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Lobby.LobbyContainerLogic;
 import com.eternitywars.Logic.Lobby.LobbyLogic;
-
-import com.eternitywars.Models.Account;
 import com.eternitywars.Models.Lobby;
+import com.eternitywars.Models.LobbyCollection;
 import com.eternitywars.Models.Player;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
-
 import java.io.IOException;
 
-
-public class LobbyExecutor implements IExecutor  {
-
+public class LobbyExecutor implements IExecutor
+{
     private LobbyLogic lobbyLogic = new LobbyLogic();
     private LobbyContainerLogic lobbyContainerLogic = new LobbyContainerLogic();
 
     private JSONObject message;
     private Session session;
-    private String lobbyjson;
-    private Lobby lobbyobject;
+    private String lobbyJson;
+    private Lobby lobbyObject;
     private Lobby lobby;
-    private String playerjson;
+    private LobbyCollection lobbyCollection;
+    private String playerJson;
     private Player player;
 
-    public LobbyExecutor(JSONObject message, Session session) {
+    public LobbyExecutor(JSONObject message, Session session)
+    {
         this.message = message;
         this.session = session;
     }
 
     @Override
-    public void Execute(JSONObject message, Session session) throws IOException {
-
+    public void Execute(JSONObject message, Session session) throws IOException
+    {
         Gson gson = new Gson();
-        try {
-            lobbyjson = message.getJSONObject("Lobby").toString();
-            lobbyobject = gson.fromJson(lobbyjson, Lobby.class);
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        try{
-            playerjson = message.getJSONObject("Player").toString();
-            player = gson.fromJson(playerjson ,Player.class);
-        }catch(Exception e){
+
+        try
+        {
+            lobbyJson = message.getJSONObject("Lobby").toString();
+            lobbyObject = gson.fromJson(lobbyJson, Lobby.class);
+        }catch(Exception e)
+        {
             System.out.println(e);
         }
 
-        String token = message.getString("token");
+        try
+        {
+            playerJson = message.getJSONObject("Player").toString();
+            player = gson.fromJson(playerJson, Player.class);
+        }catch(Exception e)
+        {
+            System.out.println(e);
+        }
 
-        switch (message.getString("Action")) {
+        String token = message.getString("Token");
+
+        switch (message.getString("Action"))
+        {
             case "JOINLOBBY":
-                lobby = lobbyLogic.JoinLobby(lobbyobject, player,  token);
+                lobby = lobbyLogic.JoinLobby(lobbyObject, player,  token);
                 session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "LEAVELOBBY":
-                lobby = lobbyLogic.LeaveLobby(lobbyobject, player,  token);
+                lobby = lobbyLogic.LeaveLobby(lobbyObject, player,  token);
                 session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "PLAYERREADY":
-                lobby = lobbyLogic.PlayerReady(lobbyobject, player);
+                lobby = lobbyLogic.PlayerReady(lobbyObject, player);
                 session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "PLAYERNOTREADY":
-                lobby = lobbyLogic.PlayerNotReady(lobbyobject, player);
+                lobby = lobbyLogic.PlayerNotReady(lobbyObject, player);
                 session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "SETDECK":
-                lobby = lobbyLogic.SetDeck(lobbyobject, player, token);
+                lobby = lobbyLogic.SetDeck(lobbyObject, player, token);
                 session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "ADDLOBBY":
-                lobby = lobbyContainerLogic.AddLobby(lobbyobject, token);
+                lobby = lobbyContainerLogic.AddLobby(lobbyObject, token);
                 session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "GETLOBBYBYID":
+                lobby = lobbyContainerLogic.GetLobbyById(lobbyObject, token);
+                session.getRemote().sendString(new JSONObject(lobby).toString());
                 break;
             case "GETLOBBIES":
+                lobbyCollection = lobbyContainerLogic.GetLobbies(token);
+                session.getRemote().sendString(new JSONObject(lobbyCollection).toString());
                 break;
             case "DELETELOBBY":
+//                lobbyContainerLogic.DeleteLobby(lobbyObject)
                 break;
         }
     }

@@ -92,7 +92,7 @@ public class UserContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
-        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/private/user/getByEmail/", HttpMethod.GET, request , String.class);
+        ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/private/user/getByEmail/", HttpMethod.GET, request, String.class);
         //todo how does response work
         JSONObject api_output = new JSONObject(response.getBody());
 
