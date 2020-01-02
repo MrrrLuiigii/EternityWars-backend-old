@@ -2,33 +2,24 @@ package com.eternitywars.api.Resources.Friend;
 
 import com.eternitywars.api.DAL.Repositories.Friend.RelationshipContainerRepository;
 import com.eternitywars.api.Models.*;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/private/friend")
+@RequestMapping(value = "/api/public/friend")
 public class RelationshipContainerResource
 {
     private RelationshipContainerRepository relationshipContainerRepository = new RelationshipContainerRepository();
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public boolean AddRelationship(@RequestBody String json)
+    public boolean AddRelationship(@RequestBody Relationship relationship)
     {
-        JSONObject jsonObject = new JSONObject(json);
-        int userId = jsonObject.getInt("friendOneId");
-        int friendId = jsonObject.getInt("friendTwoId");
-
-        return relationshipContainerRepository.AddRelationship(new User(userId), new Friend(friendId));
+        return relationshipContainerRepository.AddRelationship(relationship);
     }
 
     @PostMapping(value = "/delete", consumes = "application/json", produces = "application/json")
-    public boolean DeleteRelationship(@RequestBody String json)
+    public boolean DeleteRelationship(@RequestBody Relationship relationship)
     {
-        JSONObject jsonObject = new JSONObject(json);
-        int userId = jsonObject.getInt("friendOneId");
-        int friendId = jsonObject.getInt("friendTwoId");
-
-        return relationshipContainerRepository.DeleteRelationship(new User(userId), new Friend(friendId));
+        return relationshipContainerRepository.DeleteRelationship(relationship);
     }
 
     @GetMapping(value = "/get/{userId}", consumes = "application/json", produces = "application/json")
