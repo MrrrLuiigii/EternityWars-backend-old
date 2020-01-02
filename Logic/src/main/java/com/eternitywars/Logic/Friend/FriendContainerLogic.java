@@ -13,13 +13,8 @@ public class FriendContainerLogic
     private Gson gson = new Gson();
 
 //TODO get the friends out of this relationship
-    public FriendCollection GetAllFriends(JSONObject message)
+    public FriendCollection GetAllFriends(User u, String token)
     {
-        String json = message.getJSONObject("Content").toString();
-        String token = message.getString("Token");
-
-        User user = gson.fromJson(json, User.class);
-
         System.out.println(token);
 
         HttpHeaders headers = new HttpHeaders();
@@ -27,7 +22,7 @@ public class FriendContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(headers);
-        ResponseEntity<RelationshipCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , RelationshipCollection.class, user.getUserId());
+        ResponseEntity<RelationshipCollection> response = restTemplate.exchange("http://localhost:8083/api/private/friend/get/{id}", HttpMethod.GET, request , RelationshipCollection.class, u.getUserId());
 
         //<editor-fold desc="Filter relationshipcollection and make it into a friendcollection">
         RelationshipCollection relationshipCollection = response.getBody();
@@ -35,7 +30,7 @@ public class FriendContainerLogic
 
         for (Relationship r : relationshipCollection.getRelationships())
         {
-            if (r.getFriendOneId() == user.getUserId())
+            if (r.getFriendOneId() == u.getUserId())
             {
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendTwoId());
@@ -45,7 +40,7 @@ public class FriendContainerLogic
                 friendCollection.AddFriend(friend);
             }
 
-            if (r.getFriendStatus() == FriendStatus.Pending && r.getFriendTwoId() == user.getUserId())
+            if (r.getFriendStatus() == FriendStatus.Pending && r.getFriendTwoId() == u.getUserId())
             {
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendOneId());
@@ -55,7 +50,7 @@ public class FriendContainerLogic
                 friendCollection.AddFriend(friend);
             }
 
-            if (r.getFriendStatus() == FriendStatus.Blocked && r.getFriendTwoId() == user.getUserId())
+            if (r.getFriendStatus() == FriendStatus.Blocked && r.getFriendTwoId() == u.getUserId())
             {
                 Friend friend = new Friend();
                 friend.setUserId(r.getFriendOneId());

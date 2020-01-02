@@ -69,8 +69,9 @@ public class FriendLogic
         Gson gson = gs.create();
 
         //Get pojo's from the jsonObject
-        User user = gson.fromJson(jsonObject.getJSONObject("user").toString(), User.class);
-        User friend = gson.fromJson(jsonObject.getJSONObject("friend").toString(), User.class);
+        JSONObject content = jsonObject.getJSONObject("Content");
+        User user = gson.fromJson(content.getJSONObject("user").toString(), User.class);
+        User friend = gson.fromJson(content.getJSONObject("friend").toString(), User.class);
 
         return new Relationship(user.getUserId(), friend.getUserId(), friendStatus);
     }
