@@ -5,7 +5,7 @@ import com.eternitywars.api.Models.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/public/friend")
+@RequestMapping(value = "/api/private/friend")
 public class RelationshipContainerResource
 {
     private RelationshipContainerRepository relationshipContainerRepository = new RelationshipContainerRepository();
