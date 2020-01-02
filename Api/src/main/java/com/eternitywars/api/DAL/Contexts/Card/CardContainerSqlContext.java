@@ -85,9 +85,25 @@ public class CardContainerSqlContext implements ICardContainerContext
         return card;
     }
 
+    @Override
+    public boolean AddCard(User user, Card card) {
+        return false;
+    }
 
-    public void AddCardToAccount() {
-        //insert shit into card_user
+    @Override
+    public boolean DeleteCard(User user, Card card) {
+        return false;
+    }
+
+
+    public boolean AddCard()
+    {
+        return false;
+    }
+
+    public boolean DeleteCard()
+    {
+        return false;
     }
 
     public CardCollection GetCards()
@@ -116,6 +132,11 @@ public class CardContainerSqlContext implements ICardContainerContext
         }
 
         return cardCollection;
+    }
+
+    @Override
+    public CardCollection GetCardsByUser(int userId) {
+        return null;
     }
 
     private Card FillCard(ResultSet rs) throws SQLException

@@ -8,9 +8,11 @@ public interface ICardContainerContext
 {
     CardCollection GetCards();
 
-    CardCollection GetCardsByUser(User user);
+    CardCollection GetCardsByUser(int userId);
 
     Card GetCardById(int cardId);
 
-    void AddCardToAccount();
+    boolean AddCard(User user, Card card);
+
+    boolean DeleteCard(User user, Card card);
 }
