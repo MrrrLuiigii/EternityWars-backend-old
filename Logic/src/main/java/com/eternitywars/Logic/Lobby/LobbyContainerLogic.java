@@ -44,13 +44,14 @@ public class LobbyContainerLogic
         return response.getBody();
     }
 
-    public Lobby DeleteLobby(Lobby lobby, String token)
+    public LobbyCollection DeleteLobby(Lobby lobby, String token)
     {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        return restTemplate.postForObject("http://localhost:8083/api/private/lobby/delete", request, Lobby.class);
+        restTemplate.postForObject("http://localhost:8083/api/private/lobby/delete", request, Lobby.class);
+        return  GetLobbies(token);
     }
 }

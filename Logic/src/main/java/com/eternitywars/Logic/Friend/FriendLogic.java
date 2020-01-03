@@ -61,17 +61,4 @@ public class FriendLogic
 
         restTemplate.postForObject(url, request, String.class);
     }
-
-//    public FriendCollection GetRelationschipsByUserId(String json)
-//    {
-//        FriendCollection friends = new FriendCollection();
-//        User user = new User();
-//        JSONObject incommingobject = new JSONObject(json);
-//        //get data out the JSON
-//        user.setUserId(incommingobject.getInt("userId"));
-//
-//        //make call to API
-//        //return the data back to the ws
-//        return friends;
-//    }
 }

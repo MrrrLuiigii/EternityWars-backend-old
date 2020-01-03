@@ -2,10 +2,10 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Lobby.LobbyContainerLogic;
 import com.eternitywars.Logic.Lobby.LobbyLogic;
-import com.eternitywars.Models.Lobby;
-import com.eternitywars.Models.LobbyCollection;
-import com.eternitywars.Models.Player;
+import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
+import com.eternitywars.Models.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class LobbyExecutor implements IExecutor
                 break;
             case "LEAVELOBBY":
                 lobby = lobbyLogic.LeaveLobby(lobbyObject, player,  token);
-                session.getRemote().sendString(new JSONObject(lobby).toString());
+                RespondLobbyCollection(message);
                 break;
             case "PLAYERREADY":
                 lobby = lobbyLogic.PlayerReady(lobbyObject, player);
@@ -79,7 +79,7 @@ public class LobbyExecutor implements IExecutor
                 break;
             case "ADDLOBBY":
                 lobby = lobbyContainerLogic.AddLobby(lobbyObject, token);
-                session.getRemote().sendString(new JSONObject(lobby).toString());
+                RespondLobbyCollection(message);
                 break;
             case "GETLOBBYBYID":
                 lobby = lobbyContainerLogic.GetLobbyById(lobbyObject, token);
@@ -87,12 +87,33 @@ public class LobbyExecutor implements IExecutor
                 break;
             case "GETLOBBIES":
                 lobbyCollection = lobbyContainerLogic.GetLobbies(token);
-                session.getRemote().sendString(new JSONObject(lobbyCollection).toString());
+                RespondLobbyCollection(message);
                 break;
             case "DELETELOBBY":
-//                lobbyContainerLogic.DeleteLobby(lobbyObject)
+                LobbyCollection lobbyCollection = lobbyContainerLogic.DeleteLobby(lobbyObject, token);
+                RespondLobbyCollection(message);
                 break;
         }
+    }
+
+    private void RespondLobbyCollection(JSONObject jsonObject) throws IOException
+    {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        //Get the user object from the jsonObject
+        JSONObject userJsonObject = jsonObject.getJSONObject("Content");
+
+        String token = jsonObject.getString("Token");
+
+        //Get friendCollection from API via friendContainerLogic
+        lobbyCollection = lobbyContainerLogic.GetLobbies(token);
+
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction("GETALLLOBBIES");
+        returnMessage.setContent(lobbyCollection);
+        session.getRemote().sendString(gson.toJson(returnMessage));
     }
 
     @Override

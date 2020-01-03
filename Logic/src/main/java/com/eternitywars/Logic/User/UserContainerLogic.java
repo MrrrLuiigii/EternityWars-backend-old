@@ -93,7 +93,6 @@ public class UserContainerLogic
         HttpEntity<String> request = new HttpEntity<>(output.toString(), headers);
 
         ResponseEntity<String> response = restTemplate.exchange("localhost:8083/api/private/user/getByEmail/", HttpMethod.GET, request, String.class);
-        //todo how does response work
         JSONObject api_output = new JSONObject(response.getBody());
 
         user.setUserId(api_output.getInt("userId"));
