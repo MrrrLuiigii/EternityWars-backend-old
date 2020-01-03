@@ -38,3 +38,4 @@ public class CollectionLogic
         //todo add card to collection by account POST
         return restTemplate.getForObject("example", boolean.class);
     }
+}

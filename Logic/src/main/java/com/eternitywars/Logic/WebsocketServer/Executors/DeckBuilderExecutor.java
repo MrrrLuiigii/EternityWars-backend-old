@@ -61,6 +61,13 @@ public class DeckBuilderExecutor implements IExecutor  {
                 returnMessage.setContent(answer);
                 session.getRemote().sendString(new JSONObject(answer).toString());
                 break;
+            case "GETALLCARDSBYACCOUNT":
+                CardCollection collection = deckBuilderContainerLogic.GetAllCardsByAccount(message);
+
+                returnMessage.setAction("GETALLCARDSBYACCOUNT");
+                returnMessage.setContent(collection);
+                session.getRemote().sendString(new JSONObject(collection).toString());
+                break;
         }
     }
 

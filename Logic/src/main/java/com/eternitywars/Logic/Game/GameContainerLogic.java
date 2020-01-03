@@ -32,7 +32,7 @@ public class GameContainerLogic
     }
 
     public Game GetGameById(JSONObject jsonObject){
-        /String token = jsonObject.getString("Token");
+        String token = jsonObject.getString("Token");
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -44,7 +44,7 @@ public class GameContainerLogic
         JSONObject content = jsonObject.getJSONObject("Content");
         Game game = gson.fromJson(content.getJSONObject("game").toString(), Game.class);
         HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("game").toString(), headers);
-        ResponseEntity<Game> response = restTemplate.exchange("http://localhost:8083/api/private/deck/get/{gameID}", HttpMethod.GET, request , Game.class, game.G);
+        ResponseEntity<Game> response = restTemplate.exchange("http://localhost:8083/api/private/deck/get/{gameID}", HttpMethod.GET, request , Game.class);
         return response.getBody();
     }
 
