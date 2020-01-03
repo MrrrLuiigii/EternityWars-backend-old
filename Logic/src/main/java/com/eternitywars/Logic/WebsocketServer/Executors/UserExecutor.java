@@ -11,8 +11,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class UserExecutor implements IExecutor{
-
+public class UserExecutor implements IExecutor
+{
     private UserContainerLogic userContainerLogic = new UserContainerLogic();
     private UserLogic userLogic = new UserLogic();
     private Gson gson = new Gson();
@@ -20,20 +20,25 @@ public class UserExecutor implements IExecutor{
     private JSONObject message;
     private Session session;
 
-    public UserExecutor(JSONObject message, Session session) {
+    public UserExecutor(JSONObject message, Session session)
+    {
         this.message = message;
         this.session = session;
     }
 
     @Override
-    public void Execute(JSONObject message, Session session) throws IOException {
+    public void Execute(JSONObject message, Session session) throws IOException
+    {
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
         Gson gson = gs.create();
+
         User user;
         WsReturnMessage returnMessage = new WsReturnMessage();
         String token = message.getString("Token");
-        switch (message.getString("Action")) {
+
+        switch (message.getString("Action"))
+        {
             case "GetUserById":
                 user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
                 userContainerLogic.GetUserById(user);
@@ -70,12 +75,16 @@ public class UserExecutor implements IExecutor{
     }
 
     @Override
-    public void run() {
-        try {
-            synchronized (message){
+    public void run()
+    {
+        try
+        {
+            synchronized (message)
+            {
                 Execute(message, session);
             }
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             System.out.println(e.getMessage());
         }
     }

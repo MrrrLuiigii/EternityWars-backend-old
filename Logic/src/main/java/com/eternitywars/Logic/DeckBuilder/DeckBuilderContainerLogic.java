@@ -1,38 +1,113 @@
 package com.eternitywars.Logic.DeckBuilder;
 
-import com.eternitywars.Models.Deck;
+import com.eternitywars.Models.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
 public class DeckBuilderContainerLogic
 {
-    @Autowired
-    private RestTemplate restTemplate;
 
-    public boolean AddDeck(Deck deck){
-        //todo add deck stuff POST
-        return restTemplate.getForObject("example", boolean.class);
+    private RestTemplate restTemplate = new RestTemplate();
+
+    public boolean AddDeck(JSONObject jsonObject){
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        JSONObject content = jsonObject.getJSONObject("Content");
+        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("user").toString(), headers);
+
+        return restTemplate.postForObject("http://localhost:8083/api/private/deck/add", request, boolean.class);
     }
 
-    public ArrayList GetAllDeckNames(){
-        //todo get all deck names
-        return restTemplate.getForObject("example", ArrayList.class);
+    public DeckCollection GetAllDecks(JSONObject jsonObject){
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        JSONObject content = jsonObject.getJSONObject("Content");
+        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("user").toString(), headers);
+        ResponseEntity<DeckCollection> response = restTemplate.exchange("http://localhost:8083/api/private/deck/get", HttpMethod.GET, request , DeckCollection.class);
+        return response.getBody();
     }
 
-    public Deck GetDeckById(int DeckId){
-        //todo get deck by name stuff
-        return restTemplate.getForObject("example", Deck.class);
+    public Deck GetDeckById(JSONObject jsonObject){
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        JSONObject content = jsonObject.getJSONObject("Content");
+        Player player = gson.fromJson(content.getJSONObject("player").toString(), Player.class);
+        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("player").toString(), headers);
+        ResponseEntity<Deck> response = restTemplate.exchange("http://localhost:8083/api/private/deck/get/{deckId}", HttpMethod.GET, request , Deck.class, player.getDeck().getDeckId());
+        return response.getBody();
     }
 
-    public boolean DeleteDeck(Deck deck){
-        //todo delete deck stuff
-        return restTemplate.getForObject("example", boolean.class);
+    public CardCollection GetAllCardsByAccount(JSONObject jsonObject)
+    {
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        JSONObject content = jsonObject.getJSONObject("Content");
+        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("account").toString(), headers);
+        ResponseEntity<CardCollection> response = restTemplate.exchange("http://localhost:8083/api/private/deck/getAllCards", HttpMethod.GET, request , CardCollection.class);
+        return response.getBody();
     }
 
-    public boolean SaveDeck(Deck deck){
-        //todo save deck POST
-        return restTemplate.getForObject("example", boolean.class);
+    public boolean DeleteDeck(JSONObject jsonObject){
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        JSONObject content = jsonObject.getJSONObject("Content");
+        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("player").toString(), headers);
+        return restTemplate.postForObject("http://localhost:8083/api/private/deck/delete", request, boolean.class);
+    }
+
+    public boolean SaveDeck(JSONObject jsonObject){
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        JSONObject content = jsonObject.getJSONObject("Content");
+        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("player").toString(), headers);
+        return restTemplate.postForObject("http://localhost:8083/api/private/deck/save", request, boolean.class);
     }
 }
