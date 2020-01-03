@@ -14,6 +14,10 @@ public class Player extends Account
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
 
+
+    public Player() {
+    }
+
     public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
     {
         super(id, username, accountStatus, session);

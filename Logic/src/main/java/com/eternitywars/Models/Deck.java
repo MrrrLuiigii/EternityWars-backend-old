@@ -7,6 +7,9 @@ public class Deck
     int deckId;
     List<Card> cards;
 
+    public Deck() {
+    }
+
     public Deck(List<Card> cards, int deckid)
     {
         this.deckId = deckid;

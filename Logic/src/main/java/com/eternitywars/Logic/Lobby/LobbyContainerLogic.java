@@ -30,7 +30,7 @@ public class LobbyContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<Lobby> response = restTemplate.exchange("http://localhost:8083/api/private/lobby/getById/{lobbyId}", HttpMethod.GET, request, Lobby.class, lobby.getLobbyId());
+        ResponseEntity<Lobby> response = restTemplate.exchange("http://localhost:8083/api/private/lobby/getById/{lobbyId}", HttpMethod.GET, request, Lobby.class, lobby.getId());
         return response.getBody();
     }
 
