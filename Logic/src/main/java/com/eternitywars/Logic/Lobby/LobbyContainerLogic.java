@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.Lobby;
 
+import com.eternitywars.Models.Enums.LobbyPlayerStatus;
 import com.eternitywars.Models.Lobby;
 import com.eternitywars.Models.LobbyCollection;
 import org.json.JSONObject;
@@ -17,6 +18,8 @@ public class LobbyContainerLogic
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        lobby.getPlayerOne().setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
         //send lobby object with the user that wants to join

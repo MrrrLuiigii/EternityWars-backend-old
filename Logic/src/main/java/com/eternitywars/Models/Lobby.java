@@ -96,4 +96,6 @@ public class Lobby
         this.playerTwo = playerTwo;
     }
 
+    public void setStatus(LobbyStatus full) {
+    }
 }

@@ -31,7 +31,7 @@ public class DeckBuilderExecutor implements IExecutor  {
                RespondDeckCollection(message);
                 break;
             case "GETALLDECK":
-                deckBuilderContainerLogic.GetAllDecks(message);
+              //  deckBuilderContainerLogic.GetAllDecks(message);
                 RespondDeckCollection(message);
                 break;
             case "GETDECKBYID":
@@ -75,19 +75,19 @@ public class DeckBuilderExecutor implements IExecutor  {
     {
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
-        Gson gson = gs.create();
+      Gson gson = gs.create();
 
         //Get the user object from the jsonObject
-        JSONObject userJsonObject = jsonObject.getJSONObject("Content");
-        User user = gson.fromJson(userJsonObject.getJSONObject("user").toString(), User.class);
+       // JSONObject userJsonObject = jsonObject.getJSONObject("Content");
+       // User user = gson.fromJson(userJsonObject.getJSONObject("user").toString(), User.class);
 
-        String token = jsonObject.getString("Token");
+       // String token = jsonObject.getString("Token");
 
-        //Get friendCollection from API via friendContainerLogic
+
         DeckCollection deckCollection = deckBuilderContainerLogic.GetAllDecks(jsonObject);
 
         WsReturnMessage returnMessage = new WsReturnMessage();
-        returnMessage.setAction("GETALLFRIENDS");
+        returnMessage.setAction("GETALLDECK");
         returnMessage.setContent(deckCollection);
         session.getRemote().sendString(gson.toJson(returnMessage));
     }

@@ -2,6 +2,7 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Lobby.LobbyContainerLogic;
 import com.eternitywars.Logic.Lobby.LobbyLogic;
+import com.eternitywars.Logic.WebsocketServer.Collection.UserCollection;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.*;
 import com.google.gson.Gson;
@@ -33,7 +34,9 @@ public class LobbyExecutor implements IExecutor
     @Override
     public void Execute(JSONObject message, Session session) throws IOException
     {
-        Gson gson = new Gson();
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
         WsReturnMessage returnMessage = new WsReturnMessage();
 
         try
@@ -59,24 +62,31 @@ public class LobbyExecutor implements IExecutor
         switch (message.getString("Action"))
         {
             case "JOINLOBBY":
-//                lobby = lobbyLogic.JoinLobby(lobbyObject, player,  token);
-                session.getRemote().sendString(new JSONObject(lobby).toString());
+                lobby = lobbyLogic.JoinLobby(lobbyObject, player,  token);
+                returnMessage = new WsReturnMessage();
+                returnMessage.setContent(lobby);
+                returnMessage.setAction("JOINLOBBY");
+                session.getRemote().sendString(gson.toJson(returnMessage));
+
+                RespondLobby(lobby);
+                RespondLobbyCollection(message);
                 break;
             case "LEAVELOBBY":
                 lobby = lobbyLogic.LeaveLobby(lobbyObject, player,  token);
                 RespondLobbyCollection(message);
+                RespondLobby(lobby);
                 break;
             case "PLAYERREADY":
                 lobby = lobbyLogic.PlayerReady(lobbyObject, player);
-                session.getRemote().sendString(new JSONObject(lobby).toString());
+                RespondLobby(lobby);
                 break;
             case "PLAYERNOTREADY":
                 lobby = lobbyLogic.PlayerNotReady(lobbyObject, player);
-                session.getRemote().sendString(new JSONObject(lobby).toString());
+                RespondLobby(lobby);
                 break;
             case "SETDECK":
                 lobby = lobbyLogic.SetDeck(lobbyObject, player, token);
-                session.getRemote().sendString(new JSONObject(lobby).toString());
+                RespondLobby(lobby);
                 break;
             case "ADDLOBBY":
                 lobby = lobbyContainerLogic.AddLobby(lobbyObject, token);
@@ -84,7 +94,7 @@ public class LobbyExecutor implements IExecutor
                 returnMessage = new WsReturnMessage();
                 returnMessage.setContent(lobby);
                 returnMessage.setAction("JOINLOBBY");
-                session.getRemote().sendString(new JSONObject(returnMessage).toString());
+                session.getRemote().sendString(gson.toJson(returnMessage));
 
                 RespondLobbyCollection(message);
                 break;
@@ -102,6 +112,22 @@ public class LobbyExecutor implements IExecutor
         }
     }
 
+    private void RespondLobby(Lobby lobby) throws IOException {
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction("UPDATELOBBY");
+        returnMessage.setContent(lobby);
+
+        for (User u : UserCollection.getConnectedUsers()){
+            if(u.getUsername().equals(lobby.getPlayerOne().getUsername()) || u.getUsername().equals(lobby.getPlayerTwo().getUsername())){
+                u.getSession().getRemote().sendString(gson.toJson(returnMessage));
+            }
+        }
+    }
+
     private void RespondLobbyCollection(JSONObject jsonObject) throws IOException
     {
         GsonBuilder gs = new GsonBuilder();
@@ -116,10 +142,14 @@ public class LobbyExecutor implements IExecutor
         //Get friendCollection from API via friendContainerLogic
         lobbyCollection = lobbyContainerLogic.GetLobbies(token);
 
-        WsReturnMessage returnMessage = new WsReturnMessage();
-        returnMessage.setAction("GETLOBBIES");
-        returnMessage.setContent(lobbyCollection);
-        session.getRemote().sendString(gson.toJson(returnMessage));
+        //update all register sessions
+        for (User user : UserCollection.getConnectedUsers()) {
+
+            WsReturnMessage returnMessage = new WsReturnMessage();
+            returnMessage.setAction("GETLOBBIES");
+            returnMessage.setContent(lobbyCollection);
+           user.getSession().getRemote().sendString(gson.toJson(returnMessage));
+        }
     }
 
     @Override

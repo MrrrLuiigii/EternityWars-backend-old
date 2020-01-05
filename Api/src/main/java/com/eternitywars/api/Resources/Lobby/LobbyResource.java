@@ -16,7 +16,7 @@ public class LobbyResource
     @PostMapping(value = "/join", consumes = "application/json", produces = "application/json")
     public boolean Join(@RequestBody Lobby lobby)
     {
-        Player player = lobby.getPlayerOne();
+        Player player = lobby.getPlayerTwo();
         return lobbyRepository.JoinLobby(lobby, player);
     }
 

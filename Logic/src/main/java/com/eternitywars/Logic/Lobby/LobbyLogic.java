@@ -14,32 +14,34 @@ public class LobbyLogic
     private LobbyContainerLogic lobbyContainerLogic = new LobbyContainerLogic();
     private GameLogic gameLogic = new GameLogic();
 
-//    public Lobby JoinLobby(Lobby lobby, Player player, String token)
-//    {
-//        Lobby lobby1 = lobbyContainerLogic.GetLobbyById(lobby, token);
-//
-//       if(lobby1.getPlayerOne() != null)
-//       {
-//           lobby1.setStatus(LobbyStatus.Full);
-//           HttpHeaders headers = new HttpHeaders();
-//           headers.setBearerAuth(token);
-//           headers.setContentType(MediaType.APPLICATION_JSON);
+    public Lobby JoinLobby(Lobby lobby, Player player, String token)
+    {
+        Lobby lobby1 = lobbyContainerLogic.GetLobbyById(lobby, token);
+
+       if(lobby1.getPlayerOne() != null && lobby1.getPlayerTwo() == null)
+       {
+           lobby1.setStatus(LobbyStatus.Full);
+           HttpHeaders headers = new HttpHeaders();
+           headers.setBearerAuth(token);
+           headers.setContentType(MediaType.APPLICATION_JSON);
 //           Lobby sendlobby = new Lobby();
 //           sendlobby.setId(lobby.getId());
+//           player.setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
 //           sendlobby.setPlayerOne(player);
-//
-//           JSONObject json = new JSONObject(lobby);
-//
-//           HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-//           //send lobby object with the user that wants to join
-//           if(restTemplate.postForObject("http://localhost:8083/api/private/lobby/join", request , boolean.class))
-//           {
-//               lobby.setPlayerTwo(player);
-//               lobby.setStatus(LobbyStatus.Full);
-//           }
-//       }
-//        return lobby;
-//    }
+           lobby.setPlayerTwo(player);
+
+           JSONObject json = new JSONObject(lobby);
+
+           HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
+           //send lobby object with the user that wants to join
+           if(restTemplate.postForObject("http://localhost:8083/api/private/lobby/join", request , boolean.class))
+           {
+               lobby.getPlayerTwo().setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
+               lobby.setStatus(LobbyStatus.Full);
+           }
+       }
+        return lobby;
+    }
 
     public Lobby LeaveLobby(Lobby lobby, Player player, String token)
     {
@@ -70,7 +72,7 @@ public class LobbyLogic
 
     public Lobby PlayerReady(Lobby lobby, Player player)
     {
-       if(lobby.getPlayerOne() == player)
+       if(lobby.getPlayerOne().getUserId() == player.getUserId())
        {
            lobby.getPlayerOne().setLobbyPlayerStatus(LobbyPlayerStatus.Ready);
        }
@@ -87,7 +89,7 @@ public class LobbyLogic
 
     public Lobby PlayerNotReady(Lobby lobby, Player player)
     {
-        if(lobby.getPlayerOne() == player)
+        if(lobby.getPlayerOne().getUserId() == player.getUserId())
         {
             lobby.getPlayerOne().setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
         }
@@ -109,11 +111,19 @@ public class LobbyLogic
         sendlobby.setId(lobby.getId());
         sendlobby.setPlayerOne(player);
 
-        JSONObject json = new JSONObject(lobby);
+        JSONObject json = new JSONObject(sendlobby);
 
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
         //send lobby object with the user that wants to leave
-        restTemplate.postForObject("http://localhost:8083/api/private/lobby/setDeck", request , Lobby.class);
+        restTemplate.postForObject("http://localhost:8083/api/private/lobby/updateDeck", request , Lobby.class);
+
+
+        if(player.getUserId() == lobby.getPlayerOne().getUserId()){
+            lobby.getPlayerOne().setDeck(player.getDeck());
+        }else{
+            lobby.getPlayerTwo().setDeck(player.getDeck());
+        }
+        
         return lobby;
     }
 }
