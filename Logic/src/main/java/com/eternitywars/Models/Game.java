@@ -4,7 +4,33 @@ import java.util.List;
 
 public class Game
 {
-    List<Account> connectedAccounts;
+    List<Player> connectedPlayers;
+    int playerTurn;
     int id;
-    //todo include other info we want of the game
+    int timer;
+    boolean victory; //true player one, false player two???
+
+    public List<Player> getConnectedPlayers() {
+        return connectedPlayers;
+    }
+
+    public void setConnectedPlayers(List<Player> connectedPlayers) {
+        this.connectedPlayers = connectedPlayers;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(int playerTurn) {
+        this.playerTurn = playerTurn;
+    }
 }

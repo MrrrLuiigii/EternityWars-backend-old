@@ -18,11 +18,7 @@ public class CollectionExecutor implements IExecutor  {
     public void Execute(JSONObject message, Session session) {
         switch (message.getString("Action")) {
             case "GETALLCARDSBYACCOUNT":
-                Gson gson = new Gson();
-                String json = message.getJSONObject("Content").toString();
-                Account account = gson.fromJson(json, Account.class);
-                collectionLogic.GetAllCardsByAccount(account);
-                System.out.println(account);
+                collectionLogic.GetAllCardsByAccount(message);
                 break;
             case "ADDCARDTOCARDCOLLECTION":
                 break;

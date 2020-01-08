@@ -13,6 +13,8 @@ public class Player extends Account
     private List<Card> cardsInHand;
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
+    private int mana;
+    private  int deathEssence;
 
     public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
     {
@@ -56,6 +58,22 @@ public class Player extends Account
     public LobbyPlayerStatus getLobbyPlayerStatus()
     {
         return lobbyPlayerStatus;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getDeathEssence() {
+        return deathEssence;
+    }
+
+    public void setDeathEssence(int deathEssence) {
+        this.deathEssence = deathEssence;
     }
 
     public void setLobbyPlayerStatus(LobbyPlayerStatus lobbyPlayerStatus)

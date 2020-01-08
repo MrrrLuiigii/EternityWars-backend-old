@@ -8,6 +8,9 @@ import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LobbyLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
@@ -80,7 +83,10 @@ public class LobbyLogic
        }
        if(lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready && lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready)
        {
-           gameLogic.LaunchGame(lobby);
+           List<Player> players = new ArrayList<>();
+           players.add(lobby.getPlayerOne());
+           players.add(lobby.getPLayerTwo());
+           gameLogic.LaunchGame(players);
        }
         return lobby;
     }
