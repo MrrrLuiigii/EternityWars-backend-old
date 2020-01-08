@@ -1,6 +1,7 @@
 package com.eternitywars.Logic.Lobby;
 
 import com.eternitywars.Logic.Game.GameLogic;
+import com.eternitywars.Logic.WebsocketServer.Collection.GameCollection;
 import com.eternitywars.Models.*;
 import com.eternitywars.Models.Enums.LobbyPlayerStatus;
 import com.eternitywars.Models.Enums.LobbyStatus;
@@ -85,10 +86,13 @@ public class LobbyLogic
        }
        if(lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready && lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready)
        {
-           List<Player> players = new ArrayList<>();
-           players.add(lobby.getPlayerOne());
-           players.add(lobby.getPLayerTwo());
-           gameLogic.LaunchGame(players);
+           //List<Player> players = new ArrayList<>();
+           //players.add(lobby.getPlayerOne());
+           //players.add(lobby.getPlayerTwo());
+
+           //je launch game functie wilt een lobby json?! hzo add je players aan een lijst?
+
+           GameCollection.getActiveGames().add(gameLogic.LaunchGame(new JSONObject(lobby)));
        }
         return lobby;
     }

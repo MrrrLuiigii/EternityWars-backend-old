@@ -9,7 +9,7 @@ public class GameConverter
     {
         List<Player> players = new ArrayList<Player>();
         players.add(lobby.getPlayerOne());
-        players.add(lobby.getPLayerTwo());
+        players.add(lobby.getPlayerTwo());
         Game game = new Game();
         game.setConnectedPlayers(players);
         return game;
