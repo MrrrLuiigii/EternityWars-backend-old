@@ -16,6 +16,10 @@ public class Player extends Account
     private int mana;
     private  int deathEssence;
 
+
+    public Player() {
+    }
+
     public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
     {
         super(id, username, accountStatus, session);

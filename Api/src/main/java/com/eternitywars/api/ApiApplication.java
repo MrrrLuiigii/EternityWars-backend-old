@@ -12,8 +12,4 @@ public class ApiApplication
     {
         SpringApplication.run(ApiApplication.class, args);
     }
-
-    //todo broken stored procedures met if:
-    //JoinLobby
-    //RequestFriend
 }

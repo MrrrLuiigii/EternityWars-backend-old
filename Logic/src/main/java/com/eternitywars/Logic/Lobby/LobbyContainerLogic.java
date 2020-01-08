@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.Lobby;
 
+import com.eternitywars.Models.Enums.LobbyPlayerStatus;
 import com.eternitywars.Models.Lobby;
 import com.eternitywars.Models.LobbyCollection;
 import org.json.JSONObject;
@@ -17,6 +18,8 @@ public class LobbyContainerLogic
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        lobby.getPlayerOne().setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
         //send lobby object with the user that wants to join
@@ -30,7 +33,7 @@ public class LobbyContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        ResponseEntity<Lobby> response = restTemplate.exchange("http://localhost:8083/api/private/lobby/getById/{lobbyId}", HttpMethod.GET, request, Lobby.class, lobby.getLobbyId());
+        ResponseEntity<Lobby> response = restTemplate.exchange("http://localhost:8083/api/private/lobby/getById/{lobbyId}", HttpMethod.GET, request, Lobby.class, lobby.getId());
         return response.getBody();
     }
 

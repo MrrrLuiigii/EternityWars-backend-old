@@ -41,9 +41,10 @@ public class DeckBuilderContainerLogic
         gs.serializeNulls();
         Gson gson = gs.create();
 
-        JSONObject content = jsonObject.getJSONObject("Content");
-        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("user").toString(), headers);
-        ResponseEntity<DeckCollection> response = restTemplate.exchange("http://localhost:8083/api/private/deck/get", HttpMethod.GET, request , DeckCollection.class);
+       // JSONObject content = jsonObject.getJSONObject("Content");
+        User user = gson.fromJson(jsonObject.getJSONObject("Content").toString(), User.class);
+        HttpEntity<String> request = new HttpEntity<>(jsonObject.getJSONObject("Content").toString(), headers);
+        ResponseEntity<DeckCollection> response = restTemplate.exchange("http://localhost:8083/api/private/deck/getByUserId/{userId}", HttpMethod.GET, request , DeckCollection.class, user.getUserId() );
         return response.getBody();
     }
 
