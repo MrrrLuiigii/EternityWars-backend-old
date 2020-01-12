@@ -13,6 +13,7 @@ public class Player extends Account
     private List<Card> cardsInHand;
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
+    private Hero hero;
     private int mana;
     private  int deathEssence;
 
@@ -27,6 +28,14 @@ public class Player extends Account
         this.cardsInHand = cardsInHand;
         this.cardsInDeck = cardsInDeck;
         this.lobbyPlayerStatus = lobbyPlayerStatus;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 
     public Deck getDeck()
