@@ -143,12 +143,12 @@ public class LobbyExecutor implements IExecutor
         lobbyCollection = lobbyContainerLogic.GetLobbies(token);
 
         //update all register sessions
-        for (User user : UserCollection.getConnectedUsers()) {
-
+        for (User user : UserCollection.getConnectedUsers())
+        {
             WsReturnMessage returnMessage = new WsReturnMessage();
             returnMessage.setAction("GETLOBBIES");
             returnMessage.setContent(lobbyCollection);
-           user.getSession().getRemote().sendString(gson.toJson(returnMessage));
+            user.getSession().getRemote().sendString(gson.toJson(returnMessage));
         }
     }
 

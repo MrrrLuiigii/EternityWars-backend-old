@@ -33,14 +33,17 @@ public class MessageHandler
             case "DECK":
                 executorService.submit(new DeckBuilderExecutor(message, session));
                 break;
+            case "CARD":
+                executorService.submit(new CardExecutor(message, session));
+                break;
             case "COLLECTION":
                 executorService.submit(new CollectionExecutor(message, session));
                 break;
             case "REGISTER":
-                executorService.submit(new RegisterExecutor(message,session));
+                executorService.submit(new RegisterExecutor(message, session));
                 break;
             case "CHAT":
-                executorService.submit(new RegisterExecutor(message,session));
+                executorService.submit(new RegisterExecutor(message, session));
                 break;
         }
     }
