@@ -122,8 +122,15 @@ public class LobbyExecutor implements IExecutor
         returnMessage.setContent(lobby);
 
         for (User u : UserCollection.getConnectedUsers()){
-            if(u.getUsername().equals(lobby.getPlayerOne().getUsername()) || u.getUsername().equals(lobby.getPlayerTwo().getUsername())){
-                u.getSession().getRemote().sendString(gson.toJson(returnMessage));
+            if(lobby.getPlayerOne() != null){
+                if(u.getUsername().equals(lobby.getPlayerOne().getUsername())){
+                    u.getSession().getRemote().sendString(gson.toJson(returnMessage));
+                }
+            }
+            if(lobby.getPlayerTwo() != null){
+                if(u.getUsername().equals(lobby.getPlayerTwo().getUsername())){
+                    u.getSession().getRemote().sendString(gson.toJson(returnMessage));
+                }
             }
         }
     }
