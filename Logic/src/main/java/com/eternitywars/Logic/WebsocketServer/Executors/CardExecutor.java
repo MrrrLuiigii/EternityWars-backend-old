@@ -37,8 +37,8 @@ public class CardExecutor implements IExecutor
         switch (message.getString("Action"))
         {
             case "GetByUserId":
-                JSONObject userJsonObject = message.getJSONObject("Content");
-                User user = gson.fromJson(userJsonObject.getJSONObject("user").toString(), User.class);
+//                JSONObject userJsonObject = message.getJSONObject("Content");
+                User user = gson.fromJson(message.getJSONObject("Content").toString(), User.class);
                 cardCollection = cardContainerLogic.GetCardsByUserId(user, token);
                 break;
         }
