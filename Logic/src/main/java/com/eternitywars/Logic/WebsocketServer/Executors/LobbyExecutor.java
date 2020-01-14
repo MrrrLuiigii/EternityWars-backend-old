@@ -134,9 +134,6 @@ public class LobbyExecutor implements IExecutor
         gs.serializeNulls();
         Gson gson = gs.create();
 
-        //Get the user object from the jsonObject
-        JSONObject userJsonObject = jsonObject.getJSONObject("Content");
-
         String token = jsonObject.getString("Token");
 
         //Get friendCollection from API via friendContainerLogic
