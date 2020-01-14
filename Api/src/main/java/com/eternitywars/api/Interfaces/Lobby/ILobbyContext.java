@@ -11,5 +11,5 @@ public interface ILobbyContext
 
     boolean UpdatePlayerStatus(Lobby lobby, Player player);
 
-    boolean UpdatePlayerDeck(Lobby lobby, Player player);
+    Lobby UpdatePlayerDeck(Lobby lobby, Player player);
 }

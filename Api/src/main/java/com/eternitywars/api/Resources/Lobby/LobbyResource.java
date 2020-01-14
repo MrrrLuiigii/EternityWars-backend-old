@@ -1,5 +1,6 @@
 package com.eternitywars.api.Resources.Lobby;
 
+import com.eternitywars.api.DAL.Repositories.Lobby.LobbyContainerRepository;
 import com.eternitywars.api.DAL.Repositories.Lobby.LobbyRepository;
 import com.eternitywars.api.Models.Lobby;
 import com.eternitywars.api.Models.Player;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class LobbyResource
 {
     private LobbyRepository lobbyRepository = new LobbyRepository();
+    private LobbyContainerRepository lobbyContainerRepository = new LobbyContainerRepository();
 
 
 
@@ -28,10 +30,11 @@ public class LobbyResource
     }
 
     @PostMapping(value = "/updateDeck", consumes = "application/json", produces = "application/json")
-    public boolean UpdatePlayerDeck(@RequestBody Lobby lobby)
+    public Lobby UpdatePlayerDeck(@RequestBody Lobby lobby)
     {
         Player player = lobby.getPlayerOne();
-        return lobbyRepository.UpdatePlayerDeck(lobby, player);
+        lobby = lobbyRepository.UpdatePlayerDeck(lobby, player);
+        return lobbyContainerRepository.GetLobbyById(lobby.getId());
     }
 
     @PostMapping(value = "/updateStatus", consumes = "application/json", produces = "application/json")

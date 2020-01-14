@@ -26,7 +26,7 @@ public class LobbyRepository implements ILobbyContext
         return lobbySqlContext.UpdatePlayerStatus(lobby, player);
     }
 
-    public boolean UpdatePlayerDeck(Lobby lobby, Player player)
+    public Lobby UpdatePlayerDeck(Lobby lobby, Player player)
     {
         return lobbySqlContext.UpdatePlayerDeck(lobby, player);
     }

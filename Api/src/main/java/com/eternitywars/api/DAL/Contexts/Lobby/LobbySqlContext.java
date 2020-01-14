@@ -83,7 +83,7 @@ public class LobbySqlContext implements ILobbyContext
         return true;
     }
 
-    public boolean UpdatePlayerDeck(Lobby lobby, Player player)
+    public Lobby UpdatePlayerDeck(Lobby lobby, Player player)
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
@@ -102,9 +102,8 @@ public class LobbySqlContext implements ILobbyContext
         catch (Exception e)
         {
             System.out.println(e);
-            return false;
         }
 
-        return true;
+        return lobby;
     }
 }
