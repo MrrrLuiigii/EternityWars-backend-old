@@ -67,8 +67,7 @@ public class FriendExecutor implements IExecutor
         Gson gson = gs.create();
 
         //Get the user object from the jsonObject
-        JSONObject userJsonObject = jsonObject.getJSONObject("Content");
-        User user = gson.fromJson(userJsonObject.getJSONObject("user").toString(), User.class);
+        User user = gson.fromJson(jsonObject.getJSONObject("Content").toString(), User.class);
 
         String token = jsonObject.getString("Token");
 
