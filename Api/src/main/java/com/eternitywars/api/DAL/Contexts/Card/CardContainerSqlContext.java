@@ -26,13 +26,11 @@ public class CardContainerSqlContext implements ICardContainerContext
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` " +
-                    "from card " +
-                    "where card.`id` in (" +
-                        "select card_id " +
-                        "from card_collection " +
-                        "where `user_id` = ?" +
-                    ");";
+            String query = "SELECT `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` " +
+                    "FROM `card` AS c " +
+                    "INNER JOIN `card_collection` AS cc " +
+                    "ON c.id = cc.card_id " +
+                    "WHERE cc.user_id = ?;";
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {
