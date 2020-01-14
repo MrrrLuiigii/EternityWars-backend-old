@@ -77,7 +77,7 @@ public class LobbyExecutor implements IExecutor
                 RespondLobby(lobby);
                 break;
             case "PLAYERREADY":
-                lobby = lobbyLogic.PlayerReady(lobbyObject, player);
+                lobby = lobbyLogic.PlayerReady(lobbyObject, player, token);
                 RespondLobby(lobby);
                 break;
             case "PLAYERNOTREADY":

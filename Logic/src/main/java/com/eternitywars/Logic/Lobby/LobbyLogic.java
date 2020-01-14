@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.Lobby;
 
+import com.eternitywars.Logic.DeckBuilder.DeckBuilderContainerLogic;
 import com.eternitywars.Logic.Game.GameLogic;
 import com.eternitywars.Logic.WebsocketServer.Collection.GameCollection;
 import com.eternitywars.Models.*;
@@ -74,7 +75,7 @@ public class LobbyLogic
         return null;
     }
 
-    public Lobby PlayerReady(Lobby lobby, Player player)
+    public Lobby PlayerReady(Lobby lobby, Player player, String token)
     {
        if(lobby.getPlayerOne().getUserId() == player.getUserId())
        {
@@ -86,13 +87,10 @@ public class LobbyLogic
        }
        if(lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready && lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready)
        {
-           //List<Player> players = new ArrayList<>();
-           //players.add(lobby.getPlayerOne());
-           //players.add(lobby.getPlayerTwo());
-
-           //je launch game functie wilt een lobby json?! hzo add je players aan een lijst?
-
-           GameCollection.getActiveGames().add(gameLogic.LaunchGame(new JSONObject(lobby)));
+           DeckBuilderContainerLogic deckBuilderContainerLogic = new DeckBuilderContainerLogic();
+           lobby.getPlayerOne().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerOne().getDeck().getDeckId(), token));
+           lobby.getPlayerTwo().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerTwo().getDeck().getDeckId(), token));
+           gameLogic.LaunchGame(lobby);
        }
         return lobby;
     }
@@ -124,16 +122,6 @@ public class LobbyLogic
         JSONObject json = new JSONObject(sendlobby);
 
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        //send lobby object with the user that wants to leave
-        restTemplate.postForObject("http://localhost:8083/api/private/lobby/updateDeck", request , Lobby.class);
-
-
-        if(player.getUserId() == lobby.getPlayerOne().getUserId()){
-            lobby.getPlayerOne().setDeck(player.getDeck());
-        }else{
-            lobby.getPlayerTwo().setDeck(player.getDeck());
-        }
-        
-        return lobby;
+        return restTemplate.postForObject("http://localhost:8083/api/private/lobby/updateDeck", request , Lobby.class);
     }
 }

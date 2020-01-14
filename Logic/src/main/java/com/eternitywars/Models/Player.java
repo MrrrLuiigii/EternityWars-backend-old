@@ -5,6 +5,7 @@ import com.eternitywars.Models.Enums.LobbyPlayerStatus;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Account
@@ -19,6 +20,8 @@ public class Player extends Account
 
 
     public Player() {
+        this.cardsInHand = new ArrayList<>();
+        this.cardsInDeck= new ArrayList<>();
     }
 
     public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)

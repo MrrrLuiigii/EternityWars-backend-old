@@ -12,6 +12,8 @@ public class GameConverter
         players.add(lobby.getPlayerTwo());
         Game game = new Game();
         game.setConnectedPlayers(players);
+        game.getConnectedPlayers().get(0).setDeck(lobby.getPlayerOne().getDeck());
+        game.getConnectedPlayers().get(1).setDeck(lobby.getPlayerTwo().getDeck());
         return game;
     }
 }
