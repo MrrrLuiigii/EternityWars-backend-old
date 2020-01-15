@@ -17,6 +17,7 @@ public class Player extends Account
     private Hero hero;
     private int mana;
     private  int deathEssence;
+    private BoardRow boardRow;
 
 
     public Player() {
@@ -24,13 +25,14 @@ public class Player extends Account
         this.cardsInDeck= new ArrayList<>();
     }
 
-    public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus)
+    public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus, BoardRow boardRow)
     {
         super(id, username, accountStatus, session);
         this.deck = deck;
         this.cardsInHand = cardsInHand;
         this.cardsInDeck = cardsInDeck;
         this.lobbyPlayerStatus = lobbyPlayerStatus;
+        this.boardRow = boardRow;
     }
 
     public Hero getHero() {
@@ -95,5 +97,13 @@ public class Player extends Account
     public void setLobbyPlayerStatus(LobbyPlayerStatus lobbyPlayerStatus)
     {
         this.lobbyPlayerStatus = lobbyPlayerStatus;
+    }
+
+    public BoardRow getBoardRow() {
+        return boardRow;
+    }
+
+    public void setBoardRow(BoardRow boardRow) {
+        this.boardRow = boardRow;
     }
 }
