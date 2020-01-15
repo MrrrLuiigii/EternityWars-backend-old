@@ -213,7 +213,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
             return game;
         }
-       game.getConnectedPlayers().get(0).setError("Your hand is full!");
+       game.getConnectedPlayers().get(1).setError("Your hand is full!");
        return game;
    }
 
