@@ -124,8 +124,8 @@ public class GameLogic
    }
 
    private Game IncreaseMaxDeathessence(Game game){
-       if(game.getConnectedPlayers().get(0).getHero().getDeathessence() != 10){
-           game.getConnectedPlayers().get(0).getHero().setDeathessence(game.getConnectedPlayers().get(0).getHero().getDeathessence() + 1);
+       if(game.getConnectedPlayers().get(0).getHero().getMaxDeathessence() != 10){
+           game.getConnectedPlayers().get(0).getHero().setMaxDeathessence(game.getConnectedPlayers().get(0).getHero().getMaxDeathessence() + 1);
            return game;
        }
        return game;
