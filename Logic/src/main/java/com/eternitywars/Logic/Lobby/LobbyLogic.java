@@ -81,16 +81,19 @@ public class LobbyLogic
        {
            lobby.getPlayerOne().setLobbyPlayerStatus(LobbyPlayerStatus.Ready);
        }
-       else
+       else if(lobby.getPlayerTwo().getUserId() == player.getUserId())
        {
            lobby.getPlayerTwo().setLobbyPlayerStatus(LobbyPlayerStatus.Ready);
        }
-       if(lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready && lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready)
+       if(lobby.getPlayerOne() != null && lobby.getPlayerTwo() != null)
        {
-           DeckBuilderContainerLogic deckBuilderContainerLogic = new DeckBuilderContainerLogic();
-           lobby.getPlayerOne().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerOne().getDeck().getDeckId(), token));
-           lobby.getPlayerTwo().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerTwo().getDeck().getDeckId(), token));
-           gameLogic.LaunchGame(lobby);
+           if(lobby.getPlayerOne().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready && lobby.getPlayerTwo().getLobbyPlayerStatus() == LobbyPlayerStatus.Ready)
+           {
+               DeckBuilderContainerLogic deckBuilderContainerLogic = new DeckBuilderContainerLogic();
+               lobby.getPlayerOne().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerOne().getDeck().getDeckId(), token));
+               lobby.getPlayerTwo().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerTwo().getDeck().getDeckId(), token));
+               gameLogic.LaunchGame(lobby);
+           }
        }
         return lobby;
     }
