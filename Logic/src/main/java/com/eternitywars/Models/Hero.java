@@ -4,11 +4,14 @@ public class Hero {
     private int hp;
     private int deathessence;
     private int mana;
+    private int maxMana;
+    private int maxDeathessence;
+
 
     public Hero() {
         this.hp = 30;
-        this.deathessence = 0;
-        this.mana = 1;
+        this.maxDeathessence = 0;
+        this.maxMana = 1;
     }
 
     public int getHp() {
@@ -34,4 +37,21 @@ public class Hero {
     public void setMana(int mana) {
         this.mana = mana;
     }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public int getMaxDeathessence() {
+        return maxDeathessence;
+    }
+
+    public void setMaxDeathessence(int maxDeathessence) {
+        this.maxDeathessence = maxDeathessence;
+    }
+
 }

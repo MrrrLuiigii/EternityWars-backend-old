@@ -90,6 +90,117 @@ public class GameLogic
        }
    }
 
+   public Game EndTurn(Game game){
 
+        if(game.getConnectedPlayers().get(0).getUserId() == game.getPlayerTurn()){
+            game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
+           game =  IncreaseMaxMana(game);
+           game =  IncreaseMaxDeathessence(game);
+           game =  RechargeMana(game);
+            return game;
+        }
+        game.setPlayerTurn(game.getConnectedPlayers().get(0).getUserId());
+        game =  IncreaseMaxMana(game);
+        game =  IncreaseMaxDeathessence(game);
+        game =  RechargeMana(game);
+        return game;
+   }
 
+   private Game IncreaseMaxMana(Game game){
+        if(game.getConnectedPlayers().get(0).getHero().getMaxMana() != 10){
+            game.getConnectedPlayers().get(0).getHero().setMaxMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() + 1);
+            return game;
+        }
+        return game;
+   }
+
+   private Game IncreaseMaxDeathessence(Game game){
+       if(game.getConnectedPlayers().get(0).getHero().getDeathessence() != 10){
+           game.getConnectedPlayers().get(0).getHero().setMaxMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() + 1);
+           return game;
+       }
+       return game;
+   }
+
+   public Game RechargeMana(Game game){
+        game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxMana());
+        return game;
+   }
+
+   public Game ObtainDeathessence(Game game){
+        int currentDeathessence = game.getConnectedPlayers().get(0).getHero().getDeathessence();
+        if(currentDeathessence < game.getConnectedPlayers().get(0).getHero().getMaxDeathessence()){
+            game.getConnectedPlayers().get(0).getHero().setMana(currentDeathessence + 1 );
+        }
+        return game;
+   }
+
+   public Game AttackCard(Game game, CardSlot attacker, CardSlot target) {
+        target.setCard(CalculateRemainingHp(attacker.getCard(),target.getCard()));
+        attacker.setCard(CalculateRemainingHp(target.getCard(), attacker.getCard()));
+       int targetIndex = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().indexOf(target);
+       int attackerIndex = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
+
+        if(target.getCard().getHealth() <= 0){
+            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().remove(targetIndex);
+            game = ObtainDeathessence(game);
+        }
+        else {
+            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(targetIndex, target);
+        }
+
+       if(attacker.getCard().getHealth() <= 0){
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().remove(attackerIndex);
+       }
+       else{
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attackerIndex, target);
+       }
+
+       return game;
+   }
+
+   public Game AttackHero(Game game, CardSlot attacker){
+        int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
+        game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attacker.getCard().getAttack());
+
+       if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
+           EndGame(game);
+       }
+       return game;
+   }
+
+   public Game PlayCard(Game game, CardSlot cardToPlay, CardSlot target){
+        int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
+        int indexOnField = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
+        if(currentMana < cardToPlay.getCard().getBlue_mana()){
+            game.setError("You dont have enough mana to do that!");
+            return game;
+        }
+        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(cardToPlay.getCard());
+        return game;
+   }
+
+   private void EndGame(Game game){
+        WsReturnMessage wsReturnMessage = new WsReturnMessage();
+        wsReturnMessage.setAction("ENDGAME");
+        wsReturnMessage.setContent("Hier een mooi bericht met wie de winnaar is dit wil niet maken");
+   }
+
+   private Card CalculateRemainingHp(Card attacker, Card target){
+        target.setHealth(target.getHealth() - attacker.getAttack());
+        return target;
+   }
+
+   private Game DrawCard(Game game){
+
+       Deck pickableDeck = game.getConnectedPlayers().get(0).getDeck();
+       int cardId = rnd.nextInt(pickableDeck.getCards().getCards().size());
+       Card card = pickableDeck.getCards().getCards().get(cardId);
+
+       pickableDeck.getCards().getCards().remove(cardId);
+       game.getConnectedPlayers().get(0).getCardsInHand().add(card);
+       game.getConnectedPlayers().get(0).setCardsInDeck(pickableDeck.getCards().getCards());
+
+       return game;
+   }
 }

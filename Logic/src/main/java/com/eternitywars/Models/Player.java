@@ -11,13 +11,11 @@ import java.util.List;
 public class Player extends Account
 {
     private Deck deck;
+    private BoardRow boardRows;
     private List<Card> cardsInHand;
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
     private Hero hero;
-    private int mana;
-    private  int deathEssence;
-
 
     public Player() {
         this.cardsInHand = new ArrayList<>();
@@ -31,6 +29,14 @@ public class Player extends Account
         this.cardsInHand = cardsInHand;
         this.cardsInDeck = cardsInDeck;
         this.lobbyPlayerStatus = lobbyPlayerStatus;
+    }
+
+    public BoardRow getBoardRows() {
+        return boardRows;
+    }
+
+    public void setBoardRows(BoardRow boardRows) {
+        this.boardRows = boardRows;
     }
 
     public Hero getHero() {
@@ -76,21 +82,6 @@ public class Player extends Account
         return lobbyPlayerStatus;
     }
 
-    public int getMana() {
-        return mana;
-    }
-
-    public void setMana(int mana) {
-        this.mana = mana;
-    }
-
-    public int getDeathEssence() {
-        return deathEssence;
-    }
-
-    public void setDeathEssence(int deathEssence) {
-        this.deathEssence = deathEssence;
-    }
 
     public void setLobbyPlayerStatus(LobbyPlayerStatus lobbyPlayerStatus)
     {
