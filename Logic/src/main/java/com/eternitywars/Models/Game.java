@@ -11,6 +11,11 @@ public class Game
     int timer;
     boolean victory; //true player one, false player two???
 
+    public Game()
+    {
+
+    }
+
     public List<Player> getConnectedPlayers() {
         return connectedPlayers;
     }

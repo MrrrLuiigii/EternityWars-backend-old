@@ -36,16 +36,13 @@ public class GameLogic
         if(picker == 1)
         {
             game.setPlayerTurn(game.getConnectedPlayers().get(0).getUserId());
-            game.getConnectedPlayers().get(1).setDeathEssence(1);
+            game.getConnectedPlayers().get(1).getHero().setDeathessence(1);
         }
         else
         {
             game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
-            game.getConnectedPlayers().get(0).setDeathEssence(1);
-
+            game.getConnectedPlayers().get(0).getHero().setDeathessence(1);
         }
-        game.getConnectedPlayers().get(0).setMana(1);
-        game.getConnectedPlayers().get(1).setMana(1);
         game.getConnectedPlayers().get(0).setCardsInDeck(new ArrayList<>());
         game.getConnectedPlayers().get(1).setCardsInDeck(new ArrayList<>());
         game.getConnectedPlayers().get(0).setCardsInHand(new ArrayList<>());
@@ -66,6 +63,7 @@ public class GameLogic
                pickableDeck.getCards().getCards().remove(cardId);
                player.getCardsInHand().add(card);
            }
+           player.setCardsInDeck(pickableDeck.getCards().getCards());
        }
        return game;
    }

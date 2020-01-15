@@ -6,7 +6,9 @@ public class Hero {
     private int mana;
 
     public Hero() {
-
+        this.hp = 30;
+        this.deathessence = 0;
+        this.mana = 1;
     }
 
     public int getHp() {

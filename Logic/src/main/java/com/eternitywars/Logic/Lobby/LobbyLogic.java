@@ -104,7 +104,7 @@ public class LobbyLogic
         {
             lobby.getPlayerOne().setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
         }
-        else
+        else if(lobby.getPlayerTwo().getUserId() == player.getUserId())
         {
             lobby.getPlayerTwo().setLobbyPlayerStatus(LobbyPlayerStatus.NotReady);
         }
@@ -115,16 +115,25 @@ public class LobbyLogic
 
     public Lobby SetDeck(Lobby lobby, Player player, String token)
     {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        Lobby sendlobby = new Lobby();
-        sendlobby.setId(lobby.getId());
-        sendlobby.setPlayerOne(player);
-
-        JSONObject json = new JSONObject(sendlobby);
-
-        HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        return restTemplate.postForObject("http://localhost:8083/api/private/lobby/updateDeck", request , Lobby.class);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBearerAuth(token);
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        Lobby sendlobby = new Lobby();
+//        sendlobby.setId(lobby.getId());
+//        sendlobby.setPlayerOne(player);
+//
+//        JSONObject json = new JSONObject(sendlobby);
+//
+//        HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
+//        Lobby lobby1 = restTemplate.postForObject("http://localhost:8083/api/private/lobby/updateDeck", request , Lobby.class);
+        if(lobby.getPlayerOne().getUserId() == player.getUserId())
+        {
+            lobby.getPlayerOne().setDeck(player.getDeck());
+        }
+        else if(lobby.getPlayerTwo().getUserId() == player.getUserId())
+        {
+            lobby.getPlayerTwo().setDeck(player.getDeck());
+        }
+        return  lobby;
     }
 }
