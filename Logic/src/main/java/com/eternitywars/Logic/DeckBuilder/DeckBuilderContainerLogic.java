@@ -48,6 +48,23 @@ public class DeckBuilderContainerLogic
         return response.getBody();
     }
 
+    public DeckCollection GetAllEmptyDecks(JSONObject jsonObject){
+        String token = jsonObject.getString("Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        // JSONObject content = jsonObject.getJSONObject("Content");
+        User user = gson.fromJson(jsonObject.getJSONObject("Content").toString(), User.class);
+        HttpEntity<String> request = new HttpEntity<>(jsonObject.getJSONObject("Content").toString(), headers);
+        ResponseEntity<DeckCollection> response = restTemplate.exchange("http://localhost:8083/api/private/deck/getEmptyByUserId/{userId}", HttpMethod.GET, request , DeckCollection.class, user.getUserId() );
+        return response.getBody();
+    }
+
     public Deck GetDeckById(JSONObject jsonObject){
         String token = jsonObject.getString("Token");
         HttpHeaders headers = new HttpHeaders();
@@ -121,5 +138,23 @@ public class DeckBuilderContainerLogic
         JSONObject content = jsonObject.getJSONObject("Content");
         HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("player").toString(), headers);
         return restTemplate.postForObject("http://localhost:8083/api/private/deck/save", request, boolean.class);
+    }
+
+    public Deck GetBuilderDeckById(JSONObject message)
+    {
+        String token = message.getString("Token");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        Deck deck = gson.fromJson(message.getJSONObject("Content").toString(), Deck.class);
+        HttpEntity<String> request = new HttpEntity<>(message.getJSONObject("Content").toString(), headers);
+        ResponseEntity<Deck> response = restTemplate.exchange("http://localhost:8083/api/private/deck/getByDeckId/{deckId}", HttpMethod.GET, request , Deck.class, deck.getDeckId());
+        return response.getBody();
     }
 }
