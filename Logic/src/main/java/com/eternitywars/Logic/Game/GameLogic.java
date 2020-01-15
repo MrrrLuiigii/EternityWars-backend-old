@@ -76,6 +76,7 @@ public class GameLogic
        returnMessage.setAction("LAUNCHGAME");
        returnMessage.setContent(game);
 
+
        for (User u : UserCollection.getConnectedUsers()){
            if(game.getConnectedPlayers().get(0) != null){
                if(u.getUsername().equals(game.getConnectedPlayers().get(0).getUsername())){
@@ -84,10 +85,19 @@ public class GameLogic
            }
            if(game.getConnectedPlayers().get(1) != null){
                if(u.getUsername().equals(game.getConnectedPlayers().get(1).getUsername())){
+                   returnMessage.setContent(SwapPlayers(game));
                    u.getSession().getRemote().sendString(gson.toJson(returnMessage));
                }
            }
        }
+   }
+
+   private Game SwapPlayers(Game game)
+   {
+    Player tempPlayer = game.getConnectedPlayers().get(0);
+    game.getConnectedPlayers().set(0, game.getConnectedPlayers().get(1));
+    game.getConnectedPlayers().set(1, tempPlayer);
+    return game;
    }
 
    public Game EndTurn(Game game){
