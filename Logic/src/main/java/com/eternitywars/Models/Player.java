@@ -11,7 +11,7 @@ import java.util.List;
 public class Player extends Account
 {
     private Deck deck;
-    private BoardRow boardRows;
+    private BoardRow boardRow;
     private List<Card> cardsInHand;
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
@@ -33,11 +33,11 @@ public class Player extends Account
     }
 
     public BoardRow getBoardRows() {
-        return boardRows;
+        return boardRow;
     }
 
     public void setBoardRows(BoardRow boardRows) {
-        this.boardRows = boardRows;
+        this.boardRow = boardRows;
     }
 
     public Hero getHero() {

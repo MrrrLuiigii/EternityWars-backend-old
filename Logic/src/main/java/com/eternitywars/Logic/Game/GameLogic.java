@@ -101,18 +101,17 @@ public class GameLogic
    }
 
    public Game EndTurn(Game game){
-
-        if(game.getConnectedPlayers().get(0).getUserId() == game.getPlayerTurn()){
-            game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
-           game =  IncreaseMaxMana(game);
-           game =  IncreaseMaxDeathessence(game);
-           game =  RechargeMana(game);
-            return game;
-        }
-        game.setPlayerTurn(game.getConnectedPlayers().get(0).getUserId());
+        game = ClearError(game);
         game =  IncreaseMaxMana(game);
         game =  IncreaseMaxDeathessence(game);
         game =  RechargeMana(game);
+        game = DrawCard(game);
+
+        if(game.getConnectedPlayers().get(0).getUserId() == game.getPlayerTurn()){
+            game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
+            return game;
+        }
+        game.setPlayerTurn(game.getConnectedPlayers().get(0).getUserId());
         return game;
    }
 
@@ -126,7 +125,7 @@ public class GameLogic
 
    private Game IncreaseMaxDeathessence(Game game){
        if(game.getConnectedPlayers().get(0).getHero().getDeathessence() != 10){
-           game.getConnectedPlayers().get(0).getHero().setMaxMana(game.getConnectedPlayers().get(0).getHero().getDeathessence() + 1);
+           game.getConnectedPlayers().get(0).getHero().setDeathessence(game.getConnectedPlayers().get(0).getHero().getDeathessence() + 1);
            return game;
        }
        return game;
@@ -183,9 +182,10 @@ public class GameLogic
         int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
         int indexOnField = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
         if(currentMana < cardToPlay.getCard().getBlue_mana()){
-            game.setError("You dont have enough mana to do that!");
+            game.setError("You dont have enough resources to do that!");
             return game;
         }
+        //todo death essence check
         game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(cardToPlay.getCard());
         return game;
    }
@@ -203,16 +203,29 @@ public class GameLogic
 
    private Game DrawCard(Game game){
 
-       Deck pickableDeck = game.getConnectedPlayers().get(0).getDeck();
+       Deck pickableDeck = game.getConnectedPlayers().get(1).getDeck();
        int cardId = rnd.nextInt(pickableDeck.getCards().getCards().size());
        Card card = pickableDeck.getCards().getCards().get(cardId);
-
-       pickableDeck.getCards().getCards().remove(cardId);
-       game.getConnectedPlayers().get(0).getCardsInHand().add(card);
-       game.getConnectedPlayers().get(0).setCardsInDeck(pickableDeck.getCards().getCards());
-
+        if(CanDraw(game))
+        {
+            pickableDeck.getCards().getCards().remove(cardId);
+            game.getConnectedPlayers().get(1).getCardsInHand().add(card);
+            game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
+            return game;
+        }
+        game.setError("Hand is full");
        return game;
    }
+
+   private boolean CanDraw(Game game)
+   {
+       if(game.getConnectedPlayers().get(1).getCardsInHand().size() < 9)
+       {
+           return true;
+       }
+       return false;
+   }
+
 
    public void UpdateGame(Game game) throws IOException {
        GsonBuilder gs = new GsonBuilder();
@@ -237,5 +250,12 @@ public class GameLogic
            }
        }
    }
+
+   private Game ClearError(Game game)
+   {
+       game.setError(null);
+       return game;
+   }
+
 
 }
