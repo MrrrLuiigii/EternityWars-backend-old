@@ -16,6 +16,7 @@ public class Player extends Account
     private List<Card> cardsInDeck;
     private LobbyPlayerStatus lobbyPlayerStatus;
     private Hero hero;
+    private String Error;
 
     public Player() {
         this.cardsInHand = new ArrayList<>();
@@ -31,6 +32,16 @@ public class Player extends Account
         this.lobbyPlayerStatus = lobbyPlayerStatus;
         this.boardRow = boardRow;
     }
+
+    public String getError() {
+        return Error;
+    }
+
+    public void setError(String error) {
+        Error = error;
+    }
+
+
 
     public BoardRow getBoardRows() {
         return boardRow;

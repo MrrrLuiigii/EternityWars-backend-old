@@ -9,7 +9,6 @@ public class Game
     int id;
     int timer;
     boolean victory; //true player one, false player two???
-    String Error;
 
     public Game()
     {
@@ -38,14 +37,6 @@ public class Game
 
     public void setPlayerTurn(int playerTurn) {
         this.playerTurn = playerTurn;
-    }
-
-    public String getError() {
-        return Error;
-    }
-
-    public void setError(String error) {
-        Error = error;
     }
 
 }

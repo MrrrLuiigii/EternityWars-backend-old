@@ -182,7 +182,7 @@ public class GameLogic
         int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
         int indexOnField = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
         if(currentMana < cardToPlay.getCard().getBlue_mana()){
-            game.setError("You dont have enough resources to do that!");
+            game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
             return game;
         }
         //todo death essence check
@@ -213,7 +213,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
             return game;
         }
-        game.setError("Hand is full");
+       game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
        return game;
    }
 
@@ -253,7 +253,7 @@ public class GameLogic
 
    private Game ClearError(Game game)
    {
-       game.setError(null);
+       game.getConnectedPlayers().get(0).setError(null);
        return game;
    }
 
