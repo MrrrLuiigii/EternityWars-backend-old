@@ -32,7 +32,7 @@ public class GameLogic
 
     public Game ChooseFirstTurn(Game game)
     {
-        int picker = rnd.nextInt(1);
+        int picker = rnd.nextInt(2);
         if(picker == 1)
         {
             game.setPlayerTurn(game.getConnectedPlayers().get(0).getUserId());
@@ -75,7 +75,8 @@ public class GameLogic
        WsReturnMessage returnMessage = new WsReturnMessage();
        returnMessage.setAction("LAUNCHGAME");
        returnMessage.setContent(game);
-
+       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxMana());
+       game.getConnectedPlayers().get(1).getHero().setMana(game.getConnectedPlayers().get(1).getHero().getMaxMana());
 
        for (User u : UserCollection.getConnectedUsers()){
            if(game.getConnectedPlayers().get(0) != null){
