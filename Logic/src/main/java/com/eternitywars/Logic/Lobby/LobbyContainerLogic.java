@@ -54,7 +54,7 @@ public class LobbyContainerLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(lobby);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        restTemplate.postForObject("http://localhost:8083/api/private/lobby/delete", request, Lobby.class);
+        restTemplate.postForObject("http://localhost:8083/api/private/lobby/delete", request, boolean.class);
         return  GetLobbies(token);
     }
 }
