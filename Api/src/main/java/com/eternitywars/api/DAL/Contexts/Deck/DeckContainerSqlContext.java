@@ -6,6 +6,8 @@ import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.Deck;
 import com.eternitywars.api.Models.DeckCollection;
+import org.springframework.security.core.parameters.P;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -170,8 +172,16 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
                     while(rs.next())
                     {
-                        if (deck.getDeckId() == 0)
+                        if (rs.getInt("deck_id") != deck.getDeckId())
                         {
+                            if (completeDeck != null)
+                            {
+                                completeDeck.setCards(cardCollection);
+                                deckCollection.AddDeck(completeDeck);
+                                completeDeck = null;
+                            }
+
+                            deck = new Deck();
                             deck.setDeckId(rs.getInt("deck_id"));
                             deck.setName(rs.getString("deck_name"));
                             deck.setUserId(rs.getInt("user_id"));
@@ -191,20 +201,22 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
                             completeDeck = deck;
                         }
-                        else
-                        {
-                            if (completeDeck != null)
-                            {
-                                completeDeck.setCards(cardCollection);
-                                deckCollection.AddDeck(completeDeck);
-                            }
-                        }
                     }
 
                     if (deckCollection.decks.isEmpty() && completeDeck != null)
                     {
                         completeDeck.setCards(cardCollection);
                         deckCollection.AddDeck(completeDeck);
+                    }
+
+                    for(Deck d : deckCollection.getDecks())
+                    {
+                        if (d.getDeckId() != deck.getDeckId())
+                        {
+                            completeDeck.setCards(cardCollection);
+                            deckCollection.AddDeck(deck);
+                            break;
+                        }
                     }
                 }
             }
