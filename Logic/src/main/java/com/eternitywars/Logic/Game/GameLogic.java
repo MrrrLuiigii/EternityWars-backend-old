@@ -213,7 +213,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
             return game;
         }
-       game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
+       game.getConnectedPlayers().get(0).setError("Your hand is full!");
        return game;
    }
 
@@ -254,6 +254,7 @@ public class GameLogic
    private Game ClearError(Game game)
    {
        game.getConnectedPlayers().get(0).setError(null);
+       game.getConnectedPlayers().get(1).setError(null);
        return game;
    }
 
