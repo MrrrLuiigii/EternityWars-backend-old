@@ -1,5 +1,6 @@
 package com.eternitywars.Logic.WebsocketServer.Executors;
 
+import com.eternitywars.Logic.ObjectConverter;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.Account;
 import com.google.gson.Gson;
@@ -27,24 +28,19 @@ public class GameExecutor implements IExecutor{
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
         Gson gson = gs.create();
-
+        Game game = ObjectConverter.JSONtoGame(message);
         switch (message.getString("Action")) {
-//            case "LAUNCHGAME":// here the logic will determine which player is going to start and will return the mana, death essence and the cards the players will have at the start of the game
-//                Game game = gameLogic.LaunchGame(message);
-//                returnMessage = new WsReturnMessage();
-//                returnMessage.setContent(game);
-//                returnMessage.setAction("LAUNCHGAME");
-//                session.getRemote().sendString(gson.toJson(returnMessage));
-//                break;
-            case "RECONNECT":
+            case "ENDTURN":
+                gameLogic.EndTurn(game);
+                gameLogic.UpdateGame(game);
                 break;
-            case "LEAVEGAME":
+            case "INCREASEMAXMANA":
                 break;
-            case "ADDGAME":
+            case "INCREASEDEATHESSENCE":
                 break;
-            case "GETGAMEBYID":
+            case "RECHARGEMANA":
                 break;
-            case "DELETEGAME":
+            case "OBTAINDEATHESSENCE":
                 break;
             case "STARTTURN": // here the logic will start a thread that keeps track of the time elapsing and will give the client information about that.
                 break;

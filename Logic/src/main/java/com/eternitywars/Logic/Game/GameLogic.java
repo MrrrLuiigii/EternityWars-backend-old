@@ -126,7 +126,7 @@ public class GameLogic
 
    private Game IncreaseMaxDeathessence(Game game){
        if(game.getConnectedPlayers().get(0).getHero().getDeathessence() != 10){
-           game.getConnectedPlayers().get(0).getHero().setMaxMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() + 1);
+           game.getConnectedPlayers().get(0).getHero().setMaxMana(game.getConnectedPlayers().get(0).getHero().getDeathessence() + 1);
            return game;
        }
        return game;
@@ -213,4 +213,29 @@ public class GameLogic
 
        return game;
    }
+
+   public void UpdateGame(Game game) throws IOException {
+       GsonBuilder gs = new GsonBuilder();
+       gs.serializeNulls();
+       Gson gson = gs.create();
+       WsReturnMessage returnMessage = new WsReturnMessage();
+       returnMessage.setAction("UPDATEGAME");
+       returnMessage.setContent(game);
+
+
+       for (User u : UserCollection.getConnectedUsers()){
+           if(game.getConnectedPlayers().get(0) != null){
+               if(u.getUsername().equals(game.getConnectedPlayers().get(0).getUsername())){
+                   u.getSession().getRemote().sendString(gson.toJson(returnMessage));
+               }
+           }
+           if(game.getConnectedPlayers().get(1) != null){
+               if(u.getUsername().equals(game.getConnectedPlayers().get(1).getUsername())){
+                   returnMessage.setContent(SwapPlayers(game));
+                   u.getSession().getRemote().sendString(gson.toJson(returnMessage));
+               }
+           }
+       }
+   }
+
 }
