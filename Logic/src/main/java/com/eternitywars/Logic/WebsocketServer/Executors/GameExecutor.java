@@ -33,6 +33,7 @@ public class GameExecutor implements IExecutor{
             case "ENDTURN":
                 gameLogic.EndTurn(game);
                 gameLogic.UpdateGame(game);
+
                 break;
             case "INCREASEMAXMANA":
                 break;
