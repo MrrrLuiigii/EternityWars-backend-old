@@ -25,14 +25,25 @@ public class DeckBuilderExecutor implements IExecutor  {
 
     @Override
     public void Execute(JSONObject message, Session session) throws IOException {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
         switch (message.getString("Action")) {
             case "ADDDECK":
                deckBuilderContainerLogic.AddDeck(message);
                RespondDeckCollection(message);
                 break;
             case "GETALLDECK":
-              //  deckBuilderContainerLogic.GetAllDecks(message);
                 RespondDeckCollection(message);
+                break;
+            case "GETALLEMPTYDECKS":
+                RespondEmptyDeckCollection(message);
+                break;
+            case "GETBUILDERDECKBYID":
+                returnMessage.setAction("GETBUILDERDECKBYID");
+                returnMessage.setContent(deckBuilderContainerLogic.GetBuilderDeckById(message));
+                session.getRemote().sendString(gson.toJson(returnMessage));
                 break;
             case "GETDECKBYID":
                 Deck deck = deckBuilderContainerLogic.GetDeckById(message);
@@ -75,14 +86,7 @@ public class DeckBuilderExecutor implements IExecutor  {
     {
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
-      Gson gson = gs.create();
-
-        //Get the user object from the jsonObject
-       // JSONObject userJsonObject = jsonObject.getJSONObject("Content");
-       // User user = gson.fromJson(userJsonObject.getJSONObject("user").toString(), User.class);
-
-       // String token = jsonObject.getString("Token");
-
+        Gson gson = gs.create();
 
         DeckCollection deckCollection = deckBuilderContainerLogic.GetAllDecks(jsonObject);
 
@@ -92,7 +96,22 @@ public class DeckBuilderExecutor implements IExecutor  {
         session.getRemote().sendString(gson.toJson(returnMessage));
     }
 
-    public DeckBuilderExecutor(JSONObject message, Session session) {
+    private void RespondEmptyDeckCollection(JSONObject jsonObject) throws IOException
+    {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        DeckCollection deckCollection = deckBuilderContainerLogic.GetAllEmptyDecks(jsonObject);
+
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction("GETALLDECK");
+        returnMessage.setContent(deckCollection);
+        session.getRemote().sendString(gson.toJson(returnMessage));
+    }
+
+    public DeckBuilderExecutor(JSONObject message, Session session)
+    {
         this.message = message;
         this.session = session;
     }
