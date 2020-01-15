@@ -5,7 +5,6 @@ import java.util.List;
 public class Game
 {
     List<Player> connectedPlayers;
-    List<BoardRow> boardRows;
     int playerTurn;
     int id;
     int timer;
@@ -39,4 +38,5 @@ public class Game
     public void setPlayerTurn(int playerTurn) {
         this.playerTurn = playerTurn;
     }
+
 }

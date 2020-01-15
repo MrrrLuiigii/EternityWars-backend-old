@@ -93,6 +93,7 @@ public class LobbyLogic
                lobby.getPlayerOne().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerOne().getDeck().getDeckId(), token));
                lobby.getPlayerTwo().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerTwo().getDeck().getDeckId(), token));
                gameLogic.LaunchGame(lobby);
+               lobbyContainerLogic.DeleteLobby(lobby, token);
            }
        }
         return lobby;

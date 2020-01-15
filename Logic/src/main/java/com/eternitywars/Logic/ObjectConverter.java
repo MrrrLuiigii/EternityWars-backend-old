@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class ObjectConverter
 {
-    public Game JSONtoGame(JSONObject jsonObject)
+    public static Game JSONtoGame(JSONObject jsonObject)
     {
         Gson gson = new Gson();
         Game game = gson.fromJson(jsonObject.getJSONObject("Content").toString(), Game.class);
