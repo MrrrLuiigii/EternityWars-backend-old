@@ -67,10 +67,11 @@ public class DeckBuilderExecutor implements IExecutor  {
                 session.getRemote().sendString(new JSONObject(answer).toString());
                 break;
             case "REMOVECARD":
-                answer = deckBuilderLogic.AddCard(message);
+                answer = deckBuilderLogic.RemoveCard(message);
                 returnMessage.setAction("REMOVECARD");
                 returnMessage.setContent(answer);
                 session.getRemote().sendString(new JSONObject(answer).toString());
+                RespondDeck(message);
                 break;
             case "GETALLCARDSBYACCOUNT":
                 CardCollection collection = deckBuilderContainerLogic.GetAllCardsByAccount(message);
@@ -80,6 +81,23 @@ public class DeckBuilderExecutor implements IExecutor  {
                 session.getRemote().sendString(new JSONObject(collection).toString());
                 break;
         }
+    }
+
+    private void RespondDeck(JSONObject jsonObject) throws IOException
+    {
+        GsonBuilder gs = new GsonBuilder();
+        gs.serializeNulls();
+        Gson gson = gs.create();
+
+        String token = jsonObject.getString("Token");
+
+        Deck deck = gson.fromJson(jsonObject.getJSONObject("Content").toString(), Deck.class);
+        deck = deckBuilderContainerLogic.GetDeckById(deck.getDeckId(), token);
+
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction("GETBUILDERDECKBYID");
+        returnMessage.setContent(deck);
+        session.getRemote().sendString(gson.toJson(returnMessage));
     }
 
     private void RespondDeckCollection(JSONObject jsonObject) throws IOException

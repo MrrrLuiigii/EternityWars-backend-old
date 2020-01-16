@@ -82,7 +82,6 @@ public class DeckBuilderContainerLogic
         return response.getBody();
     }
 
-
     public Deck GetDeckById(int id, String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
