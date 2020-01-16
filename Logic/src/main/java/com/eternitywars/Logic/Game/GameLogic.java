@@ -102,11 +102,11 @@ public class GameLogic
    }
 
    public Game EndTurn(Game game){
-        game = ClearError(game);
-        game =  IncreaseMaxMana(game);
-        game =  IncreaseMaxDeathessence(game);
-        game =  RechargeMana(game);
-        game = DrawCard(game);
+        ClearError(game);
+        IncreaseMaxMana(game);
+        IncreaseMaxDeathessence(game);
+        RechargeMana(game);
+        DrawCard(game);
 
         if(game.getConnectedPlayers().get(0).getUserId() == game.getPlayerTurn()){
             game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
