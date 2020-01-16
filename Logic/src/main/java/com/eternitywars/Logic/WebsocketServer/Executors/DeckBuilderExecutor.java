@@ -63,6 +63,7 @@ public class DeckBuilderExecutor implements IExecutor  {
                 returnMessage.setAction("ADDCARD");
                 returnMessage.setContent(answer);
                 session.getRemote().sendString(new JSONObject(answer).toString());
+                RespondBuilderDeck(message);
                 break;
             case "REMOVECARD":
                 answer = deckBuilderLogic.RemoveCard(message);
@@ -98,6 +99,9 @@ public class DeckBuilderExecutor implements IExecutor  {
             returnDeck.setCards(new CardCollection());
         }
 
+        //todo refactor to use this method everywhere
+//        SendWebsocketReturnMessage("GETBUILDERDECKBYID", returnDeck);
+
         WsReturnMessage returnMessage = new WsReturnMessage();
         returnMessage.setAction("GETBUILDERDECKBYID");
         returnMessage.setContent(returnDeck);
@@ -131,6 +135,16 @@ public class DeckBuilderExecutor implements IExecutor  {
         returnMessage.setContent(deckCollection);
         session.getRemote().sendString(gson.toJson(returnMessage));
     }
+
+    private void SendWebsocketReturnMessage(String action, Object content) throws IOException
+    {
+        WsReturnMessage wsReturnMessage = new WsReturnMessage();
+        wsReturnMessage.setAction(action);
+        wsReturnMessage.setContent(content);
+        session.getRemote().sendString(new JSONObject(wsReturnMessage).toString());
+    }
+
+
 
     public DeckBuilderExecutor(JSONObject message, Session session)
     {

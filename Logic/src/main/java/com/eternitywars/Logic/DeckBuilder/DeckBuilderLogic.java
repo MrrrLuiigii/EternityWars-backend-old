@@ -1,10 +1,8 @@
 package com.eternitywars.Logic.DeckBuilder;
 
-import com.eternitywars.Models.Deck;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,9 +22,8 @@ public class DeckBuilderLogic
         gs.serializeNulls();
         Gson gson = gs.create();
 
-        JSONObject content = jsonObject.getJSONObject("Content");
-        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("deck").toString(), headers);
-        return restTemplate.postForObject("http://localhost:8083/api/private/deck/addCard", request,  boolean.class);
+        HttpEntity<String> request = new HttpEntity<>(jsonObject.getJSONObject("Content").toString(), headers);
+        return restTemplate.postForObject("http://localhost:8083/api/private/deck/addCard", request, boolean.class);
     }
 
     public boolean RemoveCard(JSONObject jsonObject){
