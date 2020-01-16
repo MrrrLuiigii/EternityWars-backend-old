@@ -63,6 +63,7 @@ public class DeckBuilderExecutor implements IExecutor  {
                 returnMessage.setAction("ADDCARD");
                 returnMessage.setContent(answer);
                 session.getRemote().sendString(new JSONObject(answer).toString());
+                RespondBuilderDeck(message);
                 break;
             case "REMOVECARD":
                 answer = deckBuilderLogic.RemoveCard(message);
