@@ -145,33 +145,39 @@ public class GameLogic
         return game;
    }
 
-   public Game AttackCard(Game game, CardSlot attacker, CardSlot target) {
-        target.setCard(CalculateRemainingHp(attacker.getCard(),target.getCard()));
-        attacker.setCard(CalculateRemainingHp(target.getCard(), attacker.getCard()));
-       int targetIndex = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().indexOf(target);
-       int attackerIndex = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
+   public Game AttackCard(Game game, WsCardData attacker, WsCardData target) {
 
-        if(target.getCard().getHealth() <= 0){
-            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().remove(targetIndex);
+        CardSlot attackersCardslot = attacker.getCardSlots().get(attacker.getIndex());
+        CardSlot targetCardslot = target.getCardSlots().get(attacker.getIndex());
+
+
+       targetCardslot.setCard(CalculateRemainingHp(attackersCardslot.getCard(),targetCardslot.getCard()));
+       attackersCardslot.setCard(CalculateRemainingHp(targetCardslot.getCard(), attackersCardslot.getCard()));
+      // int targetIndex = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().indexOf(target.getIndex());
+      // int attackerIndex = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(attacker.getIndex());
+
+        if(targetCardslot.getCard().getHealth() <= 0){
+            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().remove(target.getIndex());
             game = ObtainDeathessence(game);
         }
         else {
-            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(targetIndex, target);
+            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(target.getIndex(), targetCardslot);
         }
 
-       if(attacker.getCard().getHealth() <= 0){
-           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().remove(attackerIndex);
+       if(attackersCardslot.getCard().getHealth() <= 0){
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().remove(attacker.getIndex());
        }
        else{
-           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attackerIndex, target);
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attacker.getIndex(), attackersCardslot);
        }
 
        return game;
    }
 
-   public Game AttackHero(Game game, CardSlot attacker){
+   public Game AttackHero(Game game, WsCardData attacker){
+        Card attackerCard = attacker.getCardSlots().get(attacker.getIndex()).getCard();
         int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
-        game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attacker.getCard().getAttack());
+        game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
 
        if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
            EndGame(game);

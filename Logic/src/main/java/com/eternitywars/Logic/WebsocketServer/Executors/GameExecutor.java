@@ -36,6 +36,9 @@ public class GameExecutor implements IExecutor{
                 gameLogic.UpdateGame(game);
                 break;
             case "ATTACKWITHCARD": //here the logic will get both cards and subtract damage from them and return the game state with the cards that survived. If the Hero is attacked the logic will let the client now.
+                WsCardData cardToAttackWith = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToAttackWith").toString());
+                WsCardData targetToAttack = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("TargetToAttack").toString());
+                gameLogic.AttackCard(game, cardToAttackWith, targetToAttack);
                 break;
             case "PLACECARD": //here the logic will subtract mana from the player and place the card that needs to be placed on the board.
                 WsCardData cardToPlay = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToPlay").toString());
@@ -43,6 +46,9 @@ public class GameExecutor implements IExecutor{
                 gameLogic.PlayCard(game, cardToPlay, spotToPlace);
                 break;
             case "ATTACKHERO": //here the logic will cycle through the players turn.
+                WsCardData cardToAttackHeroWith = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToAttackHeroWith").toString());
+                //Hero hero = (Hero) MessageConverter.FromGsonToObject(new Hero(), message.getJSONObject("Hero").toString());
+                gameLogic.AttackHero(game, cardToAttackHeroWith);
                 break;
 //            case "INCREASEMAXMANA":
 //                break;
