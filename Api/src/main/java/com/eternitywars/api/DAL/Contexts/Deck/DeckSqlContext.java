@@ -39,11 +39,12 @@ public class DeckSqlContext implements IDeckContext
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "delete from `deck_card` where `card_id` = ?;";
+            String query = "delete from `deck_card` where `card_id` = ? and `deck_id` = ? limit 1;";
 
             try (PreparedStatement pst = conn.prepareStatement(query))
             {
                 pst.setInt(1, card.getCardId());
+                pst.setInt(2, deck.getDeckId());
                 pst.executeUpdate();
             }
         }
