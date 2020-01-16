@@ -36,9 +36,7 @@ public class GameExecutor implements IExecutor{
                 gameLogic.UpdateGame(game);
                 break;
             case "ATTACKWITHCARD": //here the logic will get both cards and subtract damage from them and return the game state with the cards that survived. If the Hero is attacked the logic will let the client now.
-                WsCardData cardToAttackWith = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToAttackWith").toString());
-                WsCardData targetToAttack = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("TargetToAttack").toString());
-                gameLogic.AttackCard(game, cardToAttackWith, targetToAttack);
+                gameLogic.AttackCard(game, message.getInt("CardToAttackWith"), message.getInt("TargetToAttack"));
                 gameLogic.UpdateGame(game);
                 break;
             case "PLACECARD": //here the logic will subtract mana from the player and place the card that needs to be placed on the board.

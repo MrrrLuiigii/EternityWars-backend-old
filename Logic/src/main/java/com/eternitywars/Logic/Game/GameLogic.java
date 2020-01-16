@@ -137,50 +137,65 @@ public class GameLogic
         return game;
    }
 
-   public void ConsumemMana(Game game, int manacost)
+   public void ConsumeResources(Game game, int manaCost, int deathEssenceCost)
    {
-       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() - manacost);
+       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() - manaCost);
+       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxDeathessence() - deathEssenceCost);
    }
+
 
 
    public Game ObtainDeathessence(Game game){
         int currentDeathessence = game.getConnectedPlayers().get(0).getHero().getDeathessence();
         if(currentDeathessence < game.getConnectedPlayers().get(0).getHero().getMaxDeathessence()){
-            game.getConnectedPlayers().get(0).getHero().setMana(currentDeathessence + 1 );
+            game.getConnectedPlayers().get(0).getHero().setDeathessence(currentDeathessence + 1 );
         }
         return game;
    }
 
-   public Game AttackCard(Game game, WsCardData attacker, WsCardData target) {
-
-        CardSlot attackersCardslot = attacker.getCardSlots().get(attacker.getIndex());
-        CardSlot targetCardslot = target.getCardSlots().get(attacker.getIndex());
-
-
-       targetCardslot.setCard(CalculateRemainingHp(attackersCardslot.getCard(),targetCardslot.getCard()));
-       attackersCardslot.setCard(CalculateRemainingHp(targetCardslot.getCard(), attackersCardslot.getCard()));
-      // int targetIndex = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().indexOf(target.getIndex());
-      // int attackerIndex = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(attacker.getIndex());
-
-        if(targetCardslot.getCard().getHealth() <= 0){
-            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().remove(target.getIndex());
-            game = ObtainDeathessence(game);
-        }
-        else {
-            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(target.getIndex(), targetCardslot);
+   public Game AttackCard(Game game, int attacker, int target) {
+        if(!CheckForTurn(game))
+        {
+            return game;
         }
 
-       if(attackersCardslot.getCard().getHealth() <= 0){
-           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().remove(attacker.getIndex());
-       }
-       else{
-           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attacker.getIndex(), attackersCardslot);
-       }
+        CardSlot attackersCardslot = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attacker);
+        CardSlot targetCardslot = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target);
 
+       if(!attackersCardslot.getCard().getIssleeping())
+       {
+
+           targetCardslot.setCard(CalculateRemainingHp(attackersCardslot.getCard(),targetCardslot.getCard()));
+           attackersCardslot.setCard(CalculateRemainingHp(targetCardslot.getCard(), attackersCardslot.getCard()));
+
+           if(targetCardslot.getCard().getHealth() <= 0){
+               game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).setCard(null);
+               game = ObtainDeathessence(game);
+           }
+           else {
+               game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(target, targetCardslot);
+           }
+
+           if(attackersCardslot.getCard().getHealth() <= 0){
+               game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attacker).setCard(null);
+           }
+           else{
+               game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attacker, attackersCardslot);
+               attackersCardslot.getCard().setIssleeping(true);
+           }
+
+           return game;
+       }
+       game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
        return game;
    }
 
-   public Game AttackHero(Game game, int CardToAttackHeroWith){
+   public Game AttackHero(Game game, int CardToAttackHeroWith) throws IOException {
+       if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
+       {
+           game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
+           return game;
+       }
         Card attackerCard = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(CardToAttackHeroWith).getCard();
         if(!attackerCard.getIssleeping())
         {
@@ -202,26 +217,51 @@ public class GameLogic
    }
 
    public Game PlayCard(Game game, int cardToPlay, int target){
+        if(!CheckForTurn(game))
+        {
+            return game;
+        }
         int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
-        int indexOnField = target;
+        int currentDeathEssence = game.getConnectedPlayers().get(0).getHero().getMaxDeathessence();
         Card playablecard = game.getConnectedPlayers().get(0).getCardsInHand().get(cardToPlay);
 
         if(currentMana < playablecard.getBlue_mana()){
             game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
             return game;
         }
-        ConsumemMana(game, playablecard.getBlue_mana());
+       if(currentDeathEssence < playablecard.getDeath_essence()){
+           game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
+           return game;
+       }
+        ConsumeResources(game, playablecard.getBlue_mana(), playablecard.getDeath_essence());
         RemoveCardFromHand(game, cardToPlay);
 
         //todo death essence check
-        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(playablecard);
+        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(target).setCard(playablecard);
         return game;
    }
 
-   private void EndGame(Game game){
+   private void EndGame(Game game) throws IOException {
         WsReturnMessage wsReturnMessage = new WsReturnMessage();
         wsReturnMessage.setAction("ENDGAME");
         wsReturnMessage.setContent("Hier een mooi bericht met wie de winnaar is dit wil niet maken");
+        //todo refactor
+       GsonBuilder gs = new GsonBuilder();
+       gs.serializeNulls();
+       Gson gson = gs.create();
+
+       for (User u : UserCollection.getConnectedUsers()){
+           if(game.getConnectedPlayers().get(0) != null){
+               if(u.getUsername().equals(game.getConnectedPlayers().get(0).getUsername())){
+                   u.getSession().getRemote().sendString(gson.toJson(wsReturnMessage));
+               }
+           }
+           if(game.getConnectedPlayers().get(1) != null){
+               if(u.getUsername().equals(game.getConnectedPlayers().get(1).getUsername())){
+                   u.getSession().getRemote().sendString(gson.toJson(wsReturnMessage));
+               }
+           }
+       }
    }
 
    private Card CalculateRemainingHp(Card attacker, Card target){
@@ -291,7 +331,15 @@ public class GameLogic
        }
    }
 
-
+    private boolean CheckForTurn(Game game)
+    {
+        if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
+        {
+            game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
+            return false;
+        }
+        return true;
+    }
 
 
    private Game ClearError(Game game)
