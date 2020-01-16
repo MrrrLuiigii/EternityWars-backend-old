@@ -139,8 +139,8 @@ public class GameLogic
 
    public void ConsumeResources(Game game, int manaCost, int deathEssenceCost)
    {
-       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() - manaCost);
-       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxDeathessence() - deathEssenceCost);
+       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMana() - manaCost);
+       game.getConnectedPlayers().get(0).getHero().setDeathessence(game.getConnectedPlayers().get(0).getHero().getDeathessence() - deathEssenceCost);
    }
 
 
@@ -222,7 +222,7 @@ public class GameLogic
             return game;
         }
         int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
-        int currentDeathEssence = game.getConnectedPlayers().get(0).getHero().getMaxDeathessence();
+        int currentDeathEssence = game.getConnectedPlayers().get(0).getHero().getDeathessence();
         Card playablecard = game.getConnectedPlayers().get(0).getCardsInHand().get(cardToPlay);
 
         if(currentMana < playablecard.getBlue_mana()){
