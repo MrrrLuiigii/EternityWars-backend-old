@@ -2,6 +2,7 @@ package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.ObjectConverter;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
+import com.eternitywars.Logic.utils.MessageConverter;
 import com.eternitywars.Models.Account;
 import com.google.gson.Gson;
 import com.eternitywars.Logic.Game.GameContainerLogic;
@@ -33,24 +34,26 @@ public class GameExecutor implements IExecutor{
             case "ENDTURN":
                 gameLogic.EndTurn(game);
                 gameLogic.UpdateGame(game);
-
-                break;
-            case "INCREASEMAXMANA":
-                break;
-            case "INCREASEDEATHESSENCE":
-                break;
-            case "RECHARGEMANA":
-                break;
-            case "OBTAINDEATHESSENCE":
-                break;
-            case "STARTTURN": // here the logic will start a thread that keeps track of the time elapsing and will give the client information about that.
                 break;
             case "ATTACKWITHCARD": //here the logic will get both cards and subtract damage from them and return the game state with the cards that survived. If the Hero is attacked the logic will let the client now.
                 break;
             case "PLACECARD": //here the logic will subtract mana from the player and place the card that needs to be placed on the board.
+                WsCardData cardToPlay = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToPlay").toString());
+                WsCardData spotToPlace = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("SpotToPlace").toString());
+                gameLogic.PlayCard(game, cardToPlay, spotToPlace);
                 break;
-            case "SKIPTURN": //here the logic will cycle through the players turn.
+            case "ATTACKHERO": //here the logic will cycle through the players turn.
                 break;
+//            case "INCREASEMAXMANA":
+//                break;
+//            case "INCREASEDEATHESSENCE":
+//                break;
+//            case "RECHARGEMANA":
+//                break;
+//            case "OBTAINDEATHESSENCE":
+//                break;
+//            case "STARTTURN": // here the logic will start a thread that keeps track of the time elapsing and will give the client information about that.
+//                break;
         }
     }
 

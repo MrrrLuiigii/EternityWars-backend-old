@@ -179,15 +179,16 @@ public class GameLogic
        return game;
    }
 
-   public Game PlayCard(Game game, CardSlot cardToPlay, CardSlot target){
+   public Game PlayCard(Game game, WsCardData cardToPlay, WsCardData target){
         int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
-        int indexOnField = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
-        if(currentMana < cardToPlay.getCard().getBlue_mana()){
+        int indexOnField = target.getIndex();
+
+        if(currentMana < cardToPlay.getCardSlots().get(cardToPlay.getIndex()).getCard().getBlue_mana()){
             game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
             return game;
         }
         //todo death essence check
-        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(cardToPlay.getCard());
+        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(cardToPlay.getCardSlots().get(cardToPlay.getIndex()).getCard());
         return game;
    }
 
