@@ -8,11 +8,21 @@ public class Card
     private int attack;
     private int blue_mana;
     private int death_essence;
+    private boolean issleeping;
 
     public Card()
     {
-
+        issleeping = true;
     }
+
+    public boolean getIssleeping() {
+        return issleeping;
+    }
+
+    public void setIssleeping(boolean issleeping) {
+        this.issleeping = issleeping;
+    }
+
 
     public int getCardId()
     {
@@ -73,4 +83,5 @@ public class Card
     {
         this.death_essence = death_essence;
     }
+
 }

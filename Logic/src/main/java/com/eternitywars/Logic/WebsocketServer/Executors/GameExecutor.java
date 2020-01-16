@@ -39,16 +39,18 @@ public class GameExecutor implements IExecutor{
                 WsCardData cardToAttackWith = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToAttackWith").toString());
                 WsCardData targetToAttack = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("TargetToAttack").toString());
                 gameLogic.AttackCard(game, cardToAttackWith, targetToAttack);
+                gameLogic.UpdateGame(game);
                 break;
             case "PLACECARD": //here the logic will subtract mana from the player and place the card that needs to be placed on the board.
-                WsCardData cardToPlay = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToPlay").toString());
-                WsCardData spotToPlace = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("SpotToPlace").toString());
-                gameLogic.PlayCard(game, cardToPlay, spotToPlace);
+
+                gameLogic.PlayCard(game, message.getInt("CardToPlay"), message.getInt("SpotToPlace"));
+                gameLogic.UpdateGame(game);
                 break;
             case "ATTACKHERO": //here the logic will cycle through the players turn.
-                WsCardData cardToAttackHeroWith = (WsCardData) MessageConverter.FromGsonToObject(new WsCardData(), message.getJSONObject("CardToAttackHeroWith").toString());
+
                 //Hero hero = (Hero) MessageConverter.FromGsonToObject(new Hero(), message.getJSONObject("Hero").toString());
-                gameLogic.AttackHero(game, cardToAttackHeroWith);
+                gameLogic.AttackHero(game, message.getInt("CardToAttackHeroWith"));
+                gameLogic.UpdateGame(game);
                 break;
 //            case "INCREASEMAXMANA":
 //                break;
