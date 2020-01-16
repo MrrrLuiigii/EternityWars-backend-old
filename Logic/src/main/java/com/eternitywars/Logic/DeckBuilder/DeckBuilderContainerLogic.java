@@ -82,6 +82,17 @@ public class DeckBuilderContainerLogic
         return response.getBody();
     }
 
+    public Deck GetEmptyDeckById(int id, String token)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        ResponseEntity<Deck> response = restTemplate.exchange("http://localhost:8083/api/private/deck/getEmptyByDeckId/{deckId}", HttpMethod.GET, request , Deck.class, id);
+        return response.getBody();
+    }
+
     public Deck GetDeckById(int id, String token){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);

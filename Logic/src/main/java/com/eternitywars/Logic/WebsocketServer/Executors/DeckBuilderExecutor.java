@@ -41,9 +41,7 @@ public class DeckBuilderExecutor implements IExecutor  {
                 RespondEmptyDeckCollection(message);
                 break;
             case "GETBUILDERDECKBYID":
-                returnMessage.setAction("GETBUILDERDECKBYID");
-                returnMessage.setContent(deckBuilderContainerLogic.GetBuilderDeckById(message));
-                session.getRemote().sendString(gson.toJson(returnMessage));
+                RespondBuilderDeck(message);
                 break;
             case "GETDECKBYID":
                 Deck deck = deckBuilderContainerLogic.GetDeckById(message);
@@ -71,7 +69,7 @@ public class DeckBuilderExecutor implements IExecutor  {
                 returnMessage.setAction("REMOVECARD");
                 returnMessage.setContent(answer);
                 session.getRemote().sendString(new JSONObject(answer).toString());
-                RespondDeck(message);
+                RespondBuilderDeck(message);
                 break;
             case "GETALLCARDSBYACCOUNT":
                 CardCollection collection = deckBuilderContainerLogic.GetAllCardsByAccount(message);
@@ -83,7 +81,7 @@ public class DeckBuilderExecutor implements IExecutor  {
         }
     }
 
-    private void RespondDeck(JSONObject jsonObject) throws IOException
+    private void RespondBuilderDeck(JSONObject jsonObject) throws IOException
     {
         GsonBuilder gs = new GsonBuilder();
         gs.serializeNulls();
@@ -92,11 +90,17 @@ public class DeckBuilderExecutor implements IExecutor  {
         String token = jsonObject.getString("Token");
 
         Deck deck = gson.fromJson(jsonObject.getJSONObject("Content").toString(), Deck.class);
-        deck = deckBuilderContainerLogic.GetDeckById(deck.getDeckId(), token);
+        Deck returnDeck = deckBuilderContainerLogic.GetDeckById(deck.getDeckId(), token);
+
+        if (returnDeck.getDeckId() == 0)
+        {
+            returnDeck = deckBuilderContainerLogic.GetEmptyDeckById(deck.getDeckId(), token);
+            returnDeck.setCards(new CardCollection());
+        }
 
         WsReturnMessage returnMessage = new WsReturnMessage();
         returnMessage.setAction("GETBUILDERDECKBYID");
-        returnMessage.setContent(deck);
+        returnMessage.setContent(returnDeck);
         session.getRemote().sendString(gson.toJson(returnMessage));
     }
 
