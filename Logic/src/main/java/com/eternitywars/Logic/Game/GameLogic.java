@@ -6,11 +6,9 @@ import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class GameLogic
@@ -102,16 +100,18 @@ public class GameLogic
    }
 
    public Game EndTurn(Game game){
-        game = ClearError(game);
-        game =  IncreaseMaxMana(game);
-        game =  IncreaseMaxDeathessence(game);
-        game =  RechargeMana(game);
-        game = DrawCard(game);
+        ClearError(game);
+        IncreaseMaxMana(game);
+        IncreaseMaxDeathessence(game);
+        RechargeMana(game);
+        DrawCard(game);
+       AwakeCards(game);
 
         if(game.getConnectedPlayers().get(0).getUserId() == game.getPlayerTurn()){
             game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
             return game;
         }
+
         game.setPlayerTurn(game.getConnectedPlayers().get(0).getUserId());
         return game;
    }
@@ -137,6 +137,12 @@ public class GameLogic
         return game;
    }
 
+   public void ConsumemMana(Game game, int manacost)
+   {
+       game.getConnectedPlayers().get(0).getHero().setMana(game.getConnectedPlayers().get(0).getHero().getMaxMana() - manacost);
+   }
+
+
    public Game ObtainDeathessence(Game game){
         int currentDeathessence = game.getConnectedPlayers().get(0).getHero().getDeathessence();
         if(currentDeathessence < game.getConnectedPlayers().get(0).getHero().getMaxDeathessence()){
@@ -145,49 +151,70 @@ public class GameLogic
         return game;
    }
 
-   public Game AttackCard(Game game, CardSlot attacker, CardSlot target) {
-        target.setCard(CalculateRemainingHp(attacker.getCard(),target.getCard()));
-        attacker.setCard(CalculateRemainingHp(target.getCard(), attacker.getCard()));
-       int targetIndex = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().indexOf(target);
-       int attackerIndex = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
+   public Game AttackCard(Game game, WsCardData attacker, WsCardData target) {
 
-        if(target.getCard().getHealth() <= 0){
-            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().remove(targetIndex);
+        CardSlot attackersCardslot = attacker.getCardSlots().get(attacker.getIndex());
+        CardSlot targetCardslot = target.getCardSlots().get(attacker.getIndex());
+
+
+       targetCardslot.setCard(CalculateRemainingHp(attackersCardslot.getCard(),targetCardslot.getCard()));
+       attackersCardslot.setCard(CalculateRemainingHp(targetCardslot.getCard(), attackersCardslot.getCard()));
+      // int targetIndex = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().indexOf(target.getIndex());
+      // int attackerIndex = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(attacker.getIndex());
+
+        if(targetCardslot.getCard().getHealth() <= 0){
+            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().remove(target.getIndex());
             game = ObtainDeathessence(game);
         }
         else {
-            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(targetIndex, target);
+            game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(target.getIndex(), targetCardslot);
         }
 
-       if(attacker.getCard().getHealth() <= 0){
-           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().remove(attackerIndex);
+       if(attackersCardslot.getCard().getHealth() <= 0){
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().remove(attacker.getIndex());
        }
        else{
-           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attackerIndex, target);
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attacker.getIndex(), attackersCardslot);
        }
 
        return game;
    }
 
-   public Game AttackHero(Game game, CardSlot attacker){
-        int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
-        game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attacker.getCard().getAttack());
-
-       if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
-           EndGame(game);
-       }
+   public Game AttackHero(Game game, int CardToAttackHeroWith){
+        Card attackerCard = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(CardToAttackHeroWith).getCard();
+        if(!attackerCard.getIssleeping())
+        {
+            int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
+            game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
+            attackerCard.setIssleeping(true);
+            if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
+                EndGame(game);
+            }
+            return game;
+        }
+        game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
        return game;
    }
 
-   public Game PlayCard(Game game, CardSlot cardToPlay, CardSlot target){
+   public void RemoveCardFromHand(Game game, int cardToPlay)
+   {
+       game.getConnectedPlayers().get(0).getCardsInHand().remove(cardToPlay);
+   }
+
+   public Game PlayCard(Game game, int cardToPlay, int target){
         int currentMana = game.getConnectedPlayers().get(0).getHero().getMana();
-        int indexOnField = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().indexOf(target);
-        if(currentMana < cardToPlay.getCard().getBlue_mana()){
+        int indexOnField = target;
+        Card playablecard = game.getConnectedPlayers().get(0).getCardsInHand().get(cardToPlay);
+
+        if(currentMana < playablecard.getBlue_mana()){
             game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
             return game;
         }
+        ConsumemMana(game, playablecard.getBlue_mana());
+        RemoveCardFromHand(game, cardToPlay);
+
         //todo death essence check
-        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(cardToPlay.getCard());
+        game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(indexOnField).setCard(playablecard);
         return game;
    }
 
@@ -252,12 +279,25 @@ public class GameLogic
        }
    }
 
+   public void AwakeCards(Game game)
+   {
+
+       for(CardSlot cardslot : game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList())
+       {
+           if(cardslot.getCard() != null)
+           {
+               cardslot.getCard().setIssleeping(false);
+           }
+       }
+   }
+
+
+
+
    private Game ClearError(Game game)
    {
        game.getConnectedPlayers().get(0).setError(null);
        game.getConnectedPlayers().get(1).setError(null);
        return game;
    }
-
-
 }
