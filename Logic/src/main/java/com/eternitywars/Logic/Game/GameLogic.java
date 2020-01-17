@@ -6,6 +6,7 @@ import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import sun.security.util.SecurityProperties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -242,26 +243,7 @@ public class GameLogic
    }
 
    private void EndGame(Game game) throws IOException {
-        WsReturnMessage wsReturnMessage = new WsReturnMessage();
-        wsReturnMessage.setAction("ENDGAME");
-        wsReturnMessage.setContent("Hier een mooi bericht met wie de winnaar is dit wil niet maken");
-        //todo refactor
-       GsonBuilder gs = new GsonBuilder();
-       gs.serializeNulls();
-       Gson gson = gs.create();
-
-       for (User u : UserCollection.getConnectedUsers()){
-           if(game.getConnectedPlayers().get(0) != null){
-               if(u.getUsername().equals(game.getConnectedPlayers().get(0).getUsername())){
-                   u.getSession().getRemote().sendString(gson.toJson(wsReturnMessage));
-               }
-           }
-           if(game.getConnectedPlayers().get(1) != null){
-               if(u.getUsername().equals(game.getConnectedPlayers().get(1).getUsername())){
-                   u.getSession().getRemote().sendString(gson.toJson(wsReturnMessage));
-               }
-           }
-       }
+       SendGame(game, "ENDGAME");
    }
 
    private Card CalculateRemainingHp(Card attacker, Card target){
@@ -295,12 +277,12 @@ public class GameLogic
    }
 
 
-   public void UpdateGame(Game game) throws IOException {
+   public void SendGame(Game game, String Action) throws IOException {
        GsonBuilder gs = new GsonBuilder();
        gs.serializeNulls();
        Gson gson = gs.create();
        WsReturnMessage returnMessage = new WsReturnMessage();
-       returnMessage.setAction("UPDATEGAME");
+       returnMessage.setAction(Action);
        returnMessage.setContent(game);
 
 
