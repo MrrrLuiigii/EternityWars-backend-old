@@ -23,9 +23,12 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
         DeckSqlContext deckSqlContext = new DeckSqlContext();
 
-        for (Card c : deck.getCards().getCards())
+        if (deck.getCards() != null)
         {
-            deckSqlContext.AddCard(addedDeck, c);
+            for (Card c : deck.getCards().getCards())
+            {
+                deckSqlContext.AddCard(addedDeck, c);
+            }
         }
 
         return addedDeck;

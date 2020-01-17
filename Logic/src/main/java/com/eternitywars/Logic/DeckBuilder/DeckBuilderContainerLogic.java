@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class DeckBuilderContainerLogic
 {
-
     private RestTemplate restTemplate = new RestTemplate();
 
-    public boolean AddDeck(JSONObject jsonObject){
+    public Deck AddDeck(JSONObject jsonObject)
+    {
         String token = jsonObject.getString("Token");
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -26,9 +26,13 @@ public class DeckBuilderContainerLogic
         Gson gson = gs.create();
 
         JSONObject content = jsonObject.getJSONObject("Content");
-        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("user").toString(), headers);
+        int userId = content.getInt("userId");
+        Deck deck = gson.fromJson(content.getJSONObject("deck").toString(), Deck.class);
+        deck.setUserId(userId);
 
-        return restTemplate.postForObject("http://localhost:8083/api/private/deck/add", request, boolean.class);
+        HttpEntity<String> request = new HttpEntity<>(gson.toJson(deck), headers);
+
+        return restTemplate.postForObject("http://localhost:8083/api/private/deck/add", request, Deck.class);
     }
 
     public DeckCollection GetAllDecks(JSONObject jsonObject){
@@ -43,7 +47,7 @@ public class DeckBuilderContainerLogic
 
        // JSONObject content = jsonObject.getJSONObject("Content");
         User user = gson.fromJson(jsonObject.getJSONObject("Content").toString(), User.class);
-        HttpEntity<String> request = new HttpEntity<>(jsonObject.getJSONObject("Content").toString(), headers);
+        HttpEntity<String> request = new HttpEntity<>(gson.toJson(user), headers);
         ResponseEntity<DeckCollection> response = restTemplate.exchange("http://localhost:8083/api/private/deck/getByUserId/{userId}", HttpMethod.GET, request , DeckCollection.class, user.getUserId() );
         return response.getBody();
     }
@@ -120,7 +124,8 @@ public class DeckBuilderContainerLogic
         return response.getBody();
     }
 
-    public boolean DeleteDeck(JSONObject jsonObject){
+    public boolean DeleteDeck(JSONObject jsonObject)
+    {
         String token = jsonObject.getString("Token");
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -131,7 +136,8 @@ public class DeckBuilderContainerLogic
         Gson gson = gs.create();
 
         JSONObject content = jsonObject.getJSONObject("Content");
-        HttpEntity<String> request = new HttpEntity<>(content.getJSONObject("player").toString(), headers);
+        HttpEntity<String> request = new HttpEntity<>(content.toString(), headers);
+
         return restTemplate.postForObject("http://localhost:8083/api/private/deck/delete", request, boolean.class);
     }
 
