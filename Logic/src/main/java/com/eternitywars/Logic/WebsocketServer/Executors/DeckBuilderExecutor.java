@@ -114,12 +114,35 @@ public class DeckBuilderExecutor implements IExecutor  {
         gs.serializeNulls();
         Gson gson = gs.create();
 
+        DeckCollection emptyDeckCollection = deckBuilderContainerLogic.GetAllEmptyDecks(jsonObject);
         DeckCollection deckCollection = deckBuilderContainerLogic.GetAllDecks(jsonObject);
+
+        for(Deck ed : emptyDeckCollection.getDecks())
+        {
+            if (!CheckDeckCollectionContainsDeck(deckCollection, ed.getDeckId()))
+            {
+                ed.setCards(new CardCollection());
+                deckCollection.AddDeck(ed);
+            }
+        }
 
         WsReturnMessage returnMessage = new WsReturnMessage();
         returnMessage.setAction("GETALLDECK");
         returnMessage.setContent(deckCollection);
         session.getRemote().sendString(gson.toJson(returnMessage));
+    }
+
+    private boolean CheckDeckCollectionContainsDeck(DeckCollection deckCollection, int deckId)
+    {
+        for (Deck d : deckCollection.getDecks())
+        {
+            if (d.getDeckId() == deckId)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void RespondEmptyDeckCollection(JSONObject jsonObject) throws IOException
