@@ -11,73 +11,49 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class DeckBuilderExecutor implements IExecutor  {
-
+public class DeckBuilderExecutor implements IExecutor
+{
     private DeckBuilderLogic deckBuilderLogic = new DeckBuilderLogic();
     private DeckBuilderContainerLogic deckBuilderContainerLogic = new DeckBuilderContainerLogic();
 
     private JSONObject message;
     private Session session;
 
-    public boolean answer;
-
-    WsReturnMessage returnMessage = new WsReturnMessage();
+    private WsReturnMessage returnMessage = new WsReturnMessage();
 
     @Override
-    public void Execute(JSONObject message, Session session) throws IOException {
-        GsonBuilder gs = new GsonBuilder();
-        gs.serializeNulls();
-        Gson gson = gs.create();
-
-        switch (message.getString("Action")) {
+    public void Execute(JSONObject message, Session session) throws IOException
+    {
+        switch (message.getString("Action"))
+        {
             case "ADDDECK":
-               deckBuilderContainerLogic.AddDeck(message);
-               RespondDeckCollection(message);
-                break;
-            case "GETALLDECK":
+                deckBuilderContainerLogic.AddDeck(message);
                 RespondDeckCollection(message);
-                break;
-            case "GETALLEMPTYDECKS":
-                RespondEmptyDeckCollection(message);
-                break;
-            case "GETBUILDERDECKBYID":
-                RespondBuilderDeck(message);
-                break;
-            case "GETDECKBYID":
-                Deck deck = deckBuilderContainerLogic.GetDeckById(message);
-
-                returnMessage.setAction("GETDECKBYID");
-                returnMessage.setContent(deck);
-                session.getRemote().sendString(new JSONObject(deck).toString());
                 break;
             case "DELETEDECK":
                 deckBuilderContainerLogic.DeleteDeck(message);
                 RespondDeckCollection(message);
                 break;
-            case "SAVEDECK":
-                deckBuilderContainerLogic.SaveDeck(message);
+
+            case "GETALLDECKS":
                 RespondDeckCollection(message);
                 break;
+            case "GETBUILDERDECKBYID":
+                RespondBuilderDeck(message);
+                break;
+
+            case "GETDECKBYID":
+                Deck deck = deckBuilderContainerLogic.GetDeckById(message);
+                SendWebsocketReturnMessage("GETDECKBYID", deck);
+                break;
+
             case "ADDCARD":
-                answer = deckBuilderLogic.AddCard(message);
-                returnMessage.setAction("ADDCARD");
-                returnMessage.setContent(answer);
-                session.getRemote().sendString(new JSONObject(answer).toString());
+                deckBuilderLogic.AddCard(message);
                 RespondBuilderDeck(message);
                 break;
             case "REMOVECARD":
-                answer = deckBuilderLogic.RemoveCard(message);
-                returnMessage.setAction("REMOVECARD");
-                returnMessage.setContent(answer);
-                session.getRemote().sendString(new JSONObject(answer).toString());
+                deckBuilderLogic.RemoveCard(message);
                 RespondBuilderDeck(message);
-                break;
-            case "GETALLCARDSBYACCOUNT":
-                CardCollection collection = deckBuilderContainerLogic.GetAllCardsByAccount(message);
-
-                returnMessage.setAction("GETALLCARDSBYACCOUNT");
-                returnMessage.setContent(collection);
-                session.getRemote().sendString(new JSONObject(collection).toString());
                 break;
         }
     }
@@ -99,21 +75,11 @@ public class DeckBuilderExecutor implements IExecutor  {
             returnDeck.setCards(new CardCollection());
         }
 
-        //todo refactor to use this method everywhere
-//        SendWebsocketReturnMessage("GETBUILDERDECKBYID", returnDeck);
-
-        WsReturnMessage returnMessage = new WsReturnMessage();
-        returnMessage.setAction("GETBUILDERDECKBYID");
-        returnMessage.setContent(returnDeck);
-        session.getRemote().sendString(gson.toJson(returnMessage));
+        SendWebsocketReturnMessage("GETBUILDERDECKBYID", returnDeck);
     }
 
     private void RespondDeckCollection(JSONObject jsonObject) throws IOException
     {
-        GsonBuilder gs = new GsonBuilder();
-        gs.serializeNulls();
-        Gson gson = gs.create();
-
         DeckCollection emptyDeckCollection = deckBuilderContainerLogic.GetAllEmptyDecks(jsonObject);
         DeckCollection deckCollection = deckBuilderContainerLogic.GetAllDecks(jsonObject);
 
@@ -126,10 +92,7 @@ public class DeckBuilderExecutor implements IExecutor  {
             }
         }
 
-        WsReturnMessage returnMessage = new WsReturnMessage();
-        returnMessage.setAction("GETALLDECK");
-        returnMessage.setContent(deckCollection);
-        session.getRemote().sendString(gson.toJson(returnMessage));
+        SendWebsocketReturnMessage("GETALLDECKS", deckCollection);
     }
 
     private boolean CheckDeckCollectionContainsDeck(DeckCollection deckCollection, int deckId)
@@ -143,20 +106,6 @@ public class DeckBuilderExecutor implements IExecutor  {
         }
 
         return false;
-    }
-
-    private void RespondEmptyDeckCollection(JSONObject jsonObject) throws IOException
-    {
-        GsonBuilder gs = new GsonBuilder();
-        gs.serializeNulls();
-        Gson gson = gs.create();
-
-        DeckCollection deckCollection = deckBuilderContainerLogic.GetAllEmptyDecks(jsonObject);
-
-        WsReturnMessage returnMessage = new WsReturnMessage();
-        returnMessage.setAction("GETALLDECK");
-        returnMessage.setContent(deckCollection);
-        session.getRemote().sendString(gson.toJson(returnMessage));
     }
 
     private void SendWebsocketReturnMessage(String action, Object content) throws IOException
