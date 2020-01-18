@@ -1,6 +1,7 @@
 package com.eternitywars.Logic.Game;
 
 import com.eternitywars.Logic.ObjectConverter;
+import com.eternitywars.Logic.User.UserLogic;
 import com.eternitywars.Logic.WebsocketServer.Collection.UserCollection;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
 import com.eternitywars.Models.*;
@@ -191,7 +192,7 @@ public class GameLogic
        return game;
    }
 
-   public Game AttackHero(Game game, int CardToAttackHeroWith) throws IOException {
+   public Game AttackHero(Game game, int CardToAttackHeroWith, String token) throws IOException {
        if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
        {
            game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
@@ -204,7 +205,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
             attackerCard.setIssleeping(true);
             if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
-                EndGame(game);
+                EndGame(game, token);
             }
             return game;
         }
@@ -242,9 +243,22 @@ public class GameLogic
         return game;
    }
 
-   private void EndGame(Game game) throws IOException {
+   private void EndGame(Game game, String token) throws IOException {
        SendGame(game, "ENDGAME");
+
+       UserLogic userLogic = new UserLogic();
+       userLogic.IncreaseGold(game.getConnectedPlayers().get(0).getUserId(), DecideGoldEarning(game, 0), token );
+       userLogic.IncreaseGold(game.getConnectedPlayers().get(1).getUserId(), DecideGoldEarning(game, 1), token );
+
    }
+
+   private int DecideGoldEarning(Game game, int index){
+        if(game.getConnectedPlayers().get(index).getHero().getHp() <= 0){
+            return 5;
+        }
+        return 25;
+   }
+
 
    private Card CalculateRemainingHp(Card attacker, Card target){
         target.setHealth(target.getHealth() - attacker.getAttack());
