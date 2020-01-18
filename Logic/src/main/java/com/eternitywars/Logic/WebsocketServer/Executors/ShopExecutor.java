@@ -40,6 +40,7 @@ public class ShopExecutor implements IExecutor{
             case "OPENPACK":
                 Pack pack = shopLogic.OpenPack(user, token);
                 MessageSender.SendGenericMessageToUser(pack, "OPENPACK", user);
+                MessageSender.SendGenericMessageToUser(user, "UPDATEUSERINFO", user);
                 break;
         }
     }

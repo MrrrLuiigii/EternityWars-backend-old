@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Pack
 {
-    List<Card> Card;
+    List<Card> Cards;
 
     public Pack()
     {
-        Card = new ArrayList<>();
+        Cards = new ArrayList<>();
     }
 
-    public List<com.eternitywars.Models.Card> getCard() {
-        return Card;
+    public List<com.eternitywars.Models.Card> getCards() {
+        return Cards;
     }
 
-    public void setCard(List<com.eternitywars.Models.Card> card) {
-        Card = card;
+    public void setCards(List<com.eternitywars.Models.Card> cards) {
+        Cards = cards;
     }
 }

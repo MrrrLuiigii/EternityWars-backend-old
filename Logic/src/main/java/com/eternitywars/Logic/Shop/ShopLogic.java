@@ -49,7 +49,7 @@ public class ShopLogic {
             headers.setContentType(MediaType.APPLICATION_JSON);
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
-            restTemplate.postForObject("http://eternity-wars-api/api/private/user/updatePackAmount", request, Boolean.class);
+            restTemplate.postForObject("http://localhost:8083/api/private/user/updatePackAmount", request, Boolean.class);
             Pack pack = cpl.PickCards(user, token);
             return pack;
         }
