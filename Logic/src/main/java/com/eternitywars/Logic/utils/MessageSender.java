@@ -9,6 +9,8 @@ import com.eternitywars.Models.User;
 
 import java.io.IOException;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
+
 public class MessageSender {
 
     public static void UpdateParticipatingLobby(Lobby lobby, String action) throws IOException {
@@ -38,8 +40,31 @@ public class MessageSender {
 
 
         for (User u : UserCollection.getConnectedUsers()) {
-            System.out.println(u.getUsername());
             u.getSession().getRemote().sendString(MessageConverter.FromObjectToString(returnMessage));
+        }
+    }
+
+    public static void SendGenericMessageToUser(Object content, String action, User user) throws IOException {
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction(action);
+        returnMessage.setContent(content);
+
+        for (User u : UserCollection.getConnectedUsers()) {
+            if (u.getUserId() == user.getUserId()) {
+                u.getSession().getRemote().sendString(MessageConverter.FromObjectToString(returnMessage));
+            }
+        }
+    }
+
+    public static void SendError(User user, String error) throws IOException {
+        WsReturnMessage returnMessage = new WsReturnMessage();
+        returnMessage.setAction("ERROR");
+        returnMessage.setContent(error);
+
+        for (User u : UserCollection.getConnectedUsers()) {
+            if (u.getUserId() == user.getUserId()) {
+                u.getSession().getRemote().sendString(MessageConverter.FromObjectToString(returnMessage));
+            }
         }
     }
 }

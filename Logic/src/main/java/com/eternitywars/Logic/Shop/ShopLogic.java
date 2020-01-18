@@ -1,5 +1,7 @@
 package com.eternitywars.Logic.Shop;
 
+import com.eternitywars.Logic.utils.MessageConverter;
+import com.eternitywars.Logic.utils.MessageSender;
 import com.eternitywars.Models.Pack;
 import com.eternitywars.Models.User;
 import org.json.JSONObject;
@@ -7,6 +9,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
+
+import javax.jws.soap.SOAPBinding;
+import java.io.IOException;
 
 public class ShopLogic {
     private CardPickerLogic cpl;
@@ -16,37 +21,39 @@ public class ShopLogic {
         cpl = new CardPickerLogic();
     }
 
-    public boolean BuyPack(User user) {
-        if (user.getGold() >= 100) {
-            user.setPackAmount(user.getPackAmount() + 1);
-            user.setGold(user.getGold() - 100);
+    public User PurchaseSomePacks(User user, int amount, String token) throws IOException {
+        if (user.getGold() >= (amount*100)) {
+            user.setPackAmount(user.getPackAmount() + amount);
+            user.setGold(user.getGold() - (100 * amount));
 
             HttpHeaders headers = new HttpHeaders();
-            //headers.setBearerAuth(token);
+            headers.setBearerAuth(token);
             headers.setContentType(MediaType.APPLICATION_JSON);
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
-            restTemplate.postForObject("http://localhost:8083/api/public/user/updateGold", request, User.class);
-            restTemplate.postForObject("http://localhost:8083/api/public/user/updatePackAmount", request, User.class);
-            return true;
+            restTemplate.postForObject("http://localhost:8083/api/private/user/updateGold", request, Boolean.class);
+            restTemplate.postForObject("http://localhost:8083/api/private/user/updatePackAmount", request, Boolean.class);
+            return user;
         }
-        return false;
+        MessageSender.SendError(user ,"You dont the correct amount of gold to do that!");
+        return user;
     }
 
-    public Pack OpenPack(User user) {
+    public Pack OpenPack(User user, String token) throws IOException {
         if (user.getPackAmount() > 0) {
             int pack_amount = user.getPackAmount() -1;
             user.setPackAmount(pack_amount);
 
             HttpHeaders headers = new HttpHeaders();
-            //headers.setBearerAuth(token);
+            headers.setBearerAuth(token);
             headers.setContentType(MediaType.APPLICATION_JSON);
             JSONObject userJson = new JSONObject(user);
             HttpEntity<String> request = new HttpEntity<>(userJson.toString(), headers);
-            restTemplate.postForObject("http://eternity-wars-api/api/public/user/updatePackAmount", request, User.class);
-            Pack pack = cpl.PickCards(user);
+            restTemplate.postForObject("http://eternity-wars-api/api/private/user/updatePackAmount", request, Boolean.class);
+            Pack pack = cpl.PickCards(user, token);
             return pack;
         }
+        MessageSender.SendError(user ,"You dont've any packs to open right now !");
         return null;
     }
 }

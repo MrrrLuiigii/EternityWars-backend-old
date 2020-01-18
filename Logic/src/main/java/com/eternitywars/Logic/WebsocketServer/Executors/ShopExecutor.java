@@ -1,7 +1,7 @@
 package com.eternitywars.Logic.WebsocketServer.Executors;
 
 import com.eternitywars.Logic.Shop.CardPickerLogic;
-import com.eternitywars.Models.Account;
+import com.eternitywars.Logic.utils.MessageSender;
 import com.eternitywars.Models.Pack;
 import com.eternitywars.Models.User;
 import com.google.gson.Gson;
@@ -15,7 +15,6 @@ import java.io.IOException;
 public class ShopExecutor implements IExecutor{
 
     private ShopLogic shopLogic = new ShopLogic();
-    private CardPickerLogic cardPickerLogic = new CardPickerLogic();
 
     private JSONObject message;
     private Session session;
@@ -31,15 +30,16 @@ public class ShopExecutor implements IExecutor{
         gs.serializeNulls();
         Gson gson = gs.create();
         String json = message.getJSONObject("Content").toString();
+        String token = message.getString("Token");
         User user = gson.fromJson(json, User.class);
         switch (message.getString("Action")) {
             case "BUYPACK":
-                shopLogic.BuyPack(user);
+                shopLogic.PurchaseSomePacks(user, message.getInt("Amount"), token);
+                MessageSender.SendGenericMessageToUser(user, "BUYPACK", user);
                 break;
             case "OPENPACK":
-                Pack pack = shopLogic.OpenPack(user);
-                session.getRemote().sendString(gson.toJson(pack));
-                //todo return pack via ws
+                Pack pack = shopLogic.OpenPack(user, token);
+                MessageSender.SendGenericMessageToUser(pack, "OPENPACK", user);
                 break;
         }
     }

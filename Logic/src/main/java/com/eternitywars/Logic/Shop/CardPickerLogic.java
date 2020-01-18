@@ -15,19 +15,18 @@ public class CardPickerLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
 
-    public Pack PickCards(User user)
+    public Pack PickCards(User user, String  token)
     {
         Random random = new Random();
         CardCollection cardCollection = GetAllCards();
         System.out.println(cardCollection.getCards().size());
         Pack pack = new Pack();
-        List<Card> cards = new ArrayList<>();
         for(int i = 0; i < 3; i++)
         {
             int card_number = random.nextInt(cardCollection.getCards().size() + 1);
             System.out.println(card_number);
             Card card = cardCollection.getCards().get(card_number);
-            AddCardToAccount(card , user);
+            AddCardToAccount(card , user, token);
             pack.getCard().add(card);
         }
 
@@ -46,17 +45,17 @@ public class CardPickerLogic
         return restTemplate.getForObject("http://localhost:8083/api/public/card/get/" + id, Card.class);
     }
 
-    public boolean AddCardToAccount(Card card, User user)
+    public boolean AddCardToAccount(Card card, User user, String token)
     {
         CardAdder cardAdder = new CardAdder();
         cardAdder.setUserid(user.getUserId());
         cardAdder.setCardid(card.getCardId());
         HttpHeaders headers = new HttpHeaders();
-        //headers.setBearerAuth(token);
+        headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject json = new JSONObject(card);
         HttpEntity<String> request = new HttpEntity<>(json.toString(), headers);
-        restTemplate.postForObject("http://localhost:8083/api/public/card/addToAccount", request, Card.class);
+        restTemplate.postForObject("http://localhost:8083/api/private/card/add", request, Card.class);
         return true;
     }
 }
