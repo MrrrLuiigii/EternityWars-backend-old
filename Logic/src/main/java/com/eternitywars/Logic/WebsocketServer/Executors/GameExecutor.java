@@ -45,7 +45,7 @@ public class GameExecutor implements IExecutor{
             case "ATTACKHERO": //here the logic will cycle through the players turn.
 
                 //Hero hero = (Hero) MessageConverter.FromGsonToObject(new Hero(), message.getJSONObject("Hero").toString());
-                gameLogic.AttackHero(game, message.getInt("CardToAttackHeroWith"));
+                gameLogic.AttackHero(game, message.getInt("CardToAttackHeroWith"), message.getString("Token"));
                 gameLogic.SendGame(game, "UPDATEGAME");
                 break;
 //            case "INCREASEMAXMANA":
