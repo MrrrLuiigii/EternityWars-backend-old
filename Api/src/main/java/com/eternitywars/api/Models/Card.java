@@ -9,9 +9,11 @@ public class Card
     private int blue_mana;
     private int death_essence;
 
-    public Card()
-    {
+    public Card(){}
 
+    public Card(int cardId)
+    {
+        this.cardId = cardId;
     }
 
     public int getCardId()
