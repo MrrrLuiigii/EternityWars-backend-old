@@ -40,11 +40,4 @@ public class WebsocketService {
         thread.start();
     }
 
-    private void sendRandomName(Session s, String message) {
-        try {
-            s.getRemote().sendString(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
