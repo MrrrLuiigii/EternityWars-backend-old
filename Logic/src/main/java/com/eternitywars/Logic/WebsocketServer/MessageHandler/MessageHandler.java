@@ -43,7 +43,7 @@ public class MessageHandler
                 executorService.submit(new RegisterExecutor(message, session));
                 break;
             case "CHAT":
-                executorService.submit(new RegisterExecutor(message, session));
+                executorService.submit(new ChatExecutor(message, session));
                 break;
         }
     }

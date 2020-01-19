@@ -12,7 +12,7 @@ public class CardPickerLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
     Random random = new Random();
-    
+
     public Pack PickCards(User user, String  token)
     {
 
