@@ -11,10 +11,11 @@ import java.util.Random;
 public class CardPickerLogic
 {
     private RestTemplate restTemplate = new RestTemplate();
-
+    Random random = new Random();
+    
     public Pack PickCards(User user, String  token)
     {
-        Random random = new Random();
+
         CardCollection cardCollection = GetAllCards(token);
         System.out.println(cardCollection.getCards().size());
         Pack pack = new Pack();
