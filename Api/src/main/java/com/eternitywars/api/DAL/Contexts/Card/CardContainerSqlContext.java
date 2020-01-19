@@ -26,7 +26,7 @@ public class CardContainerSqlContext implements ICardContainerContext
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "SELECT `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` " +
+            String query = "SELECT `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence`, `taunt` " +
                     "FROM `card` AS c " +
                     "INNER JOIN `card_collection` AS cc " +
                     "ON c.id = cc.card_id " +
@@ -60,7 +60,7 @@ public class CardContainerSqlContext implements ICardContainerContext
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` " +
+            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence`, `taunt` " +
                     "from card " +
                     "where `id` = ?;";
 
@@ -90,7 +90,7 @@ public class CardContainerSqlContext implements ICardContainerContext
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence` from card;";
+            String query = "select `id`, `name`, `attack`, `health`, `blue_mana`, `death_essence`, `taunt` from card;";
 
             try (Statement st = conn.createStatement())
             {
@@ -166,6 +166,7 @@ public class CardContainerSqlContext implements ICardContainerContext
         card.setHealth(rs.getInt("health"));
         card.setBlue_mana(rs.getInt("blue_mana"));
         card.setDeath_essence(rs.getInt("death_essence"));
+        card.setTaunt(rs.getBoolean("taunt"));
 
         return card;
     }
