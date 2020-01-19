@@ -142,8 +142,6 @@ public class LobbyExecutor implements IExecutor
         Gson gson = gs.create();
 
         String token = jsonObject.getString("Token");
-
-        //Get friendCollection from API via friendContainerLogic
         lobbyCollection = lobbyContainerLogic.GetLobbies(token);
 
         //update all register sessions
