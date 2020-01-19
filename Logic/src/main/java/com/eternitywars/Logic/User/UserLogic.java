@@ -50,13 +50,13 @@ public class UserLogic
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity;
 
-        JSONObject postData = new JSONObject(id);
-        postData.put("amount",amount);
+        JSONObject postData = new JSONObject();
+        postData.put("userId", id);
+        postData.put("gold", amount);
 
         entity = new HttpEntity<>(postData.toString(), headers);
         RestTemplate restTemplate = new RestTemplate();
 
-        return restTemplate.postForObject("http://localhost:8083/api/private/user/increaseGold", entity, boolean.class);
-
+        return restTemplate.postForObject("http://localhost:8083/api/private/user/updateGold", entity, boolean.class);
     }
 }

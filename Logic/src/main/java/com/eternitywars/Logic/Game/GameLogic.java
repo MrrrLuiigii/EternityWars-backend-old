@@ -202,16 +202,22 @@ public class GameLogic
    }
 
    public boolean OpponentHasTaunt(Game game){
-       for (int i = 0; i < game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().size(); i++) {
-           if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(i).getCard().hasTaunt()){
-               return true;
+       for (int i = 0; i < game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().size(); i++)
+       {
+           if (!(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(i).getCard() == null))
+           {
+               if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(i).getCard().getTaunt())
+               {
+                   return true;
+               }
            }
        }
+
        return false;
    }
 
    public boolean TargetIsTaunt(Game game, int target){
-       if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).getCard().hasTaunt()){
+       if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).getCard().getTaunt()){
                return true;
        }
        return false;
@@ -226,16 +232,26 @@ public class GameLogic
         Card attackerCard = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(CardToAttackHeroWith).getCard();
         if(!attackerCard.getSleeping())
         {
-            int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
-            game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
-            attackerCard.setSleeping(true);
-            if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
-                EndGame(game, token);
+            if(!OpponentHasTaunt(game))
+            {
+                int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
+                game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
+                attackerCard.setSleeping(true);
+                if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
+                    EndGame(game, token);
+                }
+                return game;
             }
+            else
+            {
+                MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You must target the card with taunt.");
+            }
+
             return game;
         }
-       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This card is still asleep. Give it a turn to get ready.");
-       return game;
+
+        MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This card is still asleep. Give it a turn to get ready.");
+        return game;
    }
 
 

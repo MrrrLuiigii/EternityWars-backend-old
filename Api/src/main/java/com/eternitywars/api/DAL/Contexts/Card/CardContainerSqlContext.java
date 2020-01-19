@@ -64,10 +64,10 @@ public class CardContainerSqlContext implements ICardContainerContext
                     "from card " +
                     "where `id` = ?;";
 
-            try (CallableStatement cst = conn.prepareCall(query))
+            try (PreparedStatement pst = conn.prepareStatement(query))
             {
-                cst.setInt(1, cardId);
-                try (ResultSet rs = cst.executeQuery())
+                pst.setInt(1, cardId);
+                try (ResultSet rs = pst.executeQuery())
                 {
                     while(rs.next())
                     {

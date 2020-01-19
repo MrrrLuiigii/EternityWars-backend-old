@@ -8,12 +8,14 @@ public class Card
     private int attack;
     private int blue_mana;
     private int death_essence;
-    private boolean isSleeping;
     private boolean taunt;
+    private boolean isSleeping;
+
+
 
     public Card()
     {
-        isSleeping = true;
+
     }
 
     public Card(int cardId)
@@ -90,7 +92,7 @@ public class Card
         this.death_essence = death_essence;
     }
 
-    public boolean hasTaunt() {
+    public boolean getTaunt() {
         return taunt;
     }
 
