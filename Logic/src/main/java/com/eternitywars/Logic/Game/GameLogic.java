@@ -8,7 +8,6 @@ import com.eternitywars.Logic.utils.MessageSender;
 import com.eternitywars.Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import sun.security.util.SecurityProperties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -164,7 +163,7 @@ public class GameLogic
         CardSlot attackersCardslot = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attacker);
         CardSlot targetCardslot = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target);
 
-       if(!attackersCardslot.getCard().getIssleeping())
+       if(!attackersCardslot.getCard().getSleeping())
        {
            if(OpponentHasTaunt(game)) {
                if (TargetIsTaunt(game, target)) {
@@ -198,7 +197,7 @@ public class GameLogic
            game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attackerIndex).setCard(null);
        } else {
            game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attackerIndex, attacker);
-           attacker.getCard().setIssleeping(true);
+           attacker.getCard().setSleeping(true);
        }
    }
 
@@ -225,11 +224,11 @@ public class GameLogic
            return game;
        }
         Card attackerCard = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(CardToAttackHeroWith).getCard();
-        if(!attackerCard.getIssleeping())
+        if(!attackerCard.getSleeping())
         {
             int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
             game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
-            attackerCard.setIssleeping(true);
+            attackerCard.setSleeping(true);
             if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
                 EndGame(game, token);
             }
@@ -349,7 +348,7 @@ public class GameLogic
        {
            if(cardslot.getCard() != null)
            {
-               cardslot.getCard().setIssleeping(false);
+               cardslot.getCard().setSleeping(false);
            }
        }
    }
