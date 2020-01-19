@@ -85,7 +85,7 @@ public class Card
         this.death_essence = death_essence;
     }
 
-    public boolean hasTaunt() {
+    public boolean getTaunt() {
         return taunt;
     }
 

@@ -6,8 +6,6 @@ import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.Deck;
 import com.eternitywars.api.Models.DeckCollection;
-import org.springframework.security.core.parameters.P;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,7 +153,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
         {
             String query = "SELECT " +
                         "d.`id` AS deck_id, d.`name` AS deck_name, d.`user_id`, " +
-                        "c.`id` AS card_id, c.`name` AS card_name, c.`health`, c.`attack`, c.`blue_mana`, c.`death_essence` " +
+                        "c.`id` AS card_id, c.`name` AS card_name, c.`health`, c.`attack`, c.`blue_mana`, c.`death_essence`, c.`taunt` " +
                     "FROM `deck` AS d " +
                     "INNER JOIN `deck_card` AS dc " +
                     "ON d.`id` = dc.`deck_id` " +
@@ -200,6 +198,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
                             card.setAttack(rs.getInt("attack"));
                             card.setBlue_mana(rs.getInt("blue_mana"));
                             card.setDeath_essence(rs.getInt("death_essence"));
+                            card.setTaunt(rs.getBoolean("taunt"));
                             cardCollection.AddCard(card);
 
                             completeDeck = deck;
@@ -236,13 +235,11 @@ public class DeckContainerSqlContext implements IDeckContainerContext
     {
         Deck deck = new Deck();
 
-        // todo werkt alleen als ik kaarten in mijn deck heb... hier nog ff naar kijken -> left/right/outer join?
-
         try(Connection conn = dbc.getDatabaseConnection())
         {
             String query = "SELECT " +
                     "d.`id` AS deck_id, d.`name` AS deck_name, d.`user_id`, " +
-                    "c.`id` AS card_id, c.`name` AS card_name, c.`health`, c.`attack`, c.`blue_mana`, c.`death_essence` " +
+                    "c.`id` AS card_id, c.`name` AS card_name, c.`health`, c.`attack`, c.`blue_mana`, c.`death_essence`, c.`taunt` " +
                     "FROM `deck` AS d " +
                     "INNER JOIN `deck_card` AS dc " +
                     "ON d.`id` = dc.`deck_id` " +
@@ -278,6 +275,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
                             card.setAttack(rs.getInt("attack"));
                             card.setBlue_mana(rs.getInt("blue_mana"));
                             card.setDeath_essence(rs.getInt("death_essence"));
+                            card.setTaunt(rs.getBoolean("taunt"));
                             cardCollection.AddCard(card);
                         }
                     }

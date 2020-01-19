@@ -35,7 +35,7 @@ public class ShopLogic {
             restTemplate.postForObject("http://localhost:8083/api/private/user/updatePackAmount", request, Boolean.class);
             return user;
         }
-        MessageSender.SendError(user ,"You dont the correct amount of gold to do that!");
+        MessageSender.SendError(user.getUserId(),"You dont the correct amount of gold to do that!");
         return user;
     }
 
@@ -53,7 +53,7 @@ public class ShopLogic {
             Pack pack = cpl.PickCards(user, token);
             return pack;
         }
-        MessageSender.SendError(user ,"You dont've any packs to open right now !");
+        MessageSender.SendError(user.getUserId(),"You dont've any packs to open right now !");
         return null;
     }
 }
