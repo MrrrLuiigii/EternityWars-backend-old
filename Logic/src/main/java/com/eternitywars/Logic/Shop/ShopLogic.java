@@ -1,6 +1,5 @@
 package com.eternitywars.Logic.Shop;
 
-import com.eternitywars.Logic.utils.MessageConverter;
 import com.eternitywars.Logic.utils.MessageSender;
 import com.eternitywars.Models.Pack;
 import com.eternitywars.Models.User;
@@ -9,8 +8,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 
 public class ShopLogic {
