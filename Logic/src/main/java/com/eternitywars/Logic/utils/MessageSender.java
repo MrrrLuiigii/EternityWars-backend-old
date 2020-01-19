@@ -56,13 +56,13 @@ public class MessageSender {
         }
     }
 
-    public static void SendError(User user, String error) throws IOException {
+    public static void SendError(int userid, String error) throws IOException {
         WsReturnMessage returnMessage = new WsReturnMessage();
         returnMessage.setAction("ERROR");
         returnMessage.setContent(error);
 
         for (User u : UserCollection.getConnectedUsers()) {
-            if (u.getUserId() == user.getUserId()) {
+            if (u.getUserId() == userid) {
                 u.getSession().getRemote().sendString(MessageConverter.FromObjectToString(returnMessage));
             }
         }

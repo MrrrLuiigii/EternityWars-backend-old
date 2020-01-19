@@ -4,10 +4,10 @@ import com.eternitywars.Logic.ObjectConverter;
 import com.eternitywars.Logic.User.UserLogic;
 import com.eternitywars.Logic.WebsocketServer.Collection.UserCollection;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
+import com.eternitywars.Logic.utils.MessageSender;
 import com.eternitywars.Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import sun.security.util.SecurityProperties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,8 +101,7 @@ public class GameLogic
     return game;
    }
 
-   public Game EndTurn(Game game){
-        ClearError(game);
+   public Game EndTurn(Game game) throws IOException {
         IncreaseMaxMana(game);
         IncreaseMaxDeathessence(game);
         RechargeMana(game);
@@ -155,7 +154,7 @@ public class GameLogic
         return game;
    }
 
-   public Game AttackCard(Game game, int attacker, int target) {
+   public Game AttackCard(Game game, int attacker, int target) throws IOException {
         if(!CheckForTurn(game))
         {
             return game;
@@ -164,61 +163,89 @@ public class GameLogic
         CardSlot attackersCardslot = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attacker);
         CardSlot targetCardslot = game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target);
 
-       if(!attackersCardslot.getCard().getIssleeping())
+       if(!attackersCardslot.getCard().getSleeping())
        {
-
-           targetCardslot.setCard(CalculateRemainingHp(attackersCardslot.getCard(),targetCardslot.getCard()));
-           attackersCardslot.setCard(CalculateRemainingHp(targetCardslot.getCard(), attackersCardslot.getCard()));
-
-           if(targetCardslot.getCard().getHealth() <= 0){
-               game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).setCard(null);
-               game = ObtainDeathessence(game);
+           if(OpponentHasTaunt(game)) {
+               if (TargetIsTaunt(game, target)) {
+                  ProcessAttack(attackersCardslot, targetCardslot, game, target, attacker);
+               }else {
+                   MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You must target the card with taunt.");
+                   return game;
+               }
+           }else{
+               ProcessAttack(attackersCardslot, targetCardslot, game, target, attacker);
            }
-           else {
-               game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(target, targetCardslot);
-           }
-
-           if(attackersCardslot.getCard().getHealth() <= 0){
-               game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attacker).setCard(null);
-           }
-           else{
-               game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attacker, attackersCardslot);
-               attackersCardslot.getCard().setIssleeping(true);
-           }
-
            return game;
        }
-       game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
+       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This card is still asleep. Give it a turn to get ready.");
        return game;
+   }
+
+
+   private void ProcessAttack(CardSlot attacker, CardSlot target, Game game, int targetIndex, int attackerIndex){
+       target.setCard(CalculateRemainingHp(attacker.getCard(), target.getCard()));
+       attacker.setCard(CalculateRemainingHp(target.getCard(), attacker.getCard()));
+
+       if (target.getCard().getHealth() <= 0) {
+           game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(targetIndex).setCard(null);
+           game = ObtainDeathessence(game);
+       } else {
+           game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(targetIndex, target);
+       }
+
+       if (attacker.getCard().getHealth() <= 0) {
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attackerIndex).setCard(null);
+       } else {
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attackerIndex, attacker);
+           attacker.getCard().setSleeping(true);
+       }
+   }
+
+   public boolean OpponentHasTaunt(Game game){
+       for (int i = 0; i < game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().size(); i++) {
+           if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(i).getCard().hasTaunt()){
+               return true;
+           }
+       }
+       return false;
+   }
+
+   public boolean TargetIsTaunt(Game game, int target){
+       if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).getCard().hasTaunt()){
+               return true;
+       }
+       return false;
    }
 
    public Game AttackHero(Game game, int CardToAttackHeroWith, String token) throws IOException {
        if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
        {
-           game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
+           MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This isn't your turn");
            return game;
        }
         Card attackerCard = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(CardToAttackHeroWith).getCard();
-        if(!attackerCard.getIssleeping())
+        if(!attackerCard.getSleeping())
         {
             int currentHp = game.getConnectedPlayers().get(1).getHero().getHp();
             game.getConnectedPlayers().get(1).getHero().setHp( currentHp - attackerCard.getAttack());
-            attackerCard.setIssleeping(true);
+            attackerCard.setSleeping(true);
             if(game.getConnectedPlayers().get(1).getHero().getHp() <= 0 ){
                 EndGame(game, token);
             }
             return game;
         }
-        game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
+       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This card is still asleep. Give it a turn to get ready.");
        return game;
    }
+
+
 
    public void RemoveCardFromHand(Game game, int cardToPlay)
    {
        game.getConnectedPlayers().get(0).getCardsInHand().remove(cardToPlay);
    }
 
-   public Game PlayCard(Game game, int cardToPlay, int target){
+   public Game PlayCard(Game game, int cardToPlay, int target) throws IOException {
         if(!CheckForTurn(game))
         {
             return game;
@@ -228,17 +255,16 @@ public class GameLogic
         Card playablecard = game.getConnectedPlayers().get(0).getCardsInHand().get(cardToPlay);
 
         if(currentMana < playablecard.getBlue_mana()){
-            game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
+            MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You dont have enough resources to do that!");
             return game;
         }
        if(currentDeathEssence < playablecard.getDeath_essence()){
-           game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
+           MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You dont have enough resources to do that!");
            return game;
        }
         ConsumeResources(game, playablecard.getBlue_mana(), playablecard.getDeath_essence());
         RemoveCardFromHand(game, cardToPlay);
 
-        //todo death essence check
         game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(target).setCard(playablecard);
         return game;
    }
@@ -265,7 +291,7 @@ public class GameLogic
         return target;
    }
 
-   private Game DrawCard(Game game){
+   private Game DrawCard(Game game) throws IOException {
 
        Deck pickableDeck = game.getConnectedPlayers().get(1).getDeck();
        int cardId = rnd.nextInt(pickableDeck.getCards().getCards().size());
@@ -277,7 +303,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
             return game;
         }
-       game.getConnectedPlayers().get(1).setError("Your hand is full!");
+       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "Your hand is full!");
        return game;
    }
 
@@ -322,26 +348,17 @@ public class GameLogic
        {
            if(cardslot.getCard() != null)
            {
-               cardslot.getCard().setIssleeping(false);
+               cardslot.getCard().setSleeping(false);
            }
        }
    }
 
-    private boolean CheckForTurn(Game game)
-    {
+    private boolean CheckForTurn(Game game) throws IOException {
         if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
         {
-            game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
+            MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This isn't your turn");
             return false;
         }
         return true;
     }
-
-
-   private Game ClearError(Game game)
-   {
-       game.getConnectedPlayers().get(0).setError(null);
-       game.getConnectedPlayers().get(1).setError(null);
-       return game;
-   }
 }
