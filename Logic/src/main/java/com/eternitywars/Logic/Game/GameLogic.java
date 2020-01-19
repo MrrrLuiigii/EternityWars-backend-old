@@ -4,6 +4,7 @@ import com.eternitywars.Logic.ObjectConverter;
 import com.eternitywars.Logic.User.UserLogic;
 import com.eternitywars.Logic.WebsocketServer.Collection.UserCollection;
 import com.eternitywars.Logic.WebsocketServer.Models.WsReturnMessage;
+import com.eternitywars.Logic.utils.MessageSender;
 import com.eternitywars.Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,8 +102,7 @@ public class GameLogic
     return game;
    }
 
-   public Game EndTurn(Game game){
-        ClearError(game);
+   public Game EndTurn(Game game) throws IOException {
         IncreaseMaxMana(game);
         IncreaseMaxDeathessence(game);
         RechargeMana(game);
@@ -155,7 +155,7 @@ public class GameLogic
         return game;
    }
 
-   public Game AttackCard(Game game, int attacker, int target) {
+   public Game AttackCard(Game game, int attacker, int target) throws IOException {
         if(!CheckForTurn(game))
         {
             return game;
@@ -170,7 +170,7 @@ public class GameLogic
                if (TargetIsTaunt(game, target)) {
                   ProcessAttack(attackersCardslot, targetCardslot, game, target, attacker);
                }else {
-                   game.getConnectedPlayers().get(0).setError("You must target the card with taunt");
+                   MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You must target the card with taunt.");
                    return game;
                }
            }else{
@@ -178,7 +178,7 @@ public class GameLogic
            }
            return game;
        }
-       game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
+       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This card is still asleep. Give it a turn to get ready.");
        return game;
    }
 
@@ -221,7 +221,7 @@ public class GameLogic
    public Game AttackHero(Game game, int CardToAttackHeroWith, String token) throws IOException {
        if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
        {
-           game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
+           MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This isn't your turn");
            return game;
        }
         Card attackerCard = game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(CardToAttackHeroWith).getCard();
@@ -235,7 +235,7 @@ public class GameLogic
             }
             return game;
         }
-        game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
+       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This card is still asleep. Give it a turn to get ready.");
        return game;
    }
 
@@ -246,7 +246,7 @@ public class GameLogic
        game.getConnectedPlayers().get(0).getCardsInHand().remove(cardToPlay);
    }
 
-   public Game PlayCard(Game game, int cardToPlay, int target){
+   public Game PlayCard(Game game, int cardToPlay, int target) throws IOException {
         if(!CheckForTurn(game))
         {
             return game;
@@ -256,17 +256,16 @@ public class GameLogic
         Card playablecard = game.getConnectedPlayers().get(0).getCardsInHand().get(cardToPlay);
 
         if(currentMana < playablecard.getBlue_mana()){
-            game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
+            MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You dont have enough resources to do that!");
             return game;
         }
        if(currentDeathEssence < playablecard.getDeath_essence()){
-           game.getConnectedPlayers().get(0).setError("You dont have enough resources to do that!");
+           MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "You dont have enough resources to do that!");
            return game;
        }
         ConsumeResources(game, playablecard.getBlue_mana(), playablecard.getDeath_essence());
         RemoveCardFromHand(game, cardToPlay);
 
-        //todo death essence check
         game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(target).setCard(playablecard);
         return game;
    }
@@ -293,7 +292,7 @@ public class GameLogic
         return target;
    }
 
-   private Game DrawCard(Game game){
+   private Game DrawCard(Game game) throws IOException {
 
        Deck pickableDeck = game.getConnectedPlayers().get(1).getDeck();
        int cardId = rnd.nextInt(pickableDeck.getCards().getCards().size());
@@ -305,7 +304,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
             return game;
         }
-       game.getConnectedPlayers().get(1).setError("Your hand is full!");
+       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "Your hand is full!");
        return game;
    }
 
@@ -355,21 +354,12 @@ public class GameLogic
        }
    }
 
-    private boolean CheckForTurn(Game game)
-    {
+    private boolean CheckForTurn(Game game) throws IOException {
         if(game.getPlayerTurn() != game.getConnectedPlayers().get(0).getUserId())
         {
-            game.getConnectedPlayers().get(0).setError("blijf met je klauwe van die kaart af lijpo");
+            MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "This isn't your turn");
             return false;
         }
         return true;
     }
-
-
-   private Game ClearError(Game game)
-   {
-       game.getConnectedPlayers().get(0).setError(null);
-       game.getConnectedPlayers().get(1).setError(null);
-       return game;
-   }
 }
