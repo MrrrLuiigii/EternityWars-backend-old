@@ -166,30 +166,56 @@ public class GameLogic
 
        if(!attackersCardslot.getCard().getIssleeping())
        {
-
-           targetCardslot.setCard(CalculateRemainingHp(attackersCardslot.getCard(),targetCardslot.getCard()));
-           attackersCardslot.setCard(CalculateRemainingHp(targetCardslot.getCard(), attackersCardslot.getCard()));
-
-           if(targetCardslot.getCard().getHealth() <= 0){
-               game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).setCard(null);
-               game = ObtainDeathessence(game);
+           if(OpponentHasTaunt(game)) {
+               if (TargetIsTaunt(game, target)) {
+                  ProcessAttack(attackersCardslot, targetCardslot, game, target, attacker);
+               }else {
+                   game.getConnectedPlayers().get(0).setError("You must target the card with taunt");
+                   return game;
+               }
+           }else{
+               ProcessAttack(attackersCardslot, targetCardslot, game, target, attacker);
            }
-           else {
-               game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(target, targetCardslot);
-           }
-
-           if(attackersCardslot.getCard().getHealth() <= 0){
-               game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attacker).setCard(null);
-           }
-           else{
-               game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attacker, attackersCardslot);
-               attackersCardslot.getCard().setIssleeping(true);
-           }
-
            return game;
        }
        game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
        return game;
+   }
+
+
+   private void ProcessAttack(CardSlot attacker, CardSlot target, Game game, int targetIndex, int attackerIndex){
+       target.setCard(CalculateRemainingHp(attacker.getCard(), target.getCard()));
+       attacker.setCard(CalculateRemainingHp(target.getCard(), attacker.getCard()));
+
+       if (target.getCard().getHealth() <= 0) {
+           game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(targetIndex).setCard(null);
+           game = ObtainDeathessence(game);
+       } else {
+           game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().set(targetIndex, target);
+       }
+
+       if (attacker.getCard().getHealth() <= 0) {
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().get(attackerIndex).setCard(null);
+       } else {
+           game.getConnectedPlayers().get(0).getBoardRows().getCardSlotList().set(attackerIndex, attacker);
+           attacker.getCard().setIssleeping(true);
+       }
+   }
+
+   public boolean OpponentHasTaunt(Game game){
+       for (int i = 0; i < game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().size(); i++) {
+           if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(i).getCard().hasTaunt()){
+               return true;
+           }
+       }
+       return false;
+   }
+
+   public boolean TargetIsTaunt(Game game, int target){
+       if(game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList().get(target).getCard().hasTaunt()){
+               return true;
+       }
+       return false;
    }
 
    public Game AttackHero(Game game, int CardToAttackHeroWith, String token) throws IOException {
@@ -212,6 +238,8 @@ public class GameLogic
         game.getConnectedPlayers().get(0).setError("Bende gij nie heulemaal wakker ofzo");
        return game;
    }
+
+
 
    public void RemoveCardFromHand(Game game, int cardToPlay)
    {
