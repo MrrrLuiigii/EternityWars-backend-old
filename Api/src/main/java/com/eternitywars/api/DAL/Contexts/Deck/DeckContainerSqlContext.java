@@ -183,7 +183,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
                 {
                     Deck deck = new Deck(0);
                     Deck completeDeck = null;
-                    CardCollection cardCollection = null;
+                    CardCollection cardCollection = new CardCollection();
 
                     while(rs.next())
                     {
@@ -227,7 +227,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
 
                     for(Deck d : deckCollection.getDecks())
                     {
-                        if (d.getDeckId() != deck.getDeckId())
+                        if (d.getDeckId() != deck.getDeckId() && completeDeck != null)
                         {
                             completeDeck.setCards(cardCollection);
                             deckCollection.AddDeck(deck);
@@ -268,7 +268,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
                 try(ResultSet rs = pst.executeQuery())
                 {
                     deck.setDeckId(0);
-                    CardCollection cardCollection = null;
+                    CardCollection cardCollection = new CardCollection();
 
                     while(rs.next())
                     {
