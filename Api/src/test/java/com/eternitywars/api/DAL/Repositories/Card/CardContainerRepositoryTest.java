@@ -1,12 +1,9 @@
 package com.eternitywars.api.DAL.Repositories.Card;
 
-import com.eternitywars.api.DAL.Repositories.User.UserContainerRepository;
 import com.eternitywars.api.Factories.Card.CardContainerFactory;
-import com.eternitywars.api.Factories.User.UserContainerFactory;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
 import com.eternitywars.api.Models.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,13 +43,13 @@ class CardContainerRepositoryTest {
     @Test
     void getCards() {
         CardCollection cardCollection = cardContainerRepository.GetCards();
-        assertEquals(1, cardCollection.getCards().size());
+        assertEquals(2, cardCollection.getCards().size());
     }
 
     @Test
     void getCardsByUser() {
         CardCollection cardCollection = cardContainerRepository.GetCardsByUser(1);
-        assertEquals(1, cardCollection.getCards().size());
+        assertEquals(2, cardCollection.getCards().size());
     }
 
     @Test
