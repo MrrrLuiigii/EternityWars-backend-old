@@ -30,7 +30,7 @@ public class GameLogic
         }
     }
 
-    public Game ChooseFirstTurn(Game game)
+    private Game ChooseFirstTurn(Game game)
     {
         int picker = rnd.nextInt(2);
         if(picker == 1)
@@ -106,7 +106,7 @@ public class GameLogic
         IncreaseMaxDeathessence(game);
         RechargeMana(game);
         DrawCard(game);
-       AwakeCards(game);
+        AwakeCards(game);
 
         if(game.getConnectedPlayers().get(0).getUserId() == game.getPlayerTurn()){
             game.setPlayerTurn(game.getConnectedPlayers().get(1).getUserId());
@@ -308,7 +308,6 @@ public class GameLogic
    }
 
    private Game DrawCard(Game game) throws IOException {
-
        Deck pickableDeck = game.getConnectedPlayers().get(1).getDeck();
        int cardId = rnd.nextInt(pickableDeck.getCards().getCards().size());
        Card card = pickableDeck.getCards().getCards().get(cardId);

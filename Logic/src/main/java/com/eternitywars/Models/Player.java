@@ -23,6 +23,8 @@ public class Player extends Account
         this.boardRow = new BoardRow();
     }
 
+
+
     public Player(int id, String username, AccountStatus accountStatus, Session session, Deck deck, List<Card> cardsInHand, List<Card> cardsInDeck, LobbyPlayerStatus lobbyPlayerStatus, BoardRow boardRow)
     {
         super(id, username, accountStatus, session);

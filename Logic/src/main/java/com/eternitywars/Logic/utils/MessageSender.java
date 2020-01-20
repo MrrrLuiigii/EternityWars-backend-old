@@ -7,7 +7,6 @@ import com.eternitywars.Models.Lobby;
 import com.eternitywars.Models.LobbyCollection;
 import com.eternitywars.Models.User;
 import java.io.IOException;
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
 public class MessageSender {
 
