@@ -4,13 +4,14 @@ import com.eternitywars.api.Factories.User.UserContainerFactory;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserContainerRepositoryTest {
-
-       private UserContainerRepository userContainerRepository = new UserContainerRepository(new UserContainerFactory());
+class UserContainerRepositoryTest
+{
+    private UserContainerRepository userContainerRepository = new UserContainerRepository(new UserContainerFactory());
 
     private User SetupExpectedUser()
     {
@@ -47,6 +48,20 @@ class UserContainerRepositoryTest {
         expectedUserCollection.addUser(expectedUserTwo);
 
         return expectedUserCollection;
+    }
+
+    private User SetupNewUser()
+    {
+        User newUser = new User();
+
+        newUser.setUserId(0);
+        newUser.setEmail("newUser@mail.nl");
+        newUser.setUsername("newUser");
+        newUser.setAccountStatus(AccountStatus.InGame);
+        newUser.setGold(100);
+        newUser.setPackAmount(0);
+
+        return newUser;
     }
 
     @Test
@@ -110,5 +125,25 @@ class UserContainerRepositoryTest {
 
     @Test
     void addUser() {
+        User newUser = SetupNewUser();
+
+        int userCount = userContainerRepository.GetUsers().getUsers().size();
+
+        User user = userContainerRepository.AddUser(newUser);
+
+        int newUserCount = userContainerRepository.GetUsers().getUsers().size();
+
+        assertEquals(userCount + 1, newUserCount);
+        assertEquals(user.getUsername(), user.getUsername());
+        assertEquals(user.getEmail(), newUser.getEmail());
+        assertEquals(user.getGold(), newUser.getGold());
+        assertEquals(user.getPackAmount(), newUser.getPackAmount());
+
+        DeleteAddedUser(user);
+    }
+
+    private void DeleteAddedUser(User user)
+    {
+        userContainerRepository.DeleteUser(user);
     }
 }

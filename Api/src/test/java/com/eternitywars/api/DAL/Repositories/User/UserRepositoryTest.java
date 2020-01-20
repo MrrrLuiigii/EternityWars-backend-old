@@ -1,11 +1,9 @@
 package com.eternitywars.api.DAL.Repositories.User;
 
-import com.eternitywars.api.DAL.Contexts.User.UserSqlContext;
 import com.eternitywars.api.Factories.User.UserContainerFactory;
 import com.eternitywars.api.Factories.User.UserFactory;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
-import com.eternitywars.api.Models.UserCollection;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +16,7 @@ class UserRepositoryTest {
     private User SetupExpectedUser()
     {
         User expectedUser = new User();
-        expectedUser.setUserId(1);
+        expectedUser.setUserId(3);
         expectedUser.setEmail("getUser@byEmail.nl");
         expectedUser.setUsername("expectedUser");
         expectedUser.setAccountStatus(AccountStatus.Online);
@@ -58,7 +56,8 @@ class UserRepositoryTest {
     }
 
     @Test
-    void updateGold() {
+    void updateGold()
+    {
         User user = SetupExpectedUser();
         user.setGold(100);
         userRepository.UpdateGold(user);

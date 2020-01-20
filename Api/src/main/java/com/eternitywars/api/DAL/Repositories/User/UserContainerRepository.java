@@ -47,4 +47,9 @@ public class UserContainerRepository implements IUserContainerContext
         return userContainerContext.AddUser(user);
     }
 
+    public boolean DeleteUser(User user)
+    {
+        return userContainerContext.DeleteUser(user);
+    }
+
 }

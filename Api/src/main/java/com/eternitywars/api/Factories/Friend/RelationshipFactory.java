@@ -1,7 +1,6 @@
 package com.eternitywars.api.Factories.Friend;
 
 import com.eternitywars.api.DAL.Contexts.Friend.RelationshipSqlContext;
-import com.eternitywars.api.DAL.Contexts.User.UserContainerSqlContext;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Database.TestDatabaseConnection;
 

@@ -1,7 +1,6 @@
 package com.eternitywars.api.Factories.Lobby;
 
 import com.eternitywars.api.DAL.Contexts.Lobby.LobbySqlContext;
-import com.eternitywars.api.DAL.Contexts.User.UserContainerSqlContext;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Database.TestDatabaseConnection;
 

@@ -1,8 +1,6 @@
 package com.eternitywars.api.Factories.Card;
 
 import com.eternitywars.api.DAL.Contexts.Card.CardContainerSqlContext;
-import com.eternitywars.api.DAL.Contexts.User.UserContainerSqlContext;
-import com.eternitywars.api.DAL.Repositories.Card.CardContainerRepository;
 import com.eternitywars.api.Database.DatabaseConnection;
 import com.eternitywars.api.Database.TestDatabaseConnection;
 

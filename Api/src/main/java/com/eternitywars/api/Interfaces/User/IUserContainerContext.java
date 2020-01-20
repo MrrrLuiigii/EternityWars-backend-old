@@ -14,4 +14,6 @@ public interface IUserContainerContext
     UserCollection GetUsers();
 
     User AddUser(User user);
+
+    boolean DeleteUser(User user);
 }

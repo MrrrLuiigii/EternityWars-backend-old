@@ -167,6 +167,27 @@ public class UserContainerSqlContext implements IUserContainerContext
         return user;
     }
 
+    public boolean DeleteUser(User user)
+    {
+        try (Connection conn = dbc.getDatabaseConnection())
+        {
+            String query = "{call DeleteUser(?)};";
+
+            try (CallableStatement cst = conn.prepareCall(query))
+            {
+                cst.setInt(1, user.getUserId());
+                cst.executeQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
+
     private User FillUser(ResultSet rs) throws SQLException
     {
         User user = new User();
@@ -202,5 +223,4 @@ public class UserContainerSqlContext implements IUserContainerContext
 
         return userCollection;
     }
-
 }
