@@ -3,18 +3,20 @@ package com.eternitywars.api.DAL.Repositories.Lobby;
 import com.eternitywars.api.Factories.Lobby.LobbyContainerFactory;
 import com.eternitywars.api.Models.Lobby;
 import com.eternitywars.api.Models.Player;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LobbyContainerRepositoryTest {
 
     private LobbyContainerRepository lobbyContainerRepository = new LobbyContainerRepository(new LobbyContainerFactory());
+    private Lobby addedLobby;
 
     private Lobby SetupLobby(){
         Lobby lobby = new Lobby();
-        lobby.setId(1);
         lobby.setName("TestLobby");
         lobby.setDescription("desc");
         lobby.setPlayerOne(new Player());
@@ -25,33 +27,37 @@ class LobbyContainerRepositoryTest {
     @Test
     void addLobby() {
         Lobby lobbyToAdd = SetupLobby();
-        Lobby returnLobby =  lobbyContainerRepository.AddLobby(lobbyToAdd);
+        addedLobby =  lobbyContainerRepository.AddLobby(lobbyToAdd);
 
-        assertEquals(lobbyToAdd.getId(), returnLobby.getId());
-        assertEquals(lobbyToAdd.getName(), returnLobby.getName());
-
+        assertEquals(lobbyToAdd.getName(), addedLobby.getName());
     }
 
     @Test
     void deleteLobby() {
-        Lobby lobbyToDelete = SetupLobby();
-        assertEquals(true, lobbyContainerRepository.DeleteLobby(lobbyToDelete));
+
+        assertEquals(true, lobbyContainerRepository.DeleteLobby(addedLobby));
     }
 
     @Test
     void getLobbyById() {
         Lobby lobbyToAdd = SetupLobby();
-        Lobby addedLobby =  lobbyContainerRepository.AddLobby(lobbyToAdd);
-        Lobby returnlobby = lobbyContainerRepository.GetLobbyById(1);
-
-        assertEquals(addedLobby.getId(), returnlobby.getId());
-        assertEquals(addedLobby.getName(), returnlobby.getName());
+        addedLobby =  lobbyContainerRepository.AddLobby(lobbyToAdd);
+        Lobby returnlobby = lobbyContainerRepository.GetLobbyById(addedLobby.getId());
+        lobbyContainerRepository.DeleteLobby(addedLobby);
+        assertEquals(lobbyToAdd.getName(), returnlobby.getName());
     }
 
     @Test
     void getLobbies() {
         Lobby lobbyToAdd = SetupLobby();
-        Lobby returnLobby =  lobbyContainerRepository.AddLobby(lobbyToAdd);
+        addedLobby =  lobbyContainerRepository.AddLobby(lobbyToAdd);
         assertEquals(1, lobbyContainerRepository.GetLobbies().getLobbies().size());
     }
+
+    @AfterAll
+    void Reset(){
+        lobbyContainerRepository.DeleteLobby(addedLobby);
+    }
+
+
 }
