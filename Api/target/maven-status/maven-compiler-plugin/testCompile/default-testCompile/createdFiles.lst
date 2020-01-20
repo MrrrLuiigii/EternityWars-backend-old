@@ -1,2 +1,10 @@
+com\eternitywars\api\DAL\Repositories\Deck\DeckRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\Friend\RelationshipRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\Friend\RelationshipContainerRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\Card\CardContainerRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\Lobby\LobbyRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\User\UserRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\User\UserContainerRepositoryTest.class
 com\eternitywars\api\ApiApplicationTests.class
-com\eternitywars\api\Resources\User\UserContainerResourceTest.class
+com\eternitywars\api\DAL\Repositories\Lobby\LobbyContainerRepositoryTest.class
+com\eternitywars\api\DAL\Repositories\Deck\DeckContainerRepositoryTest.class

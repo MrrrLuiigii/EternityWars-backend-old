@@ -1,2 +1,10 @@
 C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\ApiApplicationTests.java
-C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\Resources\User\UserContainerResourceTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Card\CardContainerRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Deck\DeckRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\User\UserRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Lobby\LobbyRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Friend\RelationshipContainerRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Friend\RelationshipRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Lobby\LobbyContainerRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\User\UserContainerRepositoryTest.java
+C:\Users\njnic\IdeaProjects\S3\SE\eternitywars\Api\src\test\java\com\eternitywars\api\DAL\Repositories\Deck\DeckContainerRepositoryTest.java

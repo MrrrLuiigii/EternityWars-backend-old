@@ -4,8 +4,6 @@ import com.eternitywars.api.Factories.User.UserContainerFactory;
 import com.eternitywars.api.Factories.User.UserFactory;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
-import com.eternitywars.api.Models.UserCollection;
-import org.junit.After;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,17 +15,6 @@ class UserRepositoryTest {
 
     private UserRepository userRepository = new UserRepository(new UserFactory());
     private UserContainerRepository userContainerRepository = new UserContainerRepository(new UserContainerFactory());
-
-    private User SetupExpectedUser() {
-        User expectedUser = new User();
-        expectedUser.setUserId(3);
-        expectedUser.setEmail("getUser@byEmail.nl");
-        expectedUser.setUsername("expectedUser");
-        expectedUser.setAccountStatus(AccountStatus.Online);
-        expectedUser.setGold(250);
-        expectedUser.setPackAmount(3);
-        return expectedUser;
-    }
 
     @Test
     void updateUsername() {
@@ -42,7 +29,8 @@ class UserRepositoryTest {
 
     @Test
     void updateAccountStatus() {
-        User user = SetupExpectedUser();
+        User user = new User();
+        user.setUserId(7);
         user.setAccountStatus(AccountStatus.Offline);
         userRepository.UpdateAccountStatus(user);
 
@@ -85,5 +73,9 @@ class UserRepositoryTest {
         user2.setPackAmount(0);
         userRepository.UpdatePackAmount(user2);
         userRepository.UpdateGold(user2);
+
+        User user3 = new User();
+        user3.setAccountStatus(AccountStatus.Online);
+        userRepository.UpdateAccountStatus(user3);
     }
 }
