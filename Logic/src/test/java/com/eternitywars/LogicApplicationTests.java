@@ -23,6 +23,8 @@ class LogicApplicationTests {
 	Lobby lobby = new Lobby();
 	Deck testdeck = new Deck();
 
+
+	
 	public LogicApplicationTests()
 	{
 		testdeck.setCards(new CardCollection());

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +95,7 @@ public class LobbyLogic
                lobby.getPlayerTwo().setDeck(deckBuilderContainerLogic.GetDeckById(lobby.getPlayerTwo().getDeck().getDeckId(), token));
                gameLogic.LaunchGame(lobby);
                lobbyContainerLogic.DeleteLobby(lobby, token);
+
            }
        }
         return lobby;
