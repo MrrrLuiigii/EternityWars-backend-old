@@ -15,7 +15,7 @@ public class Card
 
     public Card()
     {
-
+        isSleeping = true;
     }
 
     public Card(int cardId)
