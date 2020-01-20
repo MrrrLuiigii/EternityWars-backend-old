@@ -34,7 +34,11 @@ public class Player extends Account
         this.lobbyPlayerStatus = lobbyPlayerStatus;
         this.boardRow = boardRow;
     }
-    
+
+    public Player(int userId, String username, AccountStatus accountStatus) {
+        super(userId, username, accountStatus);
+    }
+
     public BoardRow getBoardRows() {
         return boardRow;
     }

@@ -19,16 +19,6 @@ public class CollectionExecutor implements IExecutor  {
         switch (message.getString("Action")) {
             case "GETALLCARDSBYACCOUNT":
                 collectionLogic.GetAllCardsByAccount(message);
-                break;
-            case "ADDCARDTOCARDCOLLECTION":
-                break;
-            case "GETALLDECKBYACCOUNT":
-                break;
-            case "ADDDECKTODECKCOLLECTION":
-                break;
-            case "REMOVEDECKFROMDECKCOLLECTION":
-                break;
-
         }
     }
 
