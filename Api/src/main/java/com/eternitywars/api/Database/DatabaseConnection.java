@@ -4,7 +4,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.SQLException;
 
-public class DatabaseConnection
+public class DatabaseConnection implements IDatabaseConnection
 {
     public Connection getDatabaseConnection()
     {

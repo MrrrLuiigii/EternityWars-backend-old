@@ -1,1 +1,2 @@
 com\eternitywars\api\ApiApplicationTests.class
+com\eternitywars\api\Resources\User\UserContainerResourceTest.class
