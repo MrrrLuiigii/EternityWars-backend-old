@@ -1,6 +1,6 @@
 package com.eternitywars.api.DAL.Repositories.Lobby;
 
-import com.eternitywars.api.DAL.Contexts.Lobby.LobbyContainerSqlContext;
+import com.eternitywars.api.Factories.Lobby.LobbyContainerFactory;
 import com.eternitywars.api.Interfaces.Lobby.ILobbyContainerContext;
 import com.eternitywars.api.Models.Lobby;
 import com.eternitywars.api.Models.LobbyCollection;
@@ -9,9 +9,16 @@ public class LobbyContainerRepository implements ILobbyContainerContext
 {
     private ILobbyContainerContext lobbyContainerContext;
 
+
     public LobbyContainerRepository()
     {
-        this.lobbyContainerContext = new LobbyContainerSqlContext();
+        LobbyContainerFactory lobbyContainerFactory = new LobbyContainerFactory();
+        this.lobbyContainerContext = lobbyContainerFactory.getLobbyContainerSqlContext();
+    }
+
+    public LobbyContainerRepository(LobbyContainerFactory lobbyContainerFactory)
+    {
+        this.lobbyContainerContext = lobbyContainerFactory.getTestLobbyContainerSqlContext();
     }
 
     public Lobby AddLobby(Lobby lobby)

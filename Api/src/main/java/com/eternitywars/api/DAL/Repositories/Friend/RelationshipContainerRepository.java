@@ -1,19 +1,25 @@
 package com.eternitywars.api.DAL.Repositories.Friend;
 
-import com.eternitywars.api.DAL.Contexts.Friend.RelationshipContainerSqlContext;
-import com.eternitywars.api.DAL.Contexts.Friend.RelationshipSqlContext;
+import com.eternitywars.api.Factories.Friend.RelationshipContainerFactory;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
-import com.eternitywars.api.Interfaces.Friend.IRelationshipContext;
-import com.eternitywars.api.Models.Friend;
 import com.eternitywars.api.Models.Relationship;
 import com.eternitywars.api.Models.RelationshipCollection;
 import com.eternitywars.api.Models.User;
 
 public class RelationshipContainerRepository implements IRelationshipContainerContext
 {
-    private IRelationshipContainerContext relationshipContainerContext = new RelationshipContainerSqlContext();
+    private IRelationshipContainerContext relationshipContainerContext;
 
+    public RelationshipContainerRepository()
+    {
+        RelationshipContainerFactory relationshipFactory = new RelationshipContainerFactory();
+        this.relationshipContainerContext = relationshipFactory.getRelationshipContainerSqlContext();
+    }
 
+    public RelationshipContainerRepository(RelationshipContainerFactory relationshipFactory)
+    {
+        this.relationshipContainerContext = relationshipFactory.getTestRelationshipContainerSqlContext();
+    }
 
     public boolean AddRelationship(Relationship relationship)
     {

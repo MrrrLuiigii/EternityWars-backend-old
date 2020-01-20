@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.Friend;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContext;
 import com.eternitywars.api.Models.Enums.FriendStatus;
 import com.eternitywars.api.Models.Relationship;
@@ -9,7 +11,17 @@ import java.sql.Connection;
 
 public class RelationshipSqlContext implements IRelationshipContext
 {
-    private DatabaseConnection dbc = new DatabaseConnection();
+    private IDatabaseConnection dbc;
+
+    public RelationshipSqlContext(DatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
+
+    public RelationshipSqlContext(TestDatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
 
     public boolean UpdateRelationship(Relationship relationship)
     {
