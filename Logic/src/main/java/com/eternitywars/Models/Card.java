@@ -16,6 +16,17 @@ public class Card
         isSleeping = true;
     }
 
+    public Card(int cardId, String name, int health, int attack, int blue_mana, int death_essence, boolean isSleeping, boolean taunt) {
+        this.cardId = cardId;
+        this.name = name;
+        this.health = health;
+        this.attack = attack;
+        this.blue_mana = blue_mana;
+        this.death_essence = death_essence;
+        this.isSleeping = isSleeping;
+        this.taunt = taunt;
+    }
+
     public boolean getSleeping() {
         return isSleeping;
     }
