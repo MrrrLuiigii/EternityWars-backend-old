@@ -7,7 +7,7 @@ import com.eternitywars.api.Database.TestDatabaseConnection;
 
 public class LobbyFactory
 {
-    public LobbySqlContext getLobbyContainerSqlContext()
+    public LobbySqlContext getLobbySqlContext()
     {
         return new LobbySqlContext(new DatabaseConnection());
     }

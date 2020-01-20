@@ -23,6 +23,11 @@ public class DeckSqlContext implements IDeckContext
         this.dbc = dbc;
     }
 
+    public DeckSqlContext() {
+
+    }
+
+
     public boolean AddCard(Deck deck, Card card)
     {
         try (Connection conn = dbc.getDatabaseConnection())

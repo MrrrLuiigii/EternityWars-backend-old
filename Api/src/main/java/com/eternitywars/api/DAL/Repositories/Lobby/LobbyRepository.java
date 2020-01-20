@@ -13,7 +13,7 @@ public class LobbyRepository implements ILobbyContext
     public LobbyRepository()
     {
         LobbyFactory lobbyFactory = new LobbyFactory();
-        this.lobbySqlContext = lobbyFactory.getLobbyContainerSqlContext();
+        this.lobbySqlContext = lobbyFactory.getLobbySqlContext();
     }
 
     public LobbyRepository(LobbyFactory lobbyFactory)
