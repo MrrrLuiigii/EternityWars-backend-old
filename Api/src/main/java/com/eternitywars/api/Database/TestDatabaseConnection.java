@@ -9,9 +9,10 @@ public class TestDatabaseConnection implements IDatabaseConnection
     public Connection getDatabaseConnection()
     {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setServerName("localhost");
-        dataSource.setUser("root");
-        dataSource.setDatabaseName("eternitywars");
+        dataSource.setServerName("77.251.225.24");
+        dataSource.setUser("eternitywars");
+        dataSource.setPassword("OzOc5NHrMoidwD3VkzzY");
+        dataSource.setDatabaseName("eternitywars_test");
 
         try
         {
