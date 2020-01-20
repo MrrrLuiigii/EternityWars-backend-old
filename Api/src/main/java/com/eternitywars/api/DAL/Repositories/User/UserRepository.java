@@ -1,6 +1,7 @@
 package com.eternitywars.api.DAL.Repositories.User;
 
 import com.eternitywars.api.DAL.Contexts.User.UserSqlContext;
+import com.eternitywars.api.Factories.User.UserFactory;
 import com.eternitywars.api.Interfaces.User.IUserContext;
 import com.eternitywars.api.Models.User;
 
@@ -10,7 +11,13 @@ public class UserRepository implements IUserContext
 
     public UserRepository()
     {
-        this.userContext = new UserSqlContext();
+        UserFactory userFactory = new UserFactory();
+        this.userContext = userFactory.getUserSqlContext();
+    }
+
+    public UserRepository(UserFactory userFactory)
+    {
+        this.userContext = userFactory.getTestUserSqlContext();
     }
 
 

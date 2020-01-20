@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.User;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.User.IUserContext;
 import com.eternitywars.api.Models.User;
 
@@ -8,13 +10,16 @@ import java.sql.*;
 
 public class UserSqlContext implements IUserContext
 {
-    private DatabaseConnection dbc;
+    private IDatabaseConnection dbc;
 
-    public UserSqlContext()
+    public UserSqlContext(TestDatabaseConnection dbc)
     {
-        this.dbc = new DatabaseConnection();
+        this.dbc = dbc;
     }
 
+    public UserSqlContext(DatabaseConnection dbc) {
+        this.dbc = dbc;
+    }
 
 
     public boolean UpdateUsername(User user)

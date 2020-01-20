@@ -13,7 +13,7 @@ public class UserContainerResource
     private UserContainerRepository userContainerRepository = new UserContainerRepository();
 
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public User addUser(@RequestBody User user)
+    public User AddUser(@RequestBody User user)
     {
         return userContainerRepository.AddUser(user);
     }

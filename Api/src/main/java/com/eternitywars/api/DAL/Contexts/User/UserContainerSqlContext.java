@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.User;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.User.IUserContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
@@ -10,7 +12,17 @@ import java.sql.*;
 
 public class UserContainerSqlContext implements IUserContainerContext
 {
-    private DatabaseConnection dbc = new DatabaseConnection();
+    private IDatabaseConnection dbc;
+
+    public UserContainerSqlContext(DatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
+
+    public UserContainerSqlContext(TestDatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
 
 
 

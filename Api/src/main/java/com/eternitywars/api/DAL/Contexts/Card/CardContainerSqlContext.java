@@ -1,23 +1,27 @@
 package com.eternitywars.api.DAL.Contexts.Card;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.Card.ICardContainerContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.CardCollection;
-import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 
 import java.sql.*;
 
 public class CardContainerSqlContext implements ICardContainerContext
 {
-    private DatabaseConnection dbc;
+    private IDatabaseConnection dbc;
 
-    public CardContainerSqlContext()
+    public CardContainerSqlContext(TestDatabaseConnection dbc)
     {
-        dbc = new DatabaseConnection();
+        this.dbc = dbc;
     }
 
+    public CardContainerSqlContext(DatabaseConnection dbc) {
+        this.dbc = dbc;
+    }
 
 
     public CardCollection GetCardsByUser(int userId)
