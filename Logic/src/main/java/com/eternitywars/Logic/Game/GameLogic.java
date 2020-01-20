@@ -358,7 +358,6 @@ public class GameLogic
 
    public void AwakeCards(Game game)
    {
-
        for(CardSlot cardslot : game.getConnectedPlayers().get(1).getBoardRows().getCardSlotList())
        {
            if(cardslot.getCard() != null)
