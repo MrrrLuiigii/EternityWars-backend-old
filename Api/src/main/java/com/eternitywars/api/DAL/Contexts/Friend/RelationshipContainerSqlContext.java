@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.Friend;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.Friend.IRelationshipContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.Enums.FriendStatus;
@@ -16,9 +18,17 @@ import java.sql.ResultSet;
 
 public class RelationshipContainerSqlContext implements IRelationshipContainerContext
 {
-    private DatabaseConnection dbc = new DatabaseConnection();
+    private IDatabaseConnection dbc;
 
+    public RelationshipContainerSqlContext(DatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
 
+    public RelationshipContainerSqlContext(TestDatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
 
     public boolean AddRelationship(Relationship relationship)
     {

@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.Deck;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.Deck.IDeckContext;
 import com.eternitywars.api.Models.Card;
 import com.eternitywars.api.Models.Deck;
@@ -9,8 +11,21 @@ import java.sql.PreparedStatement;
 
 public class DeckSqlContext implements IDeckContext
 {
-    private DatabaseConnection dbc = new DatabaseConnection();
+    private IDatabaseConnection dbc;
 
+    public DeckSqlContext(DatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
+
+    public DeckSqlContext(TestDatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
+
+    public DeckSqlContext() {
+
+    }
 
 
     public boolean AddCard(Deck deck, Card card)

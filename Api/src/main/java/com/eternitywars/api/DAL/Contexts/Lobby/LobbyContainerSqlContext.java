@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.Lobby;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.Lobby.ILobbyContainerContext;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.Enums.LobbyPlayerStatus;
@@ -12,13 +14,16 @@ import java.sql.*;
 
 public class LobbyContainerSqlContext implements ILobbyContainerContext
 {
-    private DatabaseConnection dbc;
+    private IDatabaseConnection dbc;
 
-    public LobbyContainerSqlContext()
+    public LobbyContainerSqlContext(TestDatabaseConnection dbc)
     {
-        dbc = new DatabaseConnection();
+        this.dbc = dbc;
     }
 
+    public LobbyContainerSqlContext(DatabaseConnection dbc) {
+        this.dbc = dbc;
+    }
 
 
     public Lobby AddLobby(Lobby lobby)

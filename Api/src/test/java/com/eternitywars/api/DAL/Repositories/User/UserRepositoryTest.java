@@ -6,6 +6,8 @@ import com.eternitywars.api.Factories.User.UserFactory;
 import com.eternitywars.api.Models.Enums.AccountStatus;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
+import org.junit.After;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +31,9 @@ class UserRepositoryTest {
 
     @Test
     void updateUsername() {
-        User user = SetupExpectedUser();
-        user.setUsername("Test2");
+        User user = new User();
+        user.setUserId(3);
+        user.setUsername("Updated");
         userRepository.UpdateUsername(user);
 
         User updatedUser = userContainerRepository.GetUserById(user.getUserId());
@@ -65,5 +68,13 @@ class UserRepositoryTest {
 
         User updatedUser = userContainerRepository.GetUserById(user.getUserId());
         assertEquals(user.getGold(), updatedUser.getGold());
+    }
+
+    @AfterAll
+    void reset(){
+        User user = new User();
+        user.setUserId(3);
+        user.setUsername("toUpdateUser");
+        userRepository.UpdateUsername(user);
     }
 }

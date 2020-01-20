@@ -1,6 +1,8 @@
 package com.eternitywars.api.DAL.Contexts.Lobby;
 
 import com.eternitywars.api.Database.DatabaseConnection;
+import com.eternitywars.api.Database.IDatabaseConnection;
+import com.eternitywars.api.Database.TestDatabaseConnection;
 import com.eternitywars.api.Interfaces.Lobby.ILobbyContext;
 import com.eternitywars.api.Models.Lobby;
 import com.eternitywars.api.Models.Player;
@@ -10,8 +12,16 @@ import java.sql.PreparedStatement;
 
 public class LobbySqlContext implements ILobbyContext
 {
-    private DatabaseConnection dbc = new DatabaseConnection();
+    private IDatabaseConnection dbc;
 
+    public LobbySqlContext(TestDatabaseConnection dbc)
+    {
+        this.dbc = dbc;
+    }
+
+    public LobbySqlContext(DatabaseConnection dbc) {
+        this.dbc = dbc;
+    }
 
 
     public boolean JoinLobby(Lobby lobby, Player player)
