@@ -1,13 +1,24 @@
 package com.eternitywars.api.DAL.Repositories.User;
 
-import com.eternitywars.api.DAL.Contexts.User.UserContainerSqlContext;
+import com.eternitywars.api.Factories.User.UserContainerFactory;
 import com.eternitywars.api.Interfaces.User.IUserContainerContext;
 import com.eternitywars.api.Models.User;
 import com.eternitywars.api.Models.UserCollection;
 
 public class UserContainerRepository implements IUserContainerContext
 {
-    private IUserContainerContext userContainerContext = new UserContainerSqlContext();
+    private IUserContainerContext userContainerContext;
+
+    public UserContainerRepository()
+    {
+        UserContainerFactory userContainerFactory = new UserContainerFactory();
+        this.userContainerContext = userContainerFactory.getUserContainerSqlContext();
+    }
+
+    public UserContainerRepository(UserContainerFactory userContainerFactory)
+    {
+        this.userContainerContext = userContainerFactory.getTestUserContainerSqlContext();
+    }
 
 
 
