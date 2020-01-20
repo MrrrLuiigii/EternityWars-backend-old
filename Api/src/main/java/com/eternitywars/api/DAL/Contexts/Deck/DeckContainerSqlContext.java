@@ -219,7 +219,7 @@ public class DeckContainerSqlContext implements IDeckContainerContext
                         }
                     }
 
-                    if (deckCollection.decks.isEmpty() && completeDeck != null)
+                    if (deckCollection.getDecks().isEmpty() && completeDeck != null)
                     {
                         completeDeck.setCards(cardCollection);
                         deckCollection.AddDeck(completeDeck);

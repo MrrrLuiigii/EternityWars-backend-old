@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DeckCollection
 {
-    public List<Deck> decks;
+    private List<Deck> decks;
 
     public DeckCollection()
     {
