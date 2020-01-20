@@ -81,7 +81,7 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
 
     public Lobby GetLobbyById(int lobbyId)
     {
-        Lobby lobby = null;
+        Lobby lobby = new Lobby();
 
         try (Connection conn = dbc.getDatabaseConnection())
         {
@@ -157,7 +157,7 @@ public class LobbyContainerSqlContext implements ILobbyContainerContext
             {
                 try (ResultSet rs = st.executeQuery(query))
                 {
-                    Lobby lobby = null;
+                    Lobby lobby = new Lobby();
                     int oldLobbyId = 0;
 
                     while (rs.next())

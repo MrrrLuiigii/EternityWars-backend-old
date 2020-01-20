@@ -100,19 +100,20 @@ public class UserContainerLogic
         user.setGold(api_output.getInt("gold"));
         user.setPackAmount(api_output.getInt("packAmount"));
         user.setUsername(api_output.getString("username"));
-        if(api_output.getString("accountStatus") == "online")
+
+        if(api_output.getString("accountStatus").equals("online"))
         {
             user.setAccountStatus(AccountStatus.Online);
         }
-        else if(api_output.getString("accountStatus") == "offline")
+        else if(api_output.getString("accountStatus").equals("offline"))
         {
             user.setAccountStatus(AccountStatus.Offline);
         }
-        else if(api_output.getString("accountStatus") == "inGame")
+        else if(api_output.getString("accountStatus").equals("inGame"))
         {
             user.setAccountStatus(AccountStatus.InGame);
         }
-        else if(api_output.getString("accountStatus") == "inLobby")
+        else if(api_output.getString("accountStatus").equals("inLobby"))
         {
             user.setAccountStatus(AccountStatus.InLobby);
         }
@@ -125,7 +126,7 @@ public class UserContainerLogic
     {
         for (User u : userCollection.getUsers())
         {
-            if (u.getUsername() == user.getUsername() || u.getEmail() == user.getEmail())
+            if (u.getUsername().equals(user.getUsername()) || u.getEmail().equals(user.getEmail()))
             {
                 return false;
             }
