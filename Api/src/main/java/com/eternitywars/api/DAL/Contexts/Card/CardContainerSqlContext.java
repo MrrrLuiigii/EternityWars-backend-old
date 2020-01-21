@@ -120,14 +120,15 @@ public class CardContainerSqlContext implements ICardContainerContext
     {
         try (Connection conn = dbc.getDatabaseConnection())
         {
-            String query = "insert into `card_collection`(`user_id`, `card_id`) values(?, ?);";
+            String query = "{call AddCardToCollection(?, ?)};";
 
-            try (PreparedStatement pst = conn.prepareStatement(query))
+            try (CallableStatement cst = conn.prepareCall(query))
             {
-                pst.setInt(1, user.getUserId());
-                pst.setInt(2, card.getCardId());
-                pst.executeUpdate();
+                cst.setInt(1, user.getUserId());
+                cst.setInt(2, card.getCardId());
+                cst.executeQuery();
             }
+
         }
         catch (Exception e)
         {
