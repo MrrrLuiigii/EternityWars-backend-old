@@ -318,7 +318,7 @@ public class GameLogic
             game.getConnectedPlayers().get(1).setCardsInDeck(pickableDeck.getCards().getCards());
             return game;
         }
-       MessageSender.SendError(game.getConnectedPlayers().get(0).getUserId(), "Your hand is full!");
+       MessageSender.SendError(game.getConnectedPlayers().get(1).getUserId(), "Your hand is full!");
        return game;
    }
 
